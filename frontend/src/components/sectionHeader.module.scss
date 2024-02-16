@@ -1,0 +1,22 @@
+.h1 {
+  background: url('/white_carbon.webp') top left repeat var(--color-white);
+  border: 2px solid var(--color-black-light);
+  padding: 1rem;
+  text-align: center;
+  box-shadow: var(--shadow-inner);
+  outline: #121212 solid 4px;
+}
+
+.p {
+  background-color: var(--color-white);
+  border: 2px solid var(--color-black-light);
+  border-top: 0;
+  padding: 1rem;
+  outline: #121212 solid 4px;
+}
+
+@media(min-width: 992px) {
+  .h1 {
+    text-align: left;
+  }
+}

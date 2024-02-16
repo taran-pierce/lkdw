@@ -3,9 +3,10 @@
 import { useQuery } from '@apollo/client';
 import { MenuStateProvider } from "@/utils/useMenu";
 
+import SectionHeader from '@/components/SectionHeader';
 import ProductsDisplay from "@/components/ProductsDisplay";
 
-import { rubikDoodleShadow } from "@/styles/fonts";
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 import GET_PRODUCTS from '../gql/getProducts.gql';
 
@@ -19,9 +20,8 @@ export default function Home() {
   return (
     <MenuStateProvider>
       <main>
-        <h1 className={rubikDoodleShadow.className}>Welcome to LKDW!</h1>
-        <p>There are a variety of high quality items to look through and purchase, please take a look around.</p>
-        {loading ? (<p>Loading up sweet items...</p>) : <ProductsDisplay data={data.products} />}
+        <SectionHeader text="Welcome to LKDW!" subText="There are a variety of high quality items to look through and purchase, please take a look around." />
+        {loading ? (<LoadingSpinner />) : <ProductsDisplay data={data.products} />}
       </main>
     </MenuStateProvider>
   );
