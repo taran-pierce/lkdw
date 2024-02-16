@@ -251,8 +251,17 @@ var keystone_default = withAuth(
   (0, import_core2.config)({
     server: {
       cors: {
-        origin: [process.env.FRONTEND_URL, "http://localhost:3001/"],
-        credentials: true
+        // TODO cors issue locally with keystone on different port
+        origin: "*",
+        credentials: true,
+        methods: ["GET", "DELETE", "PATCH", "POST", "PUT", "OPTIONS"],
+        allowedHeaders: [
+          "Access-Control-Allow-Origin",
+          "Access-Control-Allow-Methods",
+          "Access-Control-Allow-Headers",
+          "Access-Control-Allow-Credentials",
+          "Content-Type"
+        ]
       }
     },
     db: {

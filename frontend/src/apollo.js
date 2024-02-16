@@ -4,11 +4,14 @@ import {
   HttpLink,
 } from "@apollo/client";
 
+
+const envTest = process.env.NEXT_PUBLIC_GRAPHQL_URL;
+
 const link = new HttpLink({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
-  // fetchOptions: {
-  //   mode: 'cors'
-  // }
+  fetchOptions: {
+    mode: 'cors'
+  }
 });
 
 const client = new ApolloClient({
