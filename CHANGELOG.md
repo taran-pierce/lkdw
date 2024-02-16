@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Adjustments to work on CORs issues for keystone 
 
+### Updated
+- Updated keystone with more fields for Product
+- Updated graphql query
+
 ## [0.2.0] - 2024-02-15
 ### Added
 - Keystone.js integration
