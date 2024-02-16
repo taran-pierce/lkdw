@@ -177,6 +177,7 @@ var lists = {
         links: true,
         dividers: true
       }),
+      shortDescription: (0, import_fields.text)(),
       // with this field, you can set a User as the author for a Post
       author: (0, import_fields.relationship)({
         // we could have used 'User', but then the relationship would only be 1-way
@@ -208,7 +209,8 @@ var lists = {
           inlineConnect: true,
           inlineCreate: { fields: ["name"] }
         }
-      })
+      }),
+      price: (0, import_fields.text)({ validation: { isRequired: true } })
     }
   })
 };

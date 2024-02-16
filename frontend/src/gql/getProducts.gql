@@ -12,5 +12,10 @@ query getProducts {
       email
       id
     }
+    content {
+      document
+    }
+    price
+    shortDescription
   }
 }

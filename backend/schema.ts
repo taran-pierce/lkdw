@@ -193,6 +193,7 @@ export const lists: Lists = {
         links: true,
         dividers: true,
       }),
+      shortDescription: text(),
 
       // with this field, you can set a User as the author for a Post
       author: relationship({
@@ -231,6 +232,7 @@ export const lists: Lists = {
           inlineCreate: { fields: ['name'] },
         },
       }),
+      price: text({ validation: { isRequired: true } }),
     },
   }),
 };

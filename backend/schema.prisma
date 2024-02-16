@@ -40,12 +40,14 @@ model Tag {
 }
 
 model Product {
-  id       String  @id @default(cuid())
-  title    String  @default("")
-  content  String  @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  author   User?   @relation("Product_author", fields: [authorId], references: [id])
-  authorId String? @map("author")
-  tags     Tag[]   @relation("Product_tags")
+  id               String  @id @default(cuid())
+  title            String  @default("")
+  content          String  @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  shortDescription String  @default("")
+  author           User?   @relation("Product_author", fields: [authorId], references: [id])
+  authorId         String? @map("author")
+  tags             Tag[]   @relation("Product_tags")
+  price            String  @default("")
 
   @@index([authorId])
 }

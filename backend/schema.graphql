@@ -286,9 +286,11 @@ type Product {
   id: ID!
   title: String
   content: Product_content_Document
+  shortDescription: String
   author: User
   tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
+  price: String
 }
 
 type Product_content_Document {
@@ -305,20 +307,26 @@ input ProductWhereInput {
   NOT: [ProductWhereInput!]
   id: IDFilter
   title: StringFilter
+  shortDescription: StringFilter
   author: UserWhereInput
   tags: TagManyRelationFilter
+  price: StringFilter
 }
 
 input ProductOrderByInput {
   id: OrderDirection
   title: OrderDirection
+  shortDescription: OrderDirection
+  price: OrderDirection
 }
 
 input ProductUpdateInput {
   title: String
   content: JSON
+  shortDescription: String
   author: UserRelateToOneForUpdateInput
   tags: TagRelateToManyForUpdateInput
+  price: String
 }
 
 input ProductUpdateArgs {
@@ -329,8 +337,10 @@ input ProductUpdateArgs {
 input ProductCreateInput {
   title: String
   content: JSON
+  shortDescription: String
   author: UserRelateToOneForCreateInput
   tags: TagRelateToManyForCreateInput
+  price: String
 }
 
 """

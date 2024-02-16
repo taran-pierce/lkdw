@@ -7,26 +7,21 @@ import ProductsDisplay from "@/components/ProductsDisplay";
 
 import { rubikDoodleShadow } from "@/styles/fonts";
 
-// import GET_USERS from '../gql/getUsers.gql';
-import GET_POSTS from '../gql/getPosts.gql';
-// import GET_PRODUCTS from '../gql/getProducts.gql';
+import GET_PRODUCTS from '../gql/getProducts.gql';
 
 export default function Home() {
-
-  const { data, loading, error } = useQuery(GET_POSTS);
-
-  console.log({
+  const {
     data,
     loading,
     error,
-  });
+  } = useQuery(GET_PRODUCTS);
 
   return (
     <MenuStateProvider>
       <main>
         <h1 className={rubikDoodleShadow.className}>Welcome to LKDW!</h1>
         <p>There are a variety of high quality items to look through and purchase, please take a look around.</p>
-        <ProductsDisplay />
+        {loading ? (<p>Loading up sweet items...</p>) : <ProductsDisplay data={data.products} />}
       </main>
     </MenuStateProvider>
   );
