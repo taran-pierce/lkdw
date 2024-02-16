@@ -47,7 +47,7 @@ model Product {
   author           User?   @relation("Product_author", fields: [authorId], references: [id])
   authorId         String? @map("author")
   tags             Tag[]   @relation("Product_tags")
-  price            String  @default("")
+  price            Int
 
   @@index([authorId])
 }

@@ -16,6 +16,7 @@ import {
   password,
   timestamp,
   select,
+  integer,
 } from '@keystone-6/core/fields';
 
 // the document field is a more complicated field, so it has it's own package
@@ -232,7 +233,7 @@ export const lists: Lists = {
           inlineCreate: { fields: ['name'] },
         },
       }),
-      price: text({ validation: { isRequired: true } }),
+      price: integer({ validation: { isRequired: true } }),
     },
   }),
 };

@@ -290,7 +290,7 @@ type Product {
   author: User
   tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
-  price: String
+  price: Int
 }
 
 type Product_content_Document {
@@ -310,7 +310,18 @@ input ProductWhereInput {
   shortDescription: StringFilter
   author: UserWhereInput
   tags: TagManyRelationFilter
-  price: StringFilter
+  price: IntFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntFilter
 }
 
 input ProductOrderByInput {
@@ -326,7 +337,7 @@ input ProductUpdateInput {
   shortDescription: String
   author: UserRelateToOneForUpdateInput
   tags: TagRelateToManyForUpdateInput
-  price: String
+  price: Int
 }
 
 input ProductUpdateArgs {
@@ -340,7 +351,7 @@ input ProductCreateInput {
   shortDescription: String
   author: UserRelateToOneForCreateInput
   tags: TagRelateToManyForCreateInput
-  price: String
+  price: Int
 }
 
 """

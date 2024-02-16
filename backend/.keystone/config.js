@@ -210,7 +210,7 @@ var lists = {
           inlineCreate: { fields: ["name"] }
         }
       }),
-      price: (0, import_fields.text)({ validation: { isRequired: true } })
+      price: (0, import_fields.integer)({ validation: { isRequired: true } })
     }
   })
 };

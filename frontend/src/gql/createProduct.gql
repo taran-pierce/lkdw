@@ -1,0 +1,7 @@
+mutation Mutation($data: ProductCreateInput!) {
+  createProduct(data: $data) {
+    price
+    shortDescription
+    title
+  }
+}

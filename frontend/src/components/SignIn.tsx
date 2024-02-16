@@ -13,14 +13,8 @@ export default function SignIn() {
 
   // set up form data
   const { inputs, handleChange, resetForm } = useForm({
-    email: 'test@email.com',
+    title: 'test@email.com',
     password: 'password',
-  });
-
-  console.log({
-    inputs,
-    handleChange,
-    resetForm,
   });
 
   // useMutation returns the signin function and the response data object
@@ -31,10 +25,6 @@ export default function SignIn() {
   });
 
   const user = useUser();
-
-  console.log({
-    user,
-  });
 
   async function handleSubmit(e: any) {
     e.preventDefault();

@@ -15,6 +15,11 @@ export default function useForm(initial = {}) {
   function handleChange(e) {
     let { value, name, type } = e.target;
 
+    console.log({
+      value,
+      type,
+    });
+
     // form inputs always save data as strings
     // turn it back to a number if its a number
     if (type === 'number') {
