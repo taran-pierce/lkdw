@@ -229,7 +229,7 @@ var { withAuth } = (0, import_auth.createAuth)({
   // this is a GraphQL query fragment for fetching what data will be attached to a context.session
   //   this can be helpful for when you are writing your access control functions
   //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
-  sessionData: "name createdAt",
+  sessionData: "name createdAt id",
   secretField: "password",
   // WARNING: remove initFirstItem functionality in production
   //   see https://keystonejs.com/docs/config/auth#init-first-item for more
@@ -245,7 +245,9 @@ var { withAuth } = (0, import_auth.createAuth)({
 var sessionMaxAge = 60 * 60 * 24 * 30;
 var session = (0, import_session.statelessSessions)({
   maxAge: sessionMaxAge,
-  secret: sessionSecret
+  secret: sessionSecret,
+  secure: false,
+  sameSite: "lax"
 });
 
 // keystone.ts
