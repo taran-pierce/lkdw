@@ -1,0 +1,16 @@
+query getProducts {
+  products {
+    id
+    title
+    tagsCount
+    tags {
+      id
+      name
+    }
+    author {
+      name
+      email
+      id
+    }
+  }
+}

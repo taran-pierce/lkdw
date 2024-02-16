@@ -1,0 +1,21 @@
+query getPosts {
+  posts {
+    id
+    author {
+      id
+      email
+      name
+      postsCount
+    }
+    content {
+      document
+    }
+    title
+    tags {
+      id
+      name
+      postsCount
+    }
+    tagsCount
+  }
+}

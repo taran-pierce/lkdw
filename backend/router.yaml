@@ -1,0 +1,3 @@
+cors:
+  allow_any_origin: true
+  
