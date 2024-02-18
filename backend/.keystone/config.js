@@ -299,8 +299,10 @@ var keystone_default = withAuth(
     server: {
       cors: {
         // TODO cors issue locally with keystone on different port
-        origin: "*",
-        // credentials: true,
+        // may have it ironed out now but keeping these here just in case
+        // origin: "*",
+        origin: "http://localhost:3001",
+        credentials: true,
         methods: ["GET", "DELETE", "PATCH", "POST", "PUT", "OPTIONS"],
         allowedHeaders: [
           "Access-Control-Allow-Origin",

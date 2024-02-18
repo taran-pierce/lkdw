@@ -19,7 +19,7 @@ import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
 const link = createUploadLink({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
   // cant use "credentials" when origin is set to "*", which it currently is
-  // credentials: 'include',
+  credentials: 'include',
   fetchOptions: {
     mode: 'cors',
   },

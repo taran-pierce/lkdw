@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useMenu } from '../utils/useMenu';
+import { useUser } from './User';
 
 import styles from './navigation.module.scss';
 
@@ -11,10 +12,14 @@ export default function Navigation() {
   }
 
   function handleCartClick() {
-    console.log('oh hai!');
-
     openCart();
   }
+
+  const user = useUser();
+
+  console.log({
+    user,
+  });
 
   const {
     isMenuOpen,
@@ -43,11 +48,6 @@ export default function Navigation() {
           </Link>
         </li>
         <li>
-          <Link href="/signin" onClick={() => closeMenu()}>
-            Sign In
-          </Link>
-        </li>
-        <li>
         <Link href="/sell" onClick={() => closeMenu()}>
           Sell
           </Link>
@@ -58,13 +58,20 @@ export default function Navigation() {
           </Link>
         </li>
         <li>
-          <button
-            type="button"
-            className={styles.cartButton}
-            onClick={handleCartClick}
-          >
-            <img src="/cart-icon.png" alt="Cart Image" />
-          </button>
+          {!user && (
+            <Link href="/signin" onClick={() => closeMenu()}>
+              Sign In
+            </Link>
+          )}
+          {user && (
+            <button
+              type="button"
+              className={styles.cartButton}
+              onClick={handleCartClick}
+            >
+              <img src="/cart-icon.png" alt="Cart Image" />
+            </button>
+          )}
         </li>
       </ul>
     </nav>

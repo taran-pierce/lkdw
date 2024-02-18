@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Added frontend for cart with basic styling
 - Added backend for cartItems and attached to User
+- Hooked frontend cart up to backend
 
 ## [0.2.3] - 2024-02-16
 ### Updated

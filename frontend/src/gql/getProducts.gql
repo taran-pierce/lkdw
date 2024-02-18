@@ -18,11 +18,6 @@ query getProducts {
       id
       name
     }
-    author {
-      name
-      email
-      id
-    }
     content {
       document
     }

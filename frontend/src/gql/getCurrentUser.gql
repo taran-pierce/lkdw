@@ -1,9 +1,19 @@
 query {
   authenticatedItem {
     ... on User {
-      id
       email
+      id
       name
+      cart {
+        quantity
+        id
+        product {
+          id
+          price
+          shortDescription
+          title
+        }
+      }
     }
   }
 }

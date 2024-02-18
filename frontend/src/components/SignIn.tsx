@@ -33,12 +33,12 @@ export default function SignIn() {
 
     const { authenticateUserWithPassword } = res.data;
 
-    console.log('hai!');
-
     if (authenticateUserWithPassword.item) {
       console.log('We are good here ', authenticateUserWithPassword.item.name);
+
       setIsLoggedIn(true);
-      document.cookie=`keystonejs-session=${authenticateUserWithPassword.sessionToken}`
+
+      // document.cookie=`keystonejs-session=${authenticateUserWithPassword.sessionToken}`
     }
 
     console.log({
@@ -48,30 +48,39 @@ export default function SignIn() {
     });
   }
 
+  console.log({
+    user,
+  });
+
   return (
     <div>
-      <form method="POST" onSubmit={(e) => handleSubmit(e)}>
-        <label htmlFor="email">Email
-          <input
-            name="email"
-            type="email"
-            id="email"
-            placeholder="email@address.com"
-            value={inputs.email}
-            onChange={handleChange}
-          />
-        </label>
-        <label htmlFor="password">Password
-          <input
-            name="password"
-            type="password"
-            id="password"
-            value={inputs.password}
-            onChange={handleChange}
-          />
-        </label>
-        <button type="submit">Sign In</button>
-      </form>
+      {!user && (
+        <form method="POST" onSubmit={(e) => handleSubmit(e)}>
+          <label htmlFor="email">Email
+            <input
+              name="email"
+              type="email"
+              id="email"
+              placeholder="email@address.com"
+              value={inputs.email}
+              onChange={handleChange}
+            />
+          </label>
+          <label htmlFor="password">Password
+            <input
+              name="password"
+              type="password"
+              id="password"
+              value={inputs.password}
+              onChange={handleChange}
+            />
+          </label>
+          <button type="submit">Sign In</button>
+        </form>
+      )}
+      {user && (
+        <p>Thanks for logging in {user.name}! Get to shopping!</p>
+      )}
     </div>
   );
 }
