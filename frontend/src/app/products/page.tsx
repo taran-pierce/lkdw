@@ -20,7 +20,7 @@ export default function Products() {
     <MenuStateProvider>
       <main>
         <SectionHeader text="Welcome to LKDW!" subText="There are a variety of high quality items to look through and purchase, please take a look around." />
-        {loading ? <LoadingSpinner /> : <ProductsDisplay data={data.products} />}
+        {loading ? <LoadingSpinner /> : <ProductsDisplay data={data?.products} />}
       </main>
     </MenuStateProvider>
   );

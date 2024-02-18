@@ -1,0 +1,27 @@
+.header {
+  background: url('/carbon_fibre.webp') top left repeat;
+  border-bottom: 4px solid #111;
+  box-shadow: 0 2px 4px rgba(0,0,0,.4);
+  padding: 2rem;
+  color: white;
+}
+
+.container {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: auto 1fr;
+  justify-items: end;
+}
+
+.logo {
+  font-size: 3rem;
+  color: var(--color-white);
+  text-shadow: -4px 4px 1px rgba(0,0,0,.9);
+}
+
+@media(min-width: 992px) {
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+}

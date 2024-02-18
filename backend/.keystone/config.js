@@ -162,6 +162,9 @@ var lists = {
     access: import_access.allowAll,
     fields: {
       title: (0, import_fields.text)({ validation: { isRequired: true } }),
+      image: (0, import_fields.relationship)({
+        ref: "Image.product"
+      }),
       // TODO use this for product description
       // the document field can be used for making rich editable content
       //   you can find out more at https://keystonejs.com/docs/guides/document-fields
@@ -212,6 +215,16 @@ var lists = {
       }),
       price: (0, import_fields.integer)({ validation: { isRequired: true } })
     }
+  }),
+  Image: (0, import_core.list)({
+    access: import_access.allowAll,
+    fields: {
+      image: (0, import_fields.image)({ storage: "my_local_images" }),
+      altText: (0, import_fields.text)(),
+      product: (0, import_fields.relationship)({
+        ref: "Product.image"
+      })
+    }
   })
 };
 
@@ -257,7 +270,7 @@ var keystone_default = withAuth(
       cors: {
         // TODO cors issue locally with keystone on different port
         origin: "*",
-        credentials: true,
+        // credentials: true,
         methods: ["GET", "DELETE", "PATCH", "POST", "PUT", "OPTIONS"],
         allowedHeaders: [
           "Access-Control-Allow-Origin",
@@ -265,6 +278,9 @@ var keystone_default = withAuth(
           "Access-Control-Allow-Headers",
           "Access-Control-Allow-Credentials",
           "Content-Type"
+          // TODO trying to get file upload from frontend working properly
+          // 'x-apollo-operation-name',
+          // 'apollo-require-preflight',
         ]
       }
     },
@@ -276,7 +292,18 @@ var keystone_default = withAuth(
       url: "file:./keystone.db"
     },
     lists,
-    session
+    session,
+    storage: {
+      my_local_images: {
+        kind: "local",
+        type: "image",
+        generateUrl: (path) => `http://localhost:3000/images${path}`,
+        serverRoute: {
+          path: "/images"
+        },
+        storagePath: "public/images"
+      }
+    }
   })
 );
 //# sourceMappingURL=config.js.map

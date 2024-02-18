@@ -10,6 +10,7 @@ const LocalStateContext = createContext({});
 const LocalStateProvider = LocalStateContext.Provider;
 
 function MenuStateProvider({ children }: any) {
+  // navigation menu
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function toggleMenu() {
@@ -24,6 +25,21 @@ function MenuStateProvider({ children }: any) {
     setIsMenuOpen(true);
   }
 
+  // shopping cart
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  function toggleCart() {
+    setIsCartOpen(!isMenuOpen);
+  }
+
+  function closeCart() {
+    setIsCartOpen(false);
+  }
+
+  function openCart() {
+    setIsCartOpen(true);
+  }
+
   return (
     <LocalStateProvider
       value={{
@@ -32,6 +48,11 @@ function MenuStateProvider({ children }: any) {
         closeMenu,
         openMenu,
         toggleMenu,
+        isCartOpen,
+        setIsCartOpen,
+        toggleCart,
+        closeCart,
+        openCart,
       }}
     >
      {children}

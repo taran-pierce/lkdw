@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useMenu } from '../utils/useMenu';
+
 import styles from './navigation.module.scss';
 
 export default function Navigation() {
@@ -9,19 +10,32 @@ export default function Navigation() {
     toggleMenu();
   }
 
+  function handleCartClick() {
+    console.log('oh hai!');
+
+    openCart();
+  }
+
   const {
     isMenuOpen,
     toggleMenu,
     closeMenu,
+    openCart,
   }: any = useMenu();
 
   return (
     <nav className={styles.navigation}>
       <button
-        className={styles.menuToggle}
+        className={`${styles.menuToggle} ${isMenuOpen ? styles.open : ''}`}
         type="submit"
         onClick={handleClick}
-      >Menu</button>
+      >Menu
+        <img
+          className={`${isMenuOpen ? styles.open : ''}`}
+          src="/cart-icon.png"
+          alt="Cart Image"
+        />
+      </button>
       <ul className={isMenuOpen ? styles.active : ''}>
         <li>
           <Link href="/products" onClick={() => closeMenu()}>
@@ -44,9 +58,13 @@ export default function Navigation() {
           </Link>
         </li>
         <li>
-          <Link href="/orders" onClick={() => closeMenu()}>
-            Orders
-          </Link>
+          <button
+            type="button"
+            className={styles.cartButton}
+            onClick={handleCartClick}
+          >
+            <img src="/cart-icon.png" alt="Cart Image" />
+          </button>
         </li>
       </ul>
     </nav>

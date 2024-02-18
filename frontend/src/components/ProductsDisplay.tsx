@@ -9,19 +9,24 @@ export default function ProductsDisplay({
 }) {
   return (
     <div className={styles.productWrapper}>
-      {data.map((product) => {
+      {data?.map((product) => {
         const {
           title,
           shortDescription,
           tags,
           id,
           price,
+          image,
         } = product;
 
         return (
           <div className={styles.product} key={id}>
-            {/* TODO need to be able to upload actual image of course */}
-            <img src="http://placekitten.com/440/200" alt="asdf" />
+            {image && (
+              <img
+                src={image.image.url}
+                alt={image.altText}
+              />
+            )}
             <div className={styles.titleWrapper}>
               <h3>{title}</h3>
               <h4>{formatMoney(price)}</h4>

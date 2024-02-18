@@ -23,6 +23,7 @@ body {
 body {
   background-color: var(--color-black-light);
   color: rgb(var(--color-white));
+  overflow: hidden;
 }
 
 h1, h2, h3 {
@@ -32,4 +33,12 @@ h1, h2, h3 {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+button {
+  background: url(/papyrus.webp) top left repeat;
+  border: 2px solid var(--color-black-dark);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6), inset 0 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 1rem 1.8rem;
+  outline: #111 solid 2px;
 }

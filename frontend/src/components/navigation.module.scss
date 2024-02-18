@@ -1,20 +1,3 @@
-.header {
-  background: #222;
-  padding: 2rem;
-  color: white;
-}
-
-.container {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: auto 1fr;
-}
-
-.logo {
-  font-size: 3rem;
-  color: white;
-}
-
 .navigation {
   text-align: right;
 
@@ -24,26 +7,72 @@
     max-height: 0;
     list-style-type: none;
     padding-left: 0;
+    transition: all .2s ease-out;
 
     &.active {
       opacity: 1;
       visibility: visible;
       max-height: 1000px;
+      transition: all .2s ease-out;
+    }
+
+    a {
+      display: block;
+      padding: 1.5rem 1rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-decoration: underline;
+      text-shadow: -1px 1px 0 var(--color-black-dark);
+    }
+  }
+
+  .cartButton {
+    background: url('/papyrus.webp') top left repeat;
+    border: 2px solid var(--color-black-dark);
+    box-shadow: 2px 2px 4px rgba(0,0,0,.6), inset 0 0 2px 4px rgba(0,0,0,.2);
+    padding: 1rem 1.8rem;
+    outline: #111 solid 2px;
+
+    img {
+      width: 38px;
+      height: 38px;
     }
   }
 }
 
 .menuToggle {
-  line-height: 4;
-  padding: 0 2rem;
+  font-weight: bold;
+  text-shadow: -1px 1px 0 white;
+  font-size: 1.5rem;
+  line-height: 2.2;
+  padding: 0 1.5rem;
+  outline: var(--color-black-dark) solid 2px;
+  transition: all .2s ease-in;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 1rem;
+
+  &.open {
+    box-shadow: inset 0 0 12px 6px rgba(0,0,0,.7);
+    transition: all .2s ease-in;
+  }
+
+  img {
+    width: 38px;
+    height: 38px;
+    display: inline-block;
+    transition: all .2s ease-out;
+    opacity: 1;
+
+    &.open {
+      opacity: 0;
+      transition: all .2s ease-out;
+    }
+  }
 }
 
 @media(min-width: 992px) {
-  .container {
-    max-width: 960px;
-    margin: 0 auto;
-  }
-
   .menuToggle {
     display: none;
   }
@@ -61,6 +90,10 @@
         padding: 1.1rem 2rem;
         font-weight: bold;
       }
+    }
+
+    .cartButton {
+      padding: .5rem 1rem;
     }
   }
 }

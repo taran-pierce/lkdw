@@ -17,11 +17,20 @@ export default function CreateProduct() {
     title: '',
     shortDescription: '',
     price: 0,
+    // image: '',
+  });
+
+  console.log({
+    inputs,
   });
 
   // useMutation returns the signin function and the response data object
   const [createProduct, { loading, data, error }] = useMutation(CREATE_PRODUCT, {
-    variables: { data: inputs },
+    variables: {
+      data: {
+        ...inputs
+      },
+    },
     // refetch the current user since they are logged in now
     refetchQueries: [{ query: GET_PRODUCTS }],
   });
@@ -48,7 +57,7 @@ export default function CreateProduct() {
       {status && (
         <p className={styles.sucessMessage}>Product has been created. It can be viewed on the Products page now.</p>
       )}
-      <form method="POST" onSubmit={(e) => handleSubmit(e)} className={styles.form}>
+      <form method="POST" onSubmit={(e) => handleSubmit(e)} className={styles.form} encType='multipart/form-data, text/plain'>
         <fieldset disabled={loading} className={styles.fieldset}>
           <label htmlFor="title" className={styles.label}>Title
             <input
@@ -60,6 +69,14 @@ export default function CreateProduct() {
               required
             />
           </label>
+          {/* <label htmlFor="image" className={styles.label}>Image
+            <input
+              name="image"
+              type="file"
+              id="image"
+              onChange={handleChange}
+            />
+          </label> */}
           <label htmlFor="shortDescription" className={styles.label}>Description
             <input
               name="shortDescription"

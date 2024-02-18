@@ -20,7 +20,7 @@ export default withAuth(
       cors: {
         // TODO cors issue locally with keystone on different port
         origin: "*",
-        credentials: true,
+        // credentials: true,
         methods: ['GET','DELETE','PATCH','POST','PUT','OPTIONS'],
         allowedHeaders: [
           'Access-Control-Allow-Origin',
@@ -28,6 +28,9 @@ export default withAuth(
           'Access-Control-Allow-Headers',
           'Access-Control-Allow-Credentials',
           'Content-Type',
+          // TODO trying to get file upload from frontend working properly
+          // 'x-apollo-operation-name',
+          // 'apollo-require-preflight',
         ]
       },
     },
@@ -40,5 +43,16 @@ export default withAuth(
     },
     lists,
     session,
+    storage: {
+      my_local_images: {
+        kind: 'local',
+        type: 'image',
+        generateUrl: path => `http://localhost:3000/images${path}`,
+        serverRoute: {
+          path: '/images',
+        },
+        storagePath: 'public/images'
+      }
+    }
   })
 );

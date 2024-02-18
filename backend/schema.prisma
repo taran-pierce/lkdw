@@ -42,6 +42,7 @@ model Tag {
 model Product {
   id               String  @id @default(cuid())
   title            String  @default("")
+  image            Image?  @relation("Image_product")
   content          String  @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   shortDescription String  @default("")
   author           User?   @relation("Product_author", fields: [authorId], references: [id])
@@ -50,4 +51,16 @@ model Product {
   price            Int
 
   @@index([authorId])
+}
+
+model Image {
+  id              String   @id @default(cuid())
+  image_filesize  Int?
+  image_extension String?
+  image_width     Int?
+  image_height    Int?
+  image_id        String?
+  altText         String   @default("")
+  product         Product? @relation("Image_product", fields: [productId], references: [id])
+  productId       String?  @unique @map("product")
 }

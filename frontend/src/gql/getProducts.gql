@@ -3,6 +3,17 @@ query getProducts {
     id
     title
     tagsCount
+    image {
+      altText
+      id
+      image {
+        url
+        id
+        extension
+        height
+        width
+      }
+    }
     tags {
       id
       name

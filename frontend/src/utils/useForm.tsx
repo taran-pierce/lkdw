@@ -29,8 +29,11 @@ export default function useForm(initial = {}) {
     // file uploads are an array
     // so you need to set the value to be an array
     if (type === 'file') {
+      console.log('maybe I need to fiddle with this');
       [value] = e.target.files;
     }
+
+    console.log(e.target.files);
 
     // update the state of the inputs
     setInputs({

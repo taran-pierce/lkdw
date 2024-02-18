@@ -17,6 +17,7 @@ import {
   timestamp,
   select,
   integer,
+  image,
 } from '@keystone-6/core/fields';
 
 // the document field is a more complicated field, so it has it's own package
@@ -179,6 +180,10 @@ export const lists: Lists = {
     fields: {
       title: text({ validation: { isRequired: true } }),
 
+      image: relationship({
+        ref: 'Image.product',
+      }),
+
       // TODO use this for product description
       // the document field can be used for making rich editable content
       //   you can find out more at https://keystonejs.com/docs/guides/document-fields
@@ -235,5 +240,16 @@ export const lists: Lists = {
       }),
       price: integer({ validation: { isRequired: true } }),
     },
+  }),
+
+  Image: list({
+    access: allowAll,
+    fields: {
+      image: image({ storage: 'my_local_images' }),
+      altText: text(),
+      product: relationship({
+        ref: 'Product.image',
+      }),
+    }
   }),
 };
