@@ -53,7 +53,7 @@ export const lists: Lists = {
 
       // we can use this field to see what Posts this User has authored
       //   more on that in the Post list below
-      posts: relationship({ ref: 'Post.author', many: true }),
+      // posts: relationship({ ref: 'Post.author', many: true }),
 
       createdAt: timestamp({
         // this sets the timestamp to Date.now() when the user is first created
@@ -61,15 +61,24 @@ export const lists: Lists = {
       }),
 
       products: relationship({
-        ref: 'Product.author',
+        ref: 'Product.user',
         many: true,
         // this is some customisations for changing how this will look in the AdminUI
+        // ui: {
+        //   displayMode: 'cards',
+        //   cardFields: ['author'],
+        //   inlineEdit: { fields: ['author'] },
+        //   linkToItem: true,
+        //   inlineConnect: true,
+        // },
+      }),
+
+      cart: relationship({
+        ref: 'CartItem.user',
+        many: true,
         ui: {
-          displayMode: 'cards',
-          cardFields: ['author'],
-          inlineEdit: { fields: ['author'] },
-          linkToItem: true,
-          inlineConnect: true,
+          createView: { fieldMode: 'hidden' },
+          itemView: { fieldMode: 'read' },
         },
       }),
     },
@@ -102,23 +111,23 @@ export const lists: Lists = {
       }),
 
       // with this field, you can set a User as the author for a Post
-      author: relationship({
-        // we could have used 'User', but then the relationship would only be 1-way
-        ref: 'User.posts',
+      // author: relationship({
+      //   // we could have used 'User', but then the relationship would only be 1-way
+      //   ref: 'User.posts',
 
-        // this is some customisations for changing how this will look in the AdminUI
-        ui: {
-          displayMode: 'cards',
-          cardFields: ['name', 'email'],
-          inlineEdit: { fields: ['name', 'email'] },
-          linkToItem: true,
-          inlineConnect: true,
-        },
+      //   // this is some customisations for changing how this will look in the AdminUI
+      //   ui: {
+      //     displayMode: 'cards',
+      //     cardFields: ['name', 'email'],
+      //     inlineEdit: { fields: ['name', 'email'] },
+      //     linkToItem: true,
+      //     inlineConnect: true,
+      //   },
 
-        // a Post can only have one author
-        //   this is the default, but we show it here for verbosity
-        many: false,
-      }),
+      //   // a Post can only have one author
+      //   //   this is the default, but we show it here for verbosity
+      //   many: false,
+      // }),
 
       // with this field, you can add some Tags to Posts
       tags: relationship({
@@ -201,24 +210,24 @@ export const lists: Lists = {
       }),
       shortDescription: text(),
 
-      // with this field, you can set a User as the author for a Post
-      author: relationship({
-        // we could have used 'User', but then the relationship would only be 1-way
-        ref: 'User.products',
+      // // with this field, you can set a User as the author for a Post
+      // author: relationship({
+      //   // we could have used 'User', but then the relationship would only be 1-way
+      //   ref: 'User.products',
 
-        // this is some customisations for changing how this will look in the AdminUI
-        ui: {
-          displayMode: 'cards',
-          cardFields: ['products'],
-          inlineEdit: { fields: ['products'] },
-          linkToItem: true,
-          inlineConnect: true,
-        },
+      //   // this is some customisations for changing how this will look in the AdminUI
+      //   ui: {
+      //     displayMode: 'cards',
+      //     cardFields: ['products'],
+      //     inlineEdit: { fields: ['products'] },
+      //     linkToItem: true,
+      //     inlineConnect: true,
+      //   },
 
-        // a Post can only have one author
-        //   this is the default, but we show it here for verbosity
-        many: false,
-      }),
+      //   // a Post can only have one author
+      //   //   this is the default, but we show it here for verbosity
+      //   many: false,
+      // }),
 
       // with this field, you can add some Tags to Posts
       tags: relationship({
@@ -238,7 +247,12 @@ export const lists: Lists = {
           inlineCreate: { fields: ['name'] },
         },
       }),
+
       price: integer({ validation: { isRequired: true } }),
+
+      user: relationship({
+        ref: 'User.products',
+      }),
     },
   }),
 
@@ -250,6 +264,26 @@ export const lists: Lists = {
       product: relationship({
         ref: 'Product.image',
       }),
+    }
+  }),
+
+  CartItem: list({
+    access: allowAll,
+    fields: {
+      quantity: integer({
+        defaultValue: 1,
+      }),
+      user: relationship({
+        ref: 'User.cart',
+      }),
+      product: relationship({
+        ref: 'Product',
+      }),
+    },
+    ui: {
+      listView: {
+        initialColumns: ['user', 'quantity', 'user'],
+      },
     }
   }),
 };

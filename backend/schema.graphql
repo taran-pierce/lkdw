@@ -6,11 +6,11 @@ type User {
   name: String
   email: String
   password: PasswordState
-  posts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PostWhereUniqueInput): [Post!]
-  postsCount(where: PostWhereInput! = {}): Int
   createdAt: DateTime
   products(where: ProductWhereInput! = {}, orderBy: [ProductOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProductWhereUniqueInput): [Product!]
   productsCount(where: ProductWhereInput! = {}): Int
+  cart(where: CartItemWhereInput! = {}, orderBy: [CartItemOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: CartItemWhereUniqueInput): [CartItem!]
+  cartCount(where: CartItemWhereInput! = {}): Int
 }
 
 type PasswordState {
@@ -31,9 +31,9 @@ input UserWhereInput {
   id: IDFilter
   name: StringFilter
   email: StringFilter
-  posts: PostManyRelationFilter
   createdAt: DateTimeNullableFilter
   products: ProductManyRelationFilter
+  cart: CartItemManyRelationFilter
 }
 
 input IDFilter {
@@ -75,12 +75,6 @@ input NestedStringFilter {
   not: NestedStringFilter
 }
 
-input PostManyRelationFilter {
-  every: PostWhereInput
-  some: PostWhereInput
-  none: PostWhereInput
-}
-
 input DateTimeNullableFilter {
   equals: DateTime
   in: [DateTime!]
@@ -96,6 +90,12 @@ input ProductManyRelationFilter {
   every: ProductWhereInput
   some: ProductWhereInput
   none: ProductWhereInput
+}
+
+input CartItemManyRelationFilter {
+  every: CartItemWhereInput
+  some: CartItemWhereInput
+  none: CartItemWhereInput
 }
 
 input UserOrderByInput {
@@ -114,16 +114,9 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
-  posts: PostRelateToManyForUpdateInput
   createdAt: DateTime
   products: ProductRelateToManyForUpdateInput
-}
-
-input PostRelateToManyForUpdateInput {
-  disconnect: [PostWhereUniqueInput!]
-  set: [PostWhereUniqueInput!]
-  create: [PostCreateInput!]
-  connect: [PostWhereUniqueInput!]
+  cart: CartItemRelateToManyForUpdateInput
 }
 
 input ProductRelateToManyForUpdateInput {
@@ -131,6 +124,13 @@ input ProductRelateToManyForUpdateInput {
   set: [ProductWhereUniqueInput!]
   create: [ProductCreateInput!]
   connect: [ProductWhereUniqueInput!]
+}
+
+input CartItemRelateToManyForUpdateInput {
+  disconnect: [CartItemWhereUniqueInput!]
+  set: [CartItemWhereUniqueInput!]
+  create: [CartItemCreateInput!]
+  connect: [CartItemWhereUniqueInput!]
 }
 
 input UserUpdateArgs {
@@ -142,14 +142,9 @@ input UserCreateInput {
   name: String
   email: String
   password: String
-  posts: PostRelateToManyForCreateInput
   createdAt: DateTime
   products: ProductRelateToManyForCreateInput
-}
-
-input PostRelateToManyForCreateInput {
-  create: [PostCreateInput!]
-  connect: [PostWhereUniqueInput!]
+  cart: CartItemRelateToManyForCreateInput
 }
 
 input ProductRelateToManyForCreateInput {
@@ -157,11 +152,15 @@ input ProductRelateToManyForCreateInput {
   connect: [ProductWhereUniqueInput!]
 }
 
+input CartItemRelateToManyForCreateInput {
+  create: [CartItemCreateInput!]
+  connect: [CartItemWhereUniqueInput!]
+}
+
 type Post {
   id: ID!
   title: String
   content: Post_content_Document
-  author: User
   tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
 }
@@ -180,7 +179,6 @@ input PostWhereInput {
   NOT: [PostWhereInput!]
   id: IDFilter
   title: StringFilter
-  author: UserWhereInput
   tags: TagManyRelationFilter
 }
 
@@ -198,14 +196,7 @@ input PostOrderByInput {
 input PostUpdateInput {
   title: String
   content: JSON
-  author: UserRelateToOneForUpdateInput
   tags: TagRelateToManyForUpdateInput
-}
-
-input UserRelateToOneForUpdateInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
-  disconnect: Boolean
 }
 
 input TagRelateToManyForUpdateInput {
@@ -223,13 +214,7 @@ input PostUpdateArgs {
 input PostCreateInput {
   title: String
   content: JSON
-  author: UserRelateToOneForCreateInput
   tags: TagRelateToManyForCreateInput
-}
-
-input UserRelateToOneForCreateInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
 }
 
 input TagRelateToManyForCreateInput {
@@ -260,6 +245,12 @@ input TagWhereInput {
   products: ProductManyRelationFilter
 }
 
+input PostManyRelationFilter {
+  every: PostWhereInput
+  some: PostWhereInput
+  none: PostWhereInput
+}
+
 input TagOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -269,6 +260,13 @@ input TagUpdateInput {
   name: String
   posts: PostRelateToManyForUpdateInput
   products: ProductRelateToManyForUpdateInput
+}
+
+input PostRelateToManyForUpdateInput {
+  disconnect: [PostWhereUniqueInput!]
+  set: [PostWhereUniqueInput!]
+  create: [PostCreateInput!]
+  connect: [PostWhereUniqueInput!]
 }
 
 input TagUpdateArgs {
@@ -282,16 +280,21 @@ input TagCreateInput {
   products: ProductRelateToManyForCreateInput
 }
 
+input PostRelateToManyForCreateInput {
+  create: [PostCreateInput!]
+  connect: [PostWhereUniqueInput!]
+}
+
 type Product {
   id: ID!
   title: String
   image: Image
   content: Product_content_Document
   shortDescription: String
-  author: User
   tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
   price: Int
+  user: User
 }
 
 type Product_content_Document {
@@ -310,9 +313,9 @@ input ProductWhereInput {
   title: StringFilter
   image: ImageWhereInput
   shortDescription: StringFilter
-  author: UserWhereInput
   tags: TagManyRelationFilter
   price: IntFilter
+  user: UserWhereInput
 }
 
 input IntFilter {
@@ -338,14 +341,20 @@ input ProductUpdateInput {
   image: ImageRelateToOneForUpdateInput
   content: JSON
   shortDescription: String
-  author: UserRelateToOneForUpdateInput
   tags: TagRelateToManyForUpdateInput
   price: Int
+  user: UserRelateToOneForUpdateInput
 }
 
 input ImageRelateToOneForUpdateInput {
   create: ImageCreateInput
   connect: ImageWhereUniqueInput
+  disconnect: Boolean
+}
+
+input UserRelateToOneForUpdateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
   disconnect: Boolean
 }
 
@@ -359,14 +368,19 @@ input ProductCreateInput {
   image: ImageRelateToOneForCreateInput
   content: JSON
   shortDescription: String
-  author: UserRelateToOneForCreateInput
   tags: TagRelateToManyForCreateInput
   price: Int
+  user: UserRelateToOneForCreateInput
 }
 
 input ImageRelateToOneForCreateInput {
   create: ImageCreateInput
   connect: ImageWhereUniqueInput
+}
+
+input UserRelateToOneForCreateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 type Image {
@@ -445,6 +459,60 @@ input ProductRelateToOneForCreateInput {
   connect: ProductWhereUniqueInput
 }
 
+type CartItem {
+  id: ID!
+  quantity: Int
+  user: User
+  product: Product
+}
+
+input CartItemWhereUniqueInput {
+  id: ID
+}
+
+input CartItemWhereInput {
+  AND: [CartItemWhereInput!]
+  OR: [CartItemWhereInput!]
+  NOT: [CartItemWhereInput!]
+  id: IDFilter
+  quantity: IntNullableFilter
+  user: UserWhereInput
+  product: ProductWhereInput
+}
+
+input IntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntNullableFilter
+}
+
+input CartItemOrderByInput {
+  id: OrderDirection
+  quantity: OrderDirection
+}
+
+input CartItemUpdateInput {
+  quantity: Int
+  user: UserRelateToOneForUpdateInput
+  product: ProductRelateToOneForUpdateInput
+}
+
+input CartItemUpdateArgs {
+  where: CartItemWhereUniqueInput!
+  data: CartItemUpdateInput!
+}
+
+input CartItemCreateInput {
+  quantity: Int
+  user: UserRelateToOneForCreateInput
+  product: ProductRelateToOneForCreateInput
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -481,6 +549,12 @@ type Mutation {
   updateImages(data: [ImageUpdateArgs!]!): [Image]
   deleteImage(where: ImageWhereUniqueInput!): Image
   deleteImages(where: [ImageWhereUniqueInput!]!): [Image]
+  createCartItem(data: CartItemCreateInput!): CartItem
+  createCartItems(data: [CartItemCreateInput!]!): [CartItem]
+  updateCartItem(where: CartItemWhereUniqueInput!, data: CartItemUpdateInput!): CartItem
+  updateCartItems(data: [CartItemUpdateArgs!]!): [CartItem]
+  deleteCartItem(where: CartItemWhereUniqueInput!): CartItem
+  deleteCartItems(where: [CartItemWhereUniqueInput!]!): [CartItem]
   endSession: Boolean!
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
@@ -519,6 +593,9 @@ type Query {
   images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ImageWhereUniqueInput): [Image!]
   image(where: ImageWhereUniqueInput!): Image
   imagesCount(where: ImageWhereInput! = {}): Int
+  cartItems(where: CartItemWhereInput! = {}, orderBy: [CartItemOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: CartItemWhereUniqueInput): [CartItem!]
+  cartItem(where: CartItemWhereUniqueInput!): CartItem
+  cartItemsCount(where: CartItemWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
 }
