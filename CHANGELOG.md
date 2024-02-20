@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 - Updated styling of a few navigation related items
+- Cleaned up mobile view of css for cart
+- Update styling of signin form
 
 ## [0.2.5] - 2024-02-20
 ### Added

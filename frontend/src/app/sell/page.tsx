@@ -1,6 +1,5 @@
 'use client'
 
-import { useQuery } from '@apollo/client';
 import { MenuStateProvider } from "@/utils/useMenu";
 import SectionHeader from '@/components/SectionHeader';
 import CreateProduct from '@/components/CreateProduct';

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import useForm from '../utils/useForm';
 import { useMutation } from '@apollo/client';
 
-import styles from './createProduct.module.scss';
+import styles from '../styles/form.module.scss';
 
 import CREATE_PRODUCT from '../gql/createProduct.gql';
 import GET_PRODUCTS from '../gql/getProducts.gql';
@@ -20,9 +20,6 @@ export default function CreateProduct() {
     // image: '',
   });
 
-  console.log({
-    inputs,
-  });
 
   // useMutation returns the signin function and the response data object
   const [createProduct, { loading, data, error }] = useMutation(CREATE_PRODUCT, {
@@ -57,9 +54,20 @@ export default function CreateProduct() {
       {status && (
         <p className={styles.sucessMessage}>Product has been created. It can be viewed on the Products page now.</p>
       )}
-      <form method="POST" onSubmit={(e) => handleSubmit(e)} className={styles.form} encType='multipart/form-data, text/plain'>
-        <fieldset disabled={loading} className={styles.fieldset}>
-          <label htmlFor="title" className={styles.label}>Title
+      <form
+        method="POST"
+        onSubmit={(e) => handleSubmit(e)}
+        className={styles.form}
+        // encType='multipart/form-data, text/plain'
+      >
+        <fieldset
+          disabled={loading}
+          className={styles.fieldset}
+        >
+          <label
+            htmlFor="title"
+            className={styles.label}
+            >Title
             <input
               name="title"
               type="text"
@@ -77,7 +85,10 @@ export default function CreateProduct() {
               onChange={handleChange}
             />
           </label> */}
-          <label htmlFor="shortDescription" className={styles.label}>Description
+          <label
+            htmlFor="shortDescription"
+            className={styles.label}
+          >Description
             <input
               name="shortDescription"
               type="text"
@@ -87,7 +98,10 @@ export default function CreateProduct() {
               required
             />
           </label>
-          <label htmlFor="price" className={styles.label}>Price
+          <label
+            htmlFor="price"
+            className={styles.label}
+          >Price
             <input
               name="price"
               type="number"
@@ -97,7 +111,10 @@ export default function CreateProduct() {
               required
             />
           </label>
-          <button type="submit" className={styles.button}>Create</button>
+          <button
+            type="submit"
+            className={styles.button}
+          >Create</button>
         </fieldset>
       </form>
     </div>

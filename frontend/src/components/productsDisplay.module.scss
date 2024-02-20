@@ -40,9 +40,16 @@
   }
 
   .buttonWrapper {
+
     fieldset {
       display: grid;
       grid-template-columns: 1fr 2fr 1fr;
+    }
+
+    &.loggedOut {
+      fieldset {
+        grid-template-columns: inherit;
+      }
     }
   }
 

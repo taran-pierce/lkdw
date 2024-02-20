@@ -45,6 +45,9 @@ export default function Navigation() {
           src="/cart-icon.png"
           alt="Cart Image"
         />
+        {user?.cart && user.cart.length > 0 && (
+          <span className={styles.cartCount}>{user.cart.length}</span>
+        )}
       </button>
       <ul className={isMenuOpen ? styles.active : ''}>
         <li>

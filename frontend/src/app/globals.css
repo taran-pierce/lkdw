@@ -35,11 +35,19 @@ a {
   text-decoration: none;
 }
 
-button {
+p + p,
+p > .button {
+  margin-top: .5rem;
+}
+
+button,
+.button {
+  display: inline-block;
   background: url(/papyrus.webp) top left repeat;
   border: 2px solid var(--color-black-dark);
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6), inset 0 0 2px 4px rgba(0, 0, 0, 0.2);
   padding: 1rem 1.8rem;
   outline: #111 solid 2px;
   cursor: pointer;
+  font-weight: bold;
 }

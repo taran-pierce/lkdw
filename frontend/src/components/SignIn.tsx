@@ -1,16 +1,16 @@
 'use client'
 
-import { useState } from 'react';
+import Link from 'next/link';
 import useForm from '../utils/useForm';
 import { useMutation } from '@apollo/client';
 import { useUser } from './User';
+
+import styles from '../styles/form.module.scss';
 
 import GET_CURRENT_USER from '../gql/getCurrentUser.gql';
 import SIGNIN_USER from '../gql/signinUser.gql';
 
 export default function SignIn() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   // set up form data
   const { inputs, handleChange, resetForm } = useForm({
     title: 'test@email.com',
@@ -30,52 +30,65 @@ export default function SignIn() {
     e.preventDefault();
 
     const res = await signin();
-
-    const { authenticateUserWithPassword } = res.data;
-
-    if (authenticateUserWithPassword.item) {
-      console.log('We are good here ', authenticateUserWithPassword.item.name);
-
-      setIsLoggedIn(true);
-
-      // document.cookie=`keystonejs-session=${authenticateUserWithPassword.sessionToken}`
-    }
-
-    console.log({
-      res,
-      authenticateUserWithPassword,
-      loading,
-    });
   }
 
   return (
-    <div>
+    <div className={styles.formWrapper}>
       {!user && (
-        <form method="POST" onSubmit={(e) => handleSubmit(e)}>
-          <label htmlFor="email">Email
-            <input
-              name="email"
-              type="email"
-              id="email"
-              placeholder="email@address.com"
-              value={inputs.email}
-              onChange={handleChange}
-            />
-          </label>
-          <label htmlFor="password">Password
-            <input
-              name="password"
-              type="password"
-              id="password"
-              value={inputs.password}
-              onChange={handleChange}
-            />
-          </label>
-          <button type="submit">Sign In</button>
+        <form
+          method="POST"
+          onSubmit={(e) => handleSubmit(e)}
+          className={styles.form}
+        >
+          <fieldset
+            disabled={loading}
+            className={styles.fieldset}
+          >
+            <label
+              htmlFor="email"
+              className={styles.label}
+            >Email
+              <input
+                name="email"
+                type="email"
+                id="email"
+                placeholder="email@address.com"
+                value={inputs.email}
+                onChange={handleChange}
+              />
+            </label>
+            <label
+              htmlFor="password"
+              className={styles.label}
+            >Password
+              <input
+                name="password"
+                type="password"
+                id="password"
+                value={inputs.password}
+                onChange={handleChange}
+              />
+            </label>
+            <button
+              type="submit"
+              className={styles.button}
+            >Sign In</button>
+          </fieldset>
         </form>
       )}
       {user && (
-        <p>Thanks for logging in {user.name}! Get to shopping!</p>
+        <>
+          <p>Thanks for logging in <strong>{user.name}</strong>!</p>
+          <p>Now you can create a cart while you are shopping to keep track of your precious cargo.</p>
+          <p>
+            <Link
+              href="/products"
+              className={`button`}
+            >
+              Products
+            </Link>
+          </p>
+        </>
       )}
     </div>
   );
