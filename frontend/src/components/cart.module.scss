@@ -40,7 +40,9 @@
 
   .cartItem {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    grid-template-columns: auto 1fr 1fr;
+    align-items: center;
     padding: 1rem 0;
 
     .itemTitle {
@@ -50,6 +52,10 @@
     .itemPrice {
       font-weight: bold;
       text-align: right;
+    }
+
+    .removeButton {
+      padding: .5rem;
     }
   }
 }
@@ -72,6 +78,8 @@
 
 @media(min-width: 992px) {
   .cartWrapper {
+    right: -40vw;
+    top: 0;
     width: 400px;
 
     &.open {

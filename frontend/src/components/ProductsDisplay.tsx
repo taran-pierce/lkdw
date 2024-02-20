@@ -1,3 +1,5 @@
+'use client'
+
 import formatMoney from '@/utils/formatMoney';
 import { useMutation } from '@apollo/client';
 import { useUser } from './User';
@@ -13,20 +15,15 @@ export default function ProductsDisplay({
   data: Array<any>,
 }) {
   const [addItem, { data: proudctData, loading, error }] = useMutation(ADD_PRODUCT_TO_CART);
-
   const user = useUser();
 
-  async function addItemToCart(e: any, product: any) {
-    e.preventDefault();
-
+  async function addItemToCart(product: any) {
     const res = await addItem({
       variables: {
         productId: product.id,
       },
       refetchQueries: [{ query: GET_CURRENT_USER }]
     });
-
-    // TODO this works, should open the cart or something to show the user it worked
   }
 
   return (
@@ -63,7 +60,7 @@ export default function ProductsDisplay({
             <div className={styles.buttonWrapper}>
               <fieldset disabled={loading}>
                 <button type="button">Edit</button>
-                <button type="button" onClick={(e) => addItemToCart(e, product)}>Add</button>
+                <button type="button" onClick={() => addItemToCart(product)}>Add</button>
                 <button type="button">Delete</button>
               </fieldset>
             </div>
