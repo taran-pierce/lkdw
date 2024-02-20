@@ -1,12 +1,21 @@
 'use client'
 
 import Link from 'next/link';
+import { useQuery } from '@apollo/client';
 import { useMenu } from '../utils/useMenu';
 import { useUser } from './User';
 
 import styles from './navigation.module.scss';
 
+import GET_CURRENT_USER from '../gql/getCurrentUser.gql';
+
 export default function Navigation() {
+  const {
+    data,
+    loading,
+    error,
+  } = useQuery(GET_CURRENT_USER); 
+
   function handleClick() {
     toggleMenu();
   }
@@ -36,6 +45,9 @@ export default function Navigation() {
           src="/cart-icon.png"
           alt="Cart Image"
         />
+        {user?.cart && user.cart.length > 0 && (
+          <span className={styles.cartCount}>{user.cart.length}</span>
+        )}
       </button>
       <ul className={isMenuOpen ? styles.active : ''}>
         <li>
@@ -66,6 +78,9 @@ export default function Navigation() {
               onClick={handleCartClick}
             >
               <img src="/cart-icon.png" alt="Cart Image" />
+              {user.cart && user.cart.length > 0 && (
+                <span className={styles.cartCount}>{user.cart.length}</span>
+              )}
             </button>
           )}
         </li>
