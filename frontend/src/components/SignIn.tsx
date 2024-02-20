@@ -48,10 +48,6 @@ export default function SignIn() {
     });
   }
 
-  console.log({
-    user,
-  });
-
   return (
     <div>
       {!user && (

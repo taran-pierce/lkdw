@@ -5,10 +5,15 @@
 // Keystone imports the default export of this file, expecting a Keystone configuration object
 //   you can find out more at https://keystonejs.com/docs/apis/config
 
-import { config } from '@keystone-6/core';
+import {
+  config,
+  graphql,
+} from '@keystone-6/core';
+
+// import addToCart from './mutations/addToCart';
 
 // to keep this file tidy, we define our schema in a different file
-import { lists } from './schema';
+import { lists, extendGraphqlSchema } from './schema';
 
 // authentication is configured separately here too, but you might move this elsewhere
 // when you write your list-level access control functions, as they typically rely on session data
@@ -45,6 +50,7 @@ export default withAuth(
     },
     lists,
     session,
+    extendGraphqlSchema,
     storage: {
       my_local_images: {
         kind: 'local',
@@ -55,6 +61,6 @@ export default withAuth(
         },
         storagePath: 'public/images'
       }
-    }
+    },
   })
 );

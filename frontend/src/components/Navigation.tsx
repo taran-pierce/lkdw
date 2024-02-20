@@ -17,10 +17,6 @@ export default function Navigation() {
 
   const user = useUser();
 
-  console.log({
-    user,
-  });
-
   const {
     isMenuOpen,
     toggleMenu,

@@ -1,0 +1,11 @@
+mutation addToCart($productId: String!) {
+  addToCart(productId: $productId) {
+    id
+    quantity
+    user {
+      id
+      name
+      email
+    }
+  }
+}

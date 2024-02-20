@@ -101,6 +101,16 @@ var lists = {
         links: true,
         dividers: true
       }),
+      status: (0, import_fields.select)({
+        type: "enum",
+        options: [
+          { label: "Draft", value: "draft" },
+          { label: "Published", value: "published" },
+          { label: "Banned", value: "banned" }
+        ]
+      }),
+      publishDate: (0, import_fields.timestamp)(),
+      author: (0, import_fields.relationship)({ ref: "Author.posts", many: false }),
       // with this field, you can set a User as the author for a Post
       // author: relationship({
       //   // we could have used 'User', but then the relationship would only be 1-way
@@ -133,6 +143,15 @@ var lists = {
           inlineCreate: { fields: ["name"] }
         }
       })
+    }
+  }),
+  // TODO adding Author to set up example and get it working
+  Author: (0, import_core.list)({
+    access: import_access.allowAll,
+    fields: {
+      name: (0, import_fields.text)({ validation: { isRequired: true } }),
+      email: (0, import_fields.text)({ isIndexed: "unique", validation: { isRequired: true } }),
+      posts: (0, import_fields.relationship)({ ref: "Post.author", many: true })
     }
   }),
   // this last list is our Tag list, it only has a name field for now
@@ -257,6 +276,113 @@ var lists = {
     }
   })
 };
+var extendGraphqlSchema = import_core.graphql.extend((base) => {
+  const Statistics = import_core.graphql.object()({
+    name: "Statistics",
+    fields: {
+      draft: import_core.graphql.field({
+        type: import_core.graphql.Int,
+        resolve({ authorId }, args, context) {
+        }
+      }),
+      published: import_core.graphql.field({
+        type: import_core.graphql.Int,
+        resolve({ authorId }, args, context) {
+        }
+      }),
+      latest: import_core.graphql.field({
+        type: base.object("Post"),
+        async resolve({ authorId }, args, context) {
+        }
+      })
+    }
+  });
+  return {
+    mutation: {
+      publishPost: import_core.graphql.field({
+        // base.object will return an object type from the existing schema
+        // with the name provided or throw if it doesn't exist
+        type: base.object("Post"),
+        args: { id: import_core.graphql.arg({ type: import_core.graphql.nonNull(import_core.graphql.ID) }) },
+        resolve(source, { id }, context) {
+          return context.db.Post.updateOne({
+            where: { id },
+            data: { status: "published", publishDate: (/* @__PURE__ */ new Date()).toISOString() }
+          });
+        }
+      }),
+      addToCart: import_core.graphql.field({
+        type: base.object("CartItem"),
+        args: {
+          id: import_core.graphql.arg({ type: import_core.graphql.ID }),
+          productId: import_core.graphql.arg({ type: import_core.graphql.String })
+          // data: graphql.arg({ type: GraphQLInputObjectType }),
+        },
+        async resolve(source, { id, productId }, context) {
+          const sesh = context.session;
+          const allCartItems = await context.db.CartItem.findMany({
+            where: {
+              user: {
+                name: sesh.name
+              }
+            },
+            resolveFields: "id, quantity"
+          });
+          console.log({
+            allCartItems
+          });
+          return context.db.CartItem.createOne({
+            data: {
+              product: { connect: { id: productId } },
+              user: { connect: { id: sesh.itemId } }
+            }
+          });
+        }
+      }),
+      // only add this mutation for a sudo Context (this is not usable from the API)
+      ...base.schema.extensions.sudo ? {
+        banPost: import_core.graphql.field({
+          type: base.object("Post"),
+          args: { id: import_core.graphql.arg({ type: import_core.graphql.nonNull(import_core.graphql.ID) }) },
+          resolve(source, { id }, context) {
+            return context.db.Post.updateOne({
+              where: { id },
+              data: { status: "banned" }
+            });
+          }
+        })
+      } : {}
+    },
+    query: {
+      // TODO these two queries trigger but never get any information back
+      // so gotta troubleshoot those
+      recentPosts: import_core.graphql.field({
+        type: import_core.graphql.list(import_core.graphql.nonNull(base.object("Post"))),
+        args: {
+          id: import_core.graphql.arg({ type: import_core.graphql.nonNull(import_core.graphql.ID) }),
+          seconds: import_core.graphql.arg({ type: import_core.graphql.nonNull(import_core.graphql.Int), defaultValue: 600 })
+        },
+        resolve(source, { id, seconds }, context) {
+          const cutoff = new Date(Date.now() - seconds * 1e3);
+          return context.db.Post.findMany({
+            where: { author: { id: { equals: id } }, publishDate: { gt: cutoff } }
+          });
+        }
+      }),
+      stats: import_core.graphql.field({
+        type: Statistics,
+        args: { id: import_core.graphql.arg({ type: import_core.graphql.nonNull(import_core.graphql.ID) }) },
+        resolve(source, { id }) {
+          console.log({
+            source,
+            id
+          });
+          return { authorId: id };
+        }
+      })
+    }
+  };
+});
 
 // auth.ts
 var import_crypto = require("crypto");
@@ -325,6 +451,7 @@ var keystone_default = withAuth(
     },
     lists,
     session,
+    extendGraphqlSchema,
     storage: {
       my_local_images: {
         kind: "local",
