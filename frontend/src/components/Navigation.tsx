@@ -58,16 +58,20 @@ export default function Navigation() {
             Products
           </Link>
         </li>
-        <li>
-        <Link href="/sell" onClick={() => closeMenu()}>
-          Sell
-          </Link>
-        </li>
-        <li>
-          <Link href="/account" onClick={() => closeMenu()}>
-            Account
-          </Link>
-        </li>
+        {user && (
+          <>
+            <li>
+              <Link href="/sell" onClick={() => closeMenu()}>
+                Sell
+              </Link>
+            </li>
+            <li>
+              <Link href="/account" onClick={() => closeMenu()}>
+                Account
+              </Link>
+            </li>
+          </>
+        )}
         <li>
           {!user && (
             <Link href="/signin" onClick={() => closeMenu()}>
