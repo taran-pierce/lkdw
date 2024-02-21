@@ -75,6 +75,10 @@ var lists = {
           createView: { fieldMode: "hidden" },
           itemView: { fieldMode: "read" }
         }
+      }),
+      orders: (0, import_fields.relationship)({
+        ref: "Order.user",
+        many: true
       })
     }
   }),
@@ -268,6 +272,41 @@ var lists = {
       product: (0, import_fields.relationship)({
         ref: "Product"
       })
+    },
+    ui: {
+      listView: {
+        initialColumns: ["user", "quantity", "user"]
+      }
+    }
+  }),
+  Order: (0, import_core.list)({
+    access: import_access.allowAll,
+    fields: {
+      total: (0, import_fields.integer)(),
+      items: (0, import_fields.relationship)({
+        ref: "OrderItem.order",
+        many: true
+      }),
+      user: (0, import_fields.relationship)({
+        ref: "User.orders"
+      }),
+      charge: (0, import_fields.text)(),
+      date: (0, import_fields.timestamp)({
+        defaultValue: Date.now,
+        format: "M-D-YY"
+      })
+    }
+  }),
+  OrderItem: (0, import_core.list)({
+    access: import_access.allowAll,
+    fields: {
+      quantity: (0, import_fields.integer)({
+        defaultValue: 1
+      }),
+      product: (0, import_fields.relationship)({
+        ref: "Product"
+      }),
+      order: (0, import_fields.relationship)({ ref: "Order.items" })
     },
     ui: {
       listView: {

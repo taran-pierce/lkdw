@@ -1,0 +1,24 @@
+.ordersWrapper {
+  background: var(--color-white);
+  border: 3px solid var(--color-black-dark);
+  outline: 4px solid var(--color-black-dark)
+}
+
+.orderTable {
+  th,
+  td {
+    &:nth-child(2) {
+      text-align: center;
+    }
+
+    &:nth-child(3) {
+      text-align: right;
+    }
+  }
+
+  td {
+    a {
+      text-decoration: underline;
+    }
+  }
+}
