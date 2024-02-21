@@ -69,8 +69,8 @@ export default function Cart() {
             >
               <img src="/trash-can.png" alt="Remove" />
             </button>
-            <span className={styles.itemTitle}>{cartItem.product.title} x {cartItem.quantity}</span>
-            <span className={styles.itemPrice}>{formatMoney(cartItem.product.price)}</span>
+            <span className={styles.itemTitle}>{cartItem.product?.title} x {cartItem.quantity}</span>
+            <span className={styles.itemPrice}>{formatMoney(cartItem.product?.price)}</span>
           </li>
         ))}
       </ul>

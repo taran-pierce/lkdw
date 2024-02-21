@@ -353,13 +353,11 @@ export const extendGraphqlSchema = graphql.extend(base => {
       addToCart: graphql.field({
         type: base.object('CartItem'),
         args: {
-          id: graphql.arg({ type: graphql.ID }),
           productId: graphql.arg({ type: graphql.String })
-          // data: graphql.arg({ type: GraphQLInputObjectType }),
         },
-        async resolve (source, { id, productId }, context: Context) {
+        async resolve (source, { productId }, context: Context) {
 
-          // get curretn user session so we can be sure to attach to correct user
+          // get current user session so we can be sure to attach to correct user
           const sesh = context.session;
 
           // when we are adding mulitple of the same thing, we can just adjust the quantity
@@ -373,11 +371,18 @@ export const extendGraphqlSchema = graphql.extend(base => {
             resolveFields: 'id, quantity'
           })
 
-          // TODO actually use allCartItems and do the "updateOne" instead of we have a match
-          console.log({
-            allCartItems,
-          });
+          // check to see if we already have an item in the cart that matches
+          const [existingCartItem] = allCartItems.filter((cartItem:any) => cartItem.productId === productId);
 
+          // if we do then just update the quantity by 1
+          if (existingCartItem) {
+            return context.db.CartItem.updateOne({
+              where: { id: existingCartItem.id },
+              data: { quantity: existingCartItem.quantity + 1 }
+            });
+          }
+
+          // if there is no matching cart item then make a new one
           return context.db.CartItem.createOne({
             data: {
               product: { connect: { id: productId } },
