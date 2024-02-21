@@ -37,7 +37,6 @@ function MenuStateProvider({ children }: any) {
   }
 
   function openCart() {
-    console.log('this ran');
     setIsCartOpen(true);
   }
 

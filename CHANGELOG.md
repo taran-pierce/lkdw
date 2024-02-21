@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.7] - 2024-02-21
+### Updated
+- Updated the cart count to account for quantities of the same item
+- Updated backend to update quantity of item if one existed in cart already
+
+### Added
+- Added /edit/ route for updating existing items on the frontend
+- Added /product/ route for viewing single items
+
 ## [0.2.6] - 2024-02-20
 ### Added
 - Added cart count to navigation menu

@@ -14,7 +14,7 @@ export default function SignIn() {
   // set up form data
   const { inputs, handleChange, resetForm } = useForm({
     title: 'test@email.com',
-    password: 'password',
+    password: '',
   });
 
   // useMutation returns the signin function and the response data object

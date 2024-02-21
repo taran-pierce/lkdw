@@ -314,11 +314,9 @@ var extendGraphqlSchema = import_core.graphql.extend((base) => {
       addToCart: import_core.graphql.field({
         type: base.object("CartItem"),
         args: {
-          id: import_core.graphql.arg({ type: import_core.graphql.ID }),
           productId: import_core.graphql.arg({ type: import_core.graphql.String })
-          // data: graphql.arg({ type: GraphQLInputObjectType }),
         },
-        async resolve(source, { id, productId }, context) {
+        async resolve(source, { productId }, context) {
           const sesh = context.session;
           const allCartItems = await context.db.CartItem.findMany({
             where: {
@@ -328,9 +326,13 @@ var extendGraphqlSchema = import_core.graphql.extend((base) => {
             },
             resolveFields: "id, quantity"
           });
-          console.log({
-            allCartItems
-          });
+          const [existingCartItem] = allCartItems.filter((cartItem) => cartItem.productId === productId);
+          if (existingCartItem) {
+            return context.db.CartItem.updateOne({
+              where: { id: existingCartItem.id },
+              data: { quantity: existingCartItem.quantity + 1 }
+            });
+          }
           return context.db.CartItem.createOne({
             data: {
               product: { connect: { id: productId } },

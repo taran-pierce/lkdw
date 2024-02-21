@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { useMenu } from '../utils/useMenu';
+import getCartCount from '../utils/getCartCount';
 import { useUser } from './User';
 
 import styles from './navigation.module.scss';
@@ -33,6 +34,8 @@ export default function Navigation() {
     openCart,
   }: any = useMenu();
 
+  const cartCount = user && user.cart && getCartCount(user.cart);
+
   return (
     <nav className={styles.navigation}>
       <button
@@ -46,7 +49,7 @@ export default function Navigation() {
           alt="Cart Image"
         />
         {user?.cart && user.cart.length > 0 && (
-          <span className={styles.cartCount}>{user.cart.length}</span>
+          <span className={styles.cartCount}>{cartCount}</span>
         )}
       </button>
       <ul className={isMenuOpen ? styles.active : ''}>
@@ -55,16 +58,20 @@ export default function Navigation() {
             Products
           </Link>
         </li>
-        <li>
-        <Link href="/sell" onClick={() => closeMenu()}>
-          Sell
-          </Link>
-        </li>
-        <li>
-          <Link href="/account" onClick={() => closeMenu()}>
-            Account
-          </Link>
-        </li>
+        {user && (
+          <>
+            <li>
+              <Link href="/sell" onClick={() => closeMenu()}>
+                Sell
+              </Link>
+            </li>
+            <li>
+              <Link href="/account" onClick={() => closeMenu()}>
+                Account
+              </Link>
+            </li>
+          </>
+        )}
         <li>
           {!user && (
             <Link href="/signin" onClick={() => closeMenu()}>
@@ -79,7 +86,7 @@ export default function Navigation() {
             >
               <img src="/cart-icon.png" alt="Cart Image" />
               {user.cart && user.cart.length > 0 && (
-                <span className={styles.cartCount}>{user.cart.length}</span>
+                <span className={styles.cartCount}>{cartCount}</span>
               )}
             </button>
           )}
