@@ -1,4 +1,4 @@
-query {
+query getCurrentUser {
   authenticatedItem {
     ... on User {
       email
@@ -12,6 +12,22 @@ query {
           price
           shortDescription
           title
+        }
+      }
+      orders {
+        charge
+        id
+        itemsCount
+        total
+        items {
+          id
+          quantity
+          product {
+            id
+            price
+            title
+            shortDescription
+          }
         }
       }
     }

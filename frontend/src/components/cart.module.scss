@@ -14,6 +14,16 @@
     bottom: 0;
     top: 0;
     position: fixed;
+    z-index: 99;
+  }
+
+  .checkoutButton {
+    background: rgba(212, 17, 17, 0.7);
+    box-shadow: 0 4px 4px 1px rgba(0,0,0,.5);
+    margin-top: 1rem;
+    display: grid;
+    justify-self: stretch;
+    text-align: center;
   }
 }
 

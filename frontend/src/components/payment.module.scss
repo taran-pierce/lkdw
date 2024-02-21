@@ -1,0 +1,10 @@
+.paymentWrapper {
+  background: var(--color-white);
+  padding: 1rem;
+  border: 3px solid var(--color-black-dark);
+  outline: 4px solid var(--color-black-dark);
+
+  button {
+    margin-top: 1rem;
+  }
+}

@@ -22,7 +22,7 @@ const nextConfig = {
       }
     ]
   },
-  pageExtensions: ['ts', 'tsx']
+  pageExtensions: ['ts', 'tsx', 'js']
 };
 
 export default nextConfig;

@@ -1,0 +1,18 @@
+query ($where: OrderWhereUniqueInput!) {
+  order(where: $where) {
+    id
+    charge
+    date
+    total
+    items {
+      id
+      quantity
+      product {
+        id
+        price
+        shortDescription
+        title
+      }
+    }
+  }
+}

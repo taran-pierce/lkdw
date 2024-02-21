@@ -1,9 +1,11 @@
 'use client'
 
+import Link from 'next/link';
 import { useMutation } from '@apollo/client';
 import { useMenu } from '@/utils/useMenu';
 import { rubikDoodleShadow } from '@/styles/fonts';
 import formatMoney from '@/utils/formatMoney';
+import { calculateCartTotals } from '@/utils/calculateCartTotal';
 
 import { useUser } from './User';
 
@@ -22,18 +24,6 @@ export default function Cart() {
     refetchQueries: [{ query: GET_CURRENT_USER }],
   });
 
-  function getCartTotal(cart: any) {
-    return cart.reduce((total:any, cartItem:any) => {
-      // products can be deleted but still in cart
-      if (!cartItem.product) {
-        return total;
-      }
-  
-      // take the total -> add the quantity * price
-      return total + cartItem.quantity * cartItem.product.price;
-    }, 0);
-  }
-
   function removeItemFromCart(e, cartItem: any) {
     removeProduct({
       variables: {
@@ -46,7 +36,7 @@ export default function Cart() {
 
   const { cart = [] } = user || {};
 
-  const total = getCartTotal(cart);
+  const { formatted } = calculateCartTotals(cart);
 
   return (
     <div className={`${styles.cartWrapper} ${isCartOpen ? styles.open : ''}`}>
@@ -76,8 +66,13 @@ export default function Cart() {
       </ul>
       <div className={styles.cartTotals}>
         <span className={styles.label}>Total</span>
-        <span className={styles.total}>{formatMoney(total)}</span>
+        <span className={styles.total}>{formatted}</span>
       </div>
+      <Link
+        href="/checkout/"
+        onClick={closeCart}
+        className={`button ${styles.checkoutButton}`}
+      >Checkout</Link>
     </div>
   );
 }

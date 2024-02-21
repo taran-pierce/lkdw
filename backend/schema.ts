@@ -82,6 +82,11 @@ export const lists: Lists = {
           itemView: { fieldMode: 'read' },
         },
       }),
+
+      orders: relationship({
+        ref: 'Order.user',
+        many: true,
+      }),
     },
   }),
 
@@ -306,6 +311,43 @@ export const lists: Lists = {
         initialColumns: ['user', 'quantity', 'user'],
       },
     }
+  }),
+
+  Order: list({
+    access: allowAll,
+    fields: {
+      total: integer(),
+      items: relationship({
+        ref: 'OrderItem.order',
+        many: true,
+      }),
+      user: relationship({
+        ref: 'User.orders',
+      }),
+      charge: text(),
+      date: timestamp({
+        defaultValue: Date.now,
+        format: 'M-D-YY',
+      }),
+    }
+  }),
+
+  OrderItem: list({
+    access: allowAll,
+    fields: {
+      quantity: integer({
+        defaultValue: 1,
+      }),
+      product: relationship({
+        ref: 'Product',
+      }),
+      order: relationship({ ref: 'Order.items' }),
+    },
+    ui: {
+      listView: {
+        initialColumns: ['user', 'quantity', 'user'],
+      },
+    },
   }),
 };
 
