@@ -396,7 +396,6 @@ export const extendGraphqlSchema = graphql.extend(base => {
         type: base.object('OrderItem'),
         args: {
           id: graphql.arg({ type: graphql.String }),
-          // token: graphql.arg({ type: graphql.String }),
         },
         async resolve (source, { id }, context: Context) {
           // get current user session so we can be sure to attach to correct user
@@ -471,7 +470,7 @@ export const extendGraphqlSchema = graphql.extend(base => {
                 name: sesh.name,
               },
             },
-            resolveFields: 'id  quantity'
+            resolveFields: 'id quantity'
           })
 
           // check to see if we already have an item in the cart that matches

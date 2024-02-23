@@ -354,7 +354,6 @@ var extendGraphqlSchema = import_core.graphql.extend((base) => {
         type: base.object("OrderItem"),
         args: {
           id: import_core.graphql.arg({ type: import_core.graphql.String })
-          // token: graphql.arg({ type: graphql.String }),
         },
         async resolve(source, { id }, context) {
           const sesh = context.session;
@@ -411,7 +410,7 @@ var extendGraphqlSchema = import_core.graphql.extend((base) => {
                 name: sesh.name
               }
             },
-            resolveFields: "id  quantity"
+            resolveFields: "id quantity"
           });
           const [existingCartItem] = allCartItems.filter((cartItem) => cartItem.productId === productId);
           if (existingCartItem) {
