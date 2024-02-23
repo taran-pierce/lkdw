@@ -308,7 +308,7 @@ export const lists: Lists = {
     },
     ui: {
       listView: {
-        initialColumns: ['user', 'quantity', 'user'],
+        initialColumns: ['user', 'quantity'],
       },
     }
   }),
@@ -324,7 +324,7 @@ export const lists: Lists = {
       user: relationship({
         ref: 'User.orders',
       }),
-      charge: text(),
+      charge: integer(),
       date: timestamp({
         defaultValue: Date.now,
         format: 'M-D-YY',
@@ -392,6 +392,66 @@ export const extendGraphqlSchema = graphql.extend(base => {
         },
       }),
 
+      checkout: graphql.field({
+        type: base.object('OrderItem'),
+        args: {
+          id: graphql.arg({ type: graphql.String }),
+        },
+        async resolve (source, { id }, context: Context) {
+          // get current user session so we can be sure to attach to correct user
+          const sesh = context.session;
+
+          // grab all the cart items for the user
+          const allCartItems = await context.query.CartItem.findMany({
+            where: {
+              user: {
+                id: {
+                  equals: id
+                }
+              }
+            },
+            query: 'id quantity product { id title price }'
+          });
+
+          // calculate cart total
+          const amount = allCartItems.reduce(function (total: number, cartItem: CartItemCreateInput) {
+            return total + cartItem.quantity * cartItem.product?.price;
+          }, 0);
+
+          // shape them so they will match while attaching them to the order
+          const shapedCartItems = await allCartItems.map((item:any) => {
+            // delete the cart item after adding it to the map
+            context.db.CartItem.deleteOne({
+              where: {
+                id: item.id,
+              }
+            });
+
+            return {
+              quantity: item.quantity,
+              product: {
+                connect: {
+                  id: item.product.id
+                },
+              },
+            };
+          });
+
+          const now = new Date;
+
+          // if there is no matching cart item then make a new one
+          return await context.db.Order.createOne({
+            data: {
+              date: now.toISOString(),
+              charge: amount,
+              total: amount,
+              items: { create: shapedCartItems },
+              user: { connect: { id: sesh.itemId } },
+            }
+          });
+        },
+      }),
+
       addToCart: graphql.field({
         type: base.object('CartItem'),
         args: {
@@ -410,7 +470,7 @@ export const extendGraphqlSchema = graphql.extend(base => {
                 name: sesh.name,
               },
             },
-            resolveFields: 'id, quantity'
+            resolveFields: 'id quantity'
           })
 
           // check to see if we already have an item in the cart that matches

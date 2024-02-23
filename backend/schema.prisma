@@ -95,7 +95,7 @@ model Order {
   items  OrderItem[] @relation("OrderItem_order")
   user   User?       @relation("Order_user", fields: [userId], references: [id])
   userId String?     @map("user")
-  charge String      @default("")
+  charge Int?
   date   DateTime?   @default(now())
 
   @@index([userId])
