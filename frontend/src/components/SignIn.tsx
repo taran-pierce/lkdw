@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react';
 import Link from 'next/link';
 import useForm from '../utils/useForm';
 import { useMutation } from '@apollo/client';
@@ -11,6 +12,8 @@ import GET_CURRENT_USER from '../gql/getCurrentUser.gql';
 import SIGNIN_USER from '../gql/signinUser.gql';
 
 export default function SignIn() {
+  const [hasError, setHasError] = useState(undefined);
+
   // set up form data
   const { inputs, handleChange, resetForm } = useForm({
     title: 'test@email.com',
@@ -30,10 +33,24 @@ export default function SignIn() {
     e.preventDefault();
 
     const res = await signin();
+
+    const { authenticateUserWithPassword } = res.data;
+
+    if (authenticateUserWithPassword?.__typename === 'UserAuthenticationWithPasswordFailure') {
+      setHasError({
+        error: true,
+        message: authenticateUserWithPassword?.message || 'error!',
+      });
+    }
   }
 
   return (
     <div className={styles.formWrapper}>
+      {hasError && hasError.error && (
+        <div className={styles.errorMessage}>
+          <p>{hasError?.message}</p>
+        </div>
+      )}
       {!user && (
         <form
           method="POST"
