@@ -6,10 +6,6 @@ import styles from './order.module.scss';
 export default function Order({
   data,
 }: any) {
-  console.log({
-    data,
-  });
-
   if (!data) {
     return <p>Error, no data found...</p>
   }
@@ -22,13 +18,10 @@ export default function Order({
     date,
   } = data;
 
-  console.log({
-    date,
-  });
-
   return (
     <div className={styles.orderWrapper}>
-      <h4>Order Date: {formatDate(date)}</h4>
+      <h4 className={styles.date}>Order Date: {formatDate(date)}</h4>
+      <h4>ID: {id}</h4>
       {items.map((item:any) => (
         <div
           key={item.id}

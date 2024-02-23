@@ -13,12 +13,16 @@ query getCurrentUser {
           shortDescription
           title
         }
+        user {
+          id
+        }
       }
       orders {
         charge
         id
         itemsCount
         total
+        date
         items {
           id
           quantity
@@ -30,6 +34,8 @@ query getCurrentUser {
           }
         }
       }
+      ordersCount
+      cartCount
     }
   }
 }

@@ -49,11 +49,6 @@ export default function CheckoutForm() {
   }, [stripe]);
 
   const handleSubmit = async (e) => {
-    console.log('need to get order ID in here some how');
-    // needs to do a createOrder mutation
-    // so I can get an order ID back from the users cart
-    // so I can pass that to the return URL
-    // then the cart needs to get delete after it is turned into an order
     e.preventDefault();
 
     if (!stripe || !elements) {
@@ -67,11 +62,10 @@ export default function CheckoutForm() {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        // TODO need to get my actual ORDER ID for this bit
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3001/order/1234",
+        return_url: `http://localhost:3001/order/orderComplete`,
       },
-    });
+    })
 
     // This point will only be reached if there is an immediate error when
     // confirming the payment. Otherwise, your customer will be redirected to

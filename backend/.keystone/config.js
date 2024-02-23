@@ -275,7 +275,7 @@ var lists = {
     },
     ui: {
       listView: {
-        initialColumns: ["user", "quantity", "user"]
+        initialColumns: ["user", "quantity"]
       }
     }
   }),
@@ -290,7 +290,7 @@ var lists = {
       user: (0, import_fields.relationship)({
         ref: "User.orders"
       }),
-      charge: (0, import_fields.text)(),
+      charge: (0, import_fields.integer)(),
       date: (0, import_fields.timestamp)({
         defaultValue: Date.now,
         format: "M-D-YY"
@@ -350,6 +350,54 @@ var extendGraphqlSchema = import_core.graphql.extend((base) => {
           });
         }
       }),
+      checkout: import_core.graphql.field({
+        type: base.object("OrderItem"),
+        args: {
+          id: import_core.graphql.arg({ type: import_core.graphql.String })
+          // token: graphql.arg({ type: graphql.String }),
+        },
+        async resolve(source, { id }, context) {
+          const sesh = context.session;
+          const allCartItems = await context.query.CartItem.findMany({
+            where: {
+              user: {
+                id: {
+                  equals: id
+                }
+              }
+            },
+            query: "id quantity product { id title price }"
+          });
+          const amount = allCartItems.reduce(function(total, cartItem) {
+            return total + cartItem.quantity * cartItem.product?.price;
+          }, 0);
+          const shapedCartItems = await allCartItems.map((item) => {
+            context.db.CartItem.deleteOne({
+              where: {
+                id: item.id
+              }
+            });
+            return {
+              quantity: item.quantity,
+              product: {
+                connect: {
+                  id: item.product.id
+                }
+              }
+            };
+          });
+          const now = /* @__PURE__ */ new Date();
+          return await context.db.Order.createOne({
+            data: {
+              date: now.toISOString(),
+              charge: amount,
+              total: amount,
+              items: { create: shapedCartItems },
+              user: { connect: { id: sesh.itemId } }
+            }
+          });
+        }
+      }),
       addToCart: import_core.graphql.field({
         type: base.object("CartItem"),
         args: {
@@ -363,7 +411,7 @@ var extendGraphqlSchema = import_core.graphql.extend((base) => {
                 name: sesh.name
               }
             },
-            resolveFields: "id, quantity"
+            resolveFields: "id  quantity"
           });
           const [existingCartItem] = allCartItems.filter((cartItem) => cartItem.productId === productId);
           if (existingCartItem) {
@@ -439,7 +487,7 @@ var { withAuth } = (0, import_auth.createAuth)({
   // this is a GraphQL query fragment for fetching what data will be attached to a context.session
   //   this can be helpful for when you are writing your access control functions
   //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
-  sessionData: "name createdAt id",
+  sessionData: "name createdAt id email",
   secretField: "password",
   // WARNING: remove initFirstItem functionality in production
   //   see https://keystonejs.com/docs/config/auth#init-first-item for more

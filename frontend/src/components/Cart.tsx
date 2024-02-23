@@ -71,7 +71,7 @@ export default function Cart() {
       <Link
         href="/checkout/"
         onClick={closeCart}
-        className={`button ${styles.checkoutButton}`}
+        className={`button ${styles.checkoutButton} ${cart.length === 0 ? styles.disabled : ''}`}
       >Checkout</Link>
     </div>
   );

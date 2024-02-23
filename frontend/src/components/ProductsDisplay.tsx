@@ -35,13 +35,11 @@ export default function ProductsDisplay({
       variables: {
         productId: product.id,
       },
-      // refetchQueries: [{ query: GET_CURRENT_USER }]
     });
   }
 
   async function handleDeleteItem(product: any) {
     if (confirm("Are you sure you want to delete this Product?")) {
-      console.log('heck yea they do');
       deleteProduct({
         variables: {
           where: { id: product.id },

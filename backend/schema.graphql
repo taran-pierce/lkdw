@@ -626,7 +626,7 @@ type Order {
   items(where: OrderItemWhereInput! = {}, orderBy: [OrderItemOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrderItemWhereUniqueInput): [OrderItem!]
   itemsCount(where: OrderItemWhereInput! = {}): Int
   user: User
-  charge: String
+  charge: Int
   date: DateTime
 }
 
@@ -642,7 +642,7 @@ input OrderWhereInput {
   total: IntNullableFilter
   items: OrderItemManyRelationFilter
   user: UserWhereInput
-  charge: StringFilter
+  charge: IntNullableFilter
   date: DateTimeNullableFilter
 }
 
@@ -663,7 +663,7 @@ input OrderUpdateInput {
   total: Int
   items: OrderItemRelateToManyForUpdateInput
   user: UserRelateToOneForUpdateInput
-  charge: String
+  charge: Int
   date: DateTime
 }
 
@@ -683,7 +683,7 @@ input OrderCreateInput {
   total: Int
   items: OrderItemRelateToManyForCreateInput
   user: UserRelateToOneForCreateInput
-  charge: String
+  charge: Int
   date: DateTime
 }
 
@@ -810,6 +810,7 @@ type Mutation {
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
   publishPost(id: ID!): Post
+  checkout(id: String): OrderItem
   addToCart(productId: String): CartItem
 }
 

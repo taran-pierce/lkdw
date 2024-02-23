@@ -10,6 +10,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 
 import CheckoutForm from '@/components/CheckoutForm';
+import LoadingSpinner from './LoadingSpinner';
 
 import styles from './payment.module.scss';
 
@@ -62,6 +63,9 @@ export default function Payment({ user }: any) {
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm />
         </Elements>
+      )}
+      {!clientSecret && (
+        <LoadingSpinner />
       )}
     </div>
   );

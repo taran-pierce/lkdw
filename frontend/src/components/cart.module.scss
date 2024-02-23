@@ -24,6 +24,11 @@
     display: grid;
     justify-self: stretch;
     text-align: center;
+
+    &.disabled {
+      pointer-events: none;
+      opacity: .4;
+    }
   }
 }
 
