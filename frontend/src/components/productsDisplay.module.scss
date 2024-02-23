@@ -58,6 +58,15 @@
   }
 }
 
+.tag {
+  background: var(--color-black-light);
+  padding: .4rem;
+  font-size: .8rem;
+  color: var(--color-white);
+  border-radius: 6px;
+  margin: 0 .5rem;
+}
+
 @media(min-width: 992px) {
   .productWrapper {
     grid-template-columns: 1fr 1fr;
