@@ -291,10 +291,7 @@ var lists = {
         ref: "User.orders"
       }),
       charge: (0, import_fields.integer)(),
-      date: (0, import_fields.timestamp)({
-        defaultValue: Date.now,
-        format: "M-D-YY"
-      })
+      date: (0, import_fields.timestamp)()
     }
   }),
   OrderItem: (0, import_core.list)({

@@ -325,10 +325,7 @@ export const lists: Lists = {
         ref: 'User.orders',
       }),
       charge: integer(),
-      date: timestamp({
-        defaultValue: Date.now,
-        format: 'M-D-YY',
-      }),
+      date: timestamp(),
     }
   }),
 

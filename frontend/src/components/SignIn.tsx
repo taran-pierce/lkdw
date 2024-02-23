@@ -34,12 +34,26 @@ export default function SignIn() {
 
     const res = await signin();
 
-    const { authenticateUserWithPassword } = res.data;
+    console.log({
+      res,
+    });
+
+    const {
+      authenticateUserWithPassword,
+      authenticatedItem,
+    } = res.data;
 
     if (authenticateUserWithPassword?.__typename === 'UserAuthenticationWithPasswordFailure') {
       setHasError({
         error: true,
         message: authenticateUserWithPassword?.message || 'error!',
+      });
+    }
+
+    if (authenticateUserWithPassword?.__typename === 'UserAuthenticationWithPasswordSuccess') {
+      setHasError({
+        error: false,
+        message: '',
       });
     }
   }

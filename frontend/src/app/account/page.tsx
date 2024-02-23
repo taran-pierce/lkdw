@@ -5,16 +5,13 @@ import SectionHeader from '@/components/SectionHeader';
 import { useUser } from '@/components/User';
 import Orders from '@/components/Orders';
 import SignOut from '@/components/SignOut';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 export default function Account() {
   const user = useUser();
 
-  console.log({
-    user,
-  });
-
   if (!user) {
-    return <p>You must log in first...</p>
+    return <LoadingSpinner />
   }
 
   const hasPreviousOrders = user.orders.length > 0;
