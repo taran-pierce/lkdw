@@ -1,9 +1,10 @@
 'use client'
 
-import { MenuStateProvider } from "@/utils/useMenu";
-import SectionHeader from "@/components/SectionHeader";
-import { useUser } from "@/components/User";
+import { MenuStateProvider } from '@/utils/useMenu';
+import SectionHeader from '@/components/SectionHeader';
+import { useUser } from '@/components/User';
 import Orders from '@/components/Orders';
+import SignOut from '@/components/SignOut';
 
 export default function Account() {
   const user = useUser();
@@ -21,7 +22,11 @@ export default function Account() {
   return (
     <MenuStateProvider>
       <main>
-        <SectionHeader text="Account" subText="Page contains all your account related information." />
+        <SectionHeader
+          text="Account" 
+          subText="Page contains all your account related information. You should probably also have a way to log out from here as well..."
+        />
+        <SignOut />
       </main>
       {!hasPreviousOrders && (
         <>
