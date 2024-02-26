@@ -1,0 +1,9 @@
+mutation CreateUser($data: UserCreateInput!) {
+  createUser(data: $data) {
+    name
+    email
+    password {
+      isSet
+    }
+  }
+}

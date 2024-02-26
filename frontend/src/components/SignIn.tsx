@@ -5,6 +5,7 @@ import Link from 'next/link';
 import useForm from '../utils/useForm';
 import { useMutation } from '@apollo/client';
 import { useUser } from './User';
+import Container from './Container';
 
 import styles from '../styles/form.module.scss';
 
@@ -33,10 +34,6 @@ export default function SignIn() {
     e.preventDefault();
 
     const res = await signin();
-
-    console.log({
-      res,
-    });
 
     const {
       authenticateUserWithPassword,
@@ -121,6 +118,17 @@ export default function SignIn() {
           </p>
         </>
       )}
+      <div className={styles.createAccountWrapper}>
+        <p>Or</p>
+        <p>
+          <Link
+            href="/create-account"
+            className="button"
+          >
+            Create an Account
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
