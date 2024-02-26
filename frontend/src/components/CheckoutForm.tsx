@@ -19,7 +19,7 @@ export default function CheckoutForm({
   const elements = useElements();
 
 
-  const [message, setMessage] = useState(null);
+  const [message, setMessage] = useState(null) as any;
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function CheckoutForm({
     }
 
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent.status) {
+      switch (paymentIntent?.status) {
         case "succeeded":
           setMessage("Payment succeeded!");
           break;
@@ -53,7 +53,7 @@ export default function CheckoutForm({
     });
   }, [stripe]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
 
     if (!stripe || !elements) {
@@ -103,11 +103,11 @@ export default function CheckoutForm({
 
   const paymentElementOptions = {
     layout: "tabs",
-  };
+  } as any;
 
   const addressElementOptions = {
     mode: 'shipping',
-  };
+  } as any;
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>

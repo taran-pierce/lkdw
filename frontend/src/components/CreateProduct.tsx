@@ -13,7 +13,7 @@ export default function CreateProduct() {
   const [status, setStatus] = useState(false);
 
   // set up form data
-  const { inputs, handleChange, resetForm } = useForm({
+  const { inputs, handleChange, resetForm }: any = useForm({
     title: '',
     shortDescription: '',
     price: 0,
