@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "cd frontend && next dev",
     "build": "cd frontend && npm install && npx next build",
-    "postinstall": "tsc -p ./frontend/tsconfig.json",
+    "postinstall": "cd frontend && tsc",
     "start": "cd frontend && next start",
     "lint": "cd frontend && next lint"
   },
