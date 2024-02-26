@@ -13,6 +13,7 @@ type User {
   cartCount(where: CartItemWhereInput! = {}): Int
   orders(where: OrderWhereInput! = {}, orderBy: [OrderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrderWhereUniqueInput): [Order!]
   ordersCount(where: OrderWhereInput! = {}): Int
+  stripeId: String
 }
 
 type PasswordState {
@@ -37,6 +38,7 @@ input UserWhereInput {
   products: ProductManyRelationFilter
   cart: CartItemManyRelationFilter
   orders: OrderManyRelationFilter
+  stripeId: StringFilter
 }
 
 input IDFilter {
@@ -112,6 +114,7 @@ input UserOrderByInput {
   name: OrderDirection
   email: OrderDirection
   createdAt: OrderDirection
+  stripeId: OrderDirection
 }
 
 enum OrderDirection {
@@ -127,6 +130,7 @@ input UserUpdateInput {
   products: ProductRelateToManyForUpdateInput
   cart: CartItemRelateToManyForUpdateInput
   orders: OrderRelateToManyForUpdateInput
+  stripeId: String
 }
 
 input ProductRelateToManyForUpdateInput {
@@ -163,6 +167,7 @@ input UserCreateInput {
   products: ProductRelateToManyForCreateInput
   cart: CartItemRelateToManyForCreateInput
   orders: OrderRelateToManyForCreateInput
+  stripeId: String
 }
 
 input ProductRelateToManyForCreateInput {

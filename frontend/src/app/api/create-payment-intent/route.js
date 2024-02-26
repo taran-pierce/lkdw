@@ -46,7 +46,10 @@ const calculateOrderAmount = (items, taxCalculation) => {
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { items } = body;
+    const {
+      items,
+      stripeId,
+    } = body;
 
     const taxCalculation = await calculateTax(items, "usd");
     const amount = await calculateOrderAmount(items, taxCalculation);
@@ -62,6 +65,7 @@ export async function POST(req) {
       metadata: {
         tax_calculation: taxCalculation.id
       },
+      customer: stripeId,
     });
 
     // Invoke this method in your webhook handler when `payment_intent.succeeded` webhook is received

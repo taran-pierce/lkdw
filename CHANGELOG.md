@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Minor style updates
 - Added nprogress to show user a loading state while navigating
+- Add ability to create new account from frontend
 
 ## [0.3.3] - 2024-02-23
 ### Added

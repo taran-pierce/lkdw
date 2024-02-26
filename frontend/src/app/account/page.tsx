@@ -7,6 +7,7 @@ import Orders from '@/components/Orders';
 import SignOut from '@/components/SignOut';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
+
 export default function Account() {
   const user = useUser();
 
@@ -21,15 +22,10 @@ export default function Account() {
       <main>
         <SectionHeader
           text="Account" 
-          subText="Page contains all your account related information. You should probably also have a way to log out from here as well..."
+          subText={`${!hasPreviousOrders ? 'There are no previous orders to display, let\'s get out there and get shopping!' : ''}`}
         />
         <SignOut />
       </main>
-      {!hasPreviousOrders && (
-        <>
-          <p>You have not made any purchases yet.</p>
-        </> 
-      )}
       {hasPreviousOrders && (
         <>
           <Orders orders={user.orders} />

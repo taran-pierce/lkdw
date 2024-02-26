@@ -4,6 +4,7 @@ query getCurrentUser {
       email
       id
       name
+      stripeId
       cart {
         quantity
         id

@@ -118,17 +118,19 @@ export default function SignIn() {
           </p>
         </>
       )}
-      <div className={styles.createAccountWrapper}>
-        <p>Or</p>
-        <p>
-          <Link
-            href="/create-account"
-            className="button"
-          >
-            Create an Account
-          </Link>
-        </p>
-      </div>
+      {!user && (
+        <div className={styles.createAccountWrapper}>
+          <p>Or</p>
+          <p>
+            <Link
+              href="/create-account"
+              className="button"
+            >
+              Create an Account
+            </Link>
+          </p>
+        </div>
+      )}
     </div>
   );
 }

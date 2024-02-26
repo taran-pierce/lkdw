@@ -1,5 +1,7 @@
 'use client'
 
+
+
 import { useRouter } from 'next/navigation';
 import useForm from '../../utils/useForm';
 import { useMutation } from '@apollo/client';
@@ -32,16 +34,32 @@ export default function CreateAccount() {
   async function handleSubmit(e: any) {
     e.preventDefault();
 
+    // create users billing account for future payment
+    const customerData = await fetch("/api/create-customer-account", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: inputs.name,
+        email: inputs.email,
+      }),
+    })
+      .then((res) => {        
+        return res.json()
+      });
+
+    // create the user
     const res = await createUser({
       variables: {
-        data: inputs,
+        data: {
+          ...inputs,
+          stripeId: customerData.id,
+        },
       }
     });
 
     if (res?.data?.createUser) {
-      router.push('/');
+      router.push('/signin');
     }
-
   }
 
   return (

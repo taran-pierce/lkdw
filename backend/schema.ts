@@ -88,6 +88,8 @@ export const lists: Lists = {
         ref: 'Order.user',
         many: true,
       }),
+
+      stripeId: text(),
     },
   }),
 

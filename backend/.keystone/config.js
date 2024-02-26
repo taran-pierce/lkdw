@@ -79,7 +79,8 @@ var lists = {
       orders: (0, import_fields.relationship)({
         ref: "Order.user",
         many: true
-      })
+      }),
+      stripeId: (0, import_fields.text)()
     }
   }),
   Post: (0, import_core.list)({
