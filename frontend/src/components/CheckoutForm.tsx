@@ -66,13 +66,6 @@ export default function CheckoutForm({
 
     const address = await addressElement?.getValue();
 
-    // TODO update customer billing info
-
-    console.log({
-      elements,
-      address,
-    });
-
     // Create PaymentIntent as soon as the page loads
     const res = await fetch("/api/update-customer-billing-address", {
       method: "POST",
@@ -83,12 +76,6 @@ export default function CheckoutForm({
       }),
     })
       .then((res) => res.json());
-
-    console.log({
-      res,
-    });
-
-    return;
 
     setIsLoading(true);
 
