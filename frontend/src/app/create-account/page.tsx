@@ -1,7 +1,5 @@
 'use client'
 
-
-
 import { useRouter } from 'next/navigation';
 import useForm from '../../utils/useForm';
 import { useMutation } from '@apollo/client';
@@ -17,7 +15,7 @@ export default function CreateAccount() {
   // set up form data
   // TODO maybe optionally let them do billing information here
   // then detect that later and dont make them enter billing info on CC page
-  const { inputs, handleChange, resetForm } = useForm({
+  const { inputs, handleChange, resetForm }: any = useForm({
     name: 'Name',
     email: 'test@email.com',
     password: '',
@@ -39,8 +37,8 @@ export default function CreateAccount() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: inputs.name,
-        email: inputs.email,
+        name: inputs?.name,
+        email: inputs?.email,
       }),
     })
       .then((res) => {        

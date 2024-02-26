@@ -24,7 +24,7 @@ export default function Cart() {
     refetchQueries: [{ query: GET_CURRENT_USER }],
   });
 
-  function removeItemFromCart(e, cartItem: any) {
+  function removeItemFromCart(e:any, cartItem: any) {
     removeProduct({
       variables: {
         where: { id: cartItem.id }

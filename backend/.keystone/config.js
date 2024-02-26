@@ -320,11 +320,13 @@ var extendGraphqlSchema = import_core.graphql.extend((base) => {
       draft: import_core.graphql.field({
         type: import_core.graphql.Int,
         resolve({ authorId }, args, context) {
+          return 0;
         }
       }),
       published: import_core.graphql.field({
         type: import_core.graphql.Int,
         resolve({ authorId }, args, context) {
+          return 0;
         }
       }),
       latest: import_core.graphql.field({
@@ -459,11 +461,9 @@ var extendGraphqlSchema = import_core.graphql.extend((base) => {
         type: Statistics,
         args: { id: import_core.graphql.arg({ type: import_core.graphql.nonNull(import_core.graphql.ID) }) },
         resolve(source, { id }) {
-          console.log({
-            source,
-            id
-          });
-          return { authorId: id };
+          return {
+            authorId: id
+          };
         }
       })
     }

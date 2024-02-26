@@ -13,10 +13,10 @@ import GET_CURRENT_USER from '../gql/getCurrentUser.gql';
 import SIGNIN_USER from '../gql/signinUser.gql';
 
 export default function SignIn() {
-  const [hasError, setHasError] = useState(undefined);
+  const [hasError, setHasError] = useState(undefined) as any;
 
   // set up form data
-  const { inputs, handleChange, resetForm } = useForm({
+  const { inputs, handleChange, resetForm }: any = useForm({
     title: 'test@email.com',
     password: '',
   });
