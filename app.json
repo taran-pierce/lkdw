@@ -1,0 +1,34 @@
+{
+  "name": "LKDW",
+  "description": "Storefront for cool stuff!",
+  "keywords": [
+    "Next.js",
+    "HTML5",
+    "Keystone.js"
+  ],
+  "website": "",
+  "repository": "https://github.com/taran-pierce/lkdw",
+  "logo": "",
+  "success_url": "/welcome",
+  "scripts": {
+    "postdeploy": "bundle exec rake bootstrap"
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "standard-1x"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "https://github.com/stomita/heroku-buildpack-phantomjs"
+    }
+  ],
+  "environments": {
+    "test": {
+      "scripts": {
+        "test": "bundle exec rake test"
+      }
+    }
+  }
+}
