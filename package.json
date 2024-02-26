@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "cd frontend && next dev",
-    "build": "cd frontend && next build",
+    "build": "cd frontend && npm install && next build",
     "start": "cd frontend && next start",
     "lint": "cd frontend && next lint"
   }
