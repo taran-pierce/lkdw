@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Navigation from './Navigation'
 import Cart from './Cart';
 import { useMenu } from '../utils/useMenu';
-import { rubikDoodleShadow } from '@/styles/fonts';
+import { rubikDoodleShadow } from '../styles/fonts';
 
 import styles from './header.module.scss';
 
