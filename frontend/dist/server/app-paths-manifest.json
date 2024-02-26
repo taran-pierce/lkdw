@@ -1,0 +1,18 @@
+{
+  "/_not-found": "app/_not-found.js",
+  "/account/page": "app/account/page.js",
+  "/api/create-customer-account/route": "app/api/create-customer-account/route.js",
+  "/api/create-payment-intent/route": "app/api/create-payment-intent/route.js",
+  "/api/update-customer-billing-address/route": "app/api/update-customer-billing-address/route.js",
+  "/checkout/page": "app/checkout/page.js",
+  "/create-account/page": "app/create-account/page.js",
+  "/edit/[id]/page": "app/edit/[id]/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/order/[id]/page": "app/order/[id]/page.js",
+  "/orders/page": "app/orders/page.js",
+  "/page": "app/page.js",
+  "/product/[id]/page": "app/product/[id]/page.js",
+  "/products/page": "app/products/page.js",
+  "/sell/page": "app/sell/page.js",
+  "/signin/page": "app/signin/page.js"
+}

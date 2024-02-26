@@ -22,7 +22,8 @@ const nextConfig = {
       }
     ]
   },
-  pageExtensions: ['ts', 'tsx', 'js']
+  pageExtensions: ['ts', 'tsx', 'js'],
+  distDir: '/dist'
 };
 
 export default nextConfig;
