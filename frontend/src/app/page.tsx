@@ -1,12 +1,12 @@
 'use client'
 
 import { useQuery } from '@apollo/client';
-import { MenuStateProvider } from "@/utils/useMenu";
+import { MenuStateProvider } from "../utils/useMenu";
 
-import SectionHeader from '@/components/SectionHeader';
-import ProductsDisplay from "@/components/ProductsDisplay";
+import SectionHeader from '../components/SectionHeader';
+import ProductsDisplay from "../components/ProductsDisplay";
 
-import LoadingSpinner from '@/components/LoadingSpinner';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 import GET_PRODUCTS from '../gql/getProducts.gql';
 

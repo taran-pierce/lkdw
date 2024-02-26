@@ -8,7 +8,7 @@ import {
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 
-import CheckoutForm from '@/components/CheckoutForm';
+import CheckoutForm from '../components/CheckoutForm';
 import LoadingSpinner from './LoadingSpinner';
 
 import styles from './payment.module.scss';

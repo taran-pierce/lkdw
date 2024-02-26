@@ -1,8 +1,8 @@
 'use client'
 
-import { MenuStateProvider } from "@/utils/useMenu";
-import SectionHeader from '@/components/SectionHeader';
-import CreateProduct from '@/components/CreateProduct';
+import { MenuStateProvider } from "../../utils/useMenu";
+import SectionHeader from '../../components/SectionHeader';
+import CreateProduct from '../../components/CreateProduct';
 
 export default function Sell() {
   return (

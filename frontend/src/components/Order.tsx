@@ -1,5 +1,5 @@
-import formatMoney from '@/utils/formatMoney';
-import formatDate from '@/utils/formatDate';
+import formatMoney from '../utils/formatMoney';
+import formatDate from '../utils/formatDate';
 
 import styles from './order.module.scss';
 

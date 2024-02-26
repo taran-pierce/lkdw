@@ -1,10 +1,10 @@
 'use client'
 
-import { MenuStateProvider } from "@/utils/useMenu";
-import SectionHeader from "@/components/SectionHeader";
-import { useUser } from "@/components/User";
-import CartList from "@/components/CartList";
-import Payment from '@/components/Payment';
+import { MenuStateProvider } from "../../utils/useMenu";
+import SectionHeader from "../../components/SectionHeader";
+import { useUser } from "../../components/User";
+import CartList from "../../components/CartList";
+import Payment from '../../components/Payment';
 
 export default function Checkout() {
   const user = useUser();

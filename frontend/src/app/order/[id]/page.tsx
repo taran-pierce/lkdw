@@ -6,11 +6,11 @@ import {
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@apollo/client';
 
-import { MenuStateProvider } from "@/utils/useMenu";
-import { useUser } from "@/components/User";
-import SectionHeader from '@/components/SectionHeader';
-import Order from '@/components/Order';
-import LoadingSpinner from '@/components/LoadingSpinner';
+import { MenuStateProvider } from "../../../utils/useMenu";
+import { useUser } from "../../../components/User";
+import SectionHeader from '../../../components/SectionHeader';
+import Order from '../../../components/Order';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 import GET_CURRENT_USER from '../../../gql/getCurrentUser.gql';
 import CHECKOUT from '../../../gql/checkout.gql';

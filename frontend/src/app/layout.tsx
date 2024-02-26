@@ -4,9 +4,9 @@
 import { Suspense } from 'react';
 import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 import { fira } from '../styles/fonts';
-import Header from "@/components/Header";
-import Container from "@/components/Container";
-import { MenuStateProvider } from "@/utils/useMenu";
+import Header from "../components/Header";
+import Container from "../components/Container";
+import { MenuStateProvider } from "../utils/useMenu";
 import { ApolloProvider } from "@apollo/client";
 import client from '../apollo';
 

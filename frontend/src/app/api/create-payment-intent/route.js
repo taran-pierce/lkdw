@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { calculateCartTotals } from '@/utils/calculateCartTotal';
+import { calculateCartTotals } from '../utils/calculateCartTotal';
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 

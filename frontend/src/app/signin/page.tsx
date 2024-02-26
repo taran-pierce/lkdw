@@ -1,6 +1,6 @@
-import { MenuStateProvider } from "@/utils/useMenu";
-import SignIn from "@/components/SignIn";
-import SectionHeader from "@/components/SectionHeader";
+import { MenuStateProvider } from "../../utils/useMenu";
+import SignIn from "../../components/SignIn";
+import SectionHeader from "../../components/SectionHeader";
 
 export default function SignInPage() {
   return (

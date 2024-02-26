@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import formatMoney from '@/utils/formatMoney';
+import formatMoney from '../utils/formatMoney';
 import { useMutation } from '@apollo/client';
 import { useUser } from './User';
 

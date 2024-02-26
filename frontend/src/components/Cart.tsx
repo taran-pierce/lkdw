@@ -2,10 +2,10 @@
 
 import Link from 'next/link';
 import { useMutation } from '@apollo/client';
-import { useMenu } from '@/utils/useMenu';
+import { useMenu } from '../utils/useMenu';
 import { rubikDoodleShadow } from '@/styles/fonts';
-import formatMoney from '@/utils/formatMoney';
-import { calculateCartTotals } from '@/utils/calculateCartTotal';
+import formatMoney from '../utils/formatMoney';
+import { calculateCartTotals } from '../utils/calculateCartTotal';
 
 import { useUser } from './User';
 

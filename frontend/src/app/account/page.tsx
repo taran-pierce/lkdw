@@ -1,11 +1,11 @@
 'use client'
 
-import { MenuStateProvider } from '@/utils/useMenu';
-import SectionHeader from '@/components/SectionHeader';
-import { useUser } from '@/components/User';
-import Orders from '@/components/Orders';
-import SignOut from '@/components/SignOut';
-import LoadingSpinner from '@/components/LoadingSpinner';
+import { MenuStateProvider } from '../../utils/useMenu';
+import SectionHeader from '../../components/SectionHeader';
+import { useUser } from '../../components/User';
+import Orders from '../../components/Orders';
+import SignOut from '../../components/SignOut';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 
 export default function Account() {
