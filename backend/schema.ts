@@ -352,22 +352,24 @@ export const lists: Lists = {
 };
 
 export const extendGraphqlSchema = graphql.extend(base => {
-  const Statistics = graphql.object<{ authorId: string }>()({
+  const Statistics = graphql.object<{ authorId: number }>()({
     name: 'Statistics',
     fields: {
       draft: graphql.field({
         type: graphql.Int,
-        resolve ({ authorId }, args, context: Context) {
+        resolve ({ authorId }, args, context: any) {
+          return 0;
         },
       }),
       published: graphql.field({
         type: graphql.Int,
-        resolve ({ authorId }, args, context: Context) {
+        resolve ({ authorId }, args, context: any) {
+          return 0;
         },
       }),
       latest: graphql.field({
         type: base.object('Post'),
-        async resolve ({ authorId }, args, context: Context) {
+        async resolve ({ authorId }, args, context: any) {
         },
       }),
     },
@@ -380,7 +382,7 @@ export const extendGraphqlSchema = graphql.extend(base => {
         // with the name provided or throw if it doesn't exist
         type: base.object('Post'),
         args: { id: graphql.arg({ type: graphql.nonNull(graphql.ID) }) },
-        resolve (source, { id }, context: Context) {
+        resolve (source, { id }, context: any) {
           // Note we use `context.db.Post` here as we have a return type
           // of Post, and this API provides results in the correct format.
           // If you accidentally use `context.query.Post` here you can expect problems
@@ -397,7 +399,7 @@ export const extendGraphqlSchema = graphql.extend(base => {
         args: {
           id: graphql.arg({ type: graphql.String }),
         },
-        async resolve (source, { id }, context: Context) {
+        async resolve (source, { id }, context: any) {
           // get current user session so we can be sure to attach to correct user
           const sesh = context.session;
 
@@ -413,8 +415,9 @@ export const extendGraphqlSchema = graphql.extend(base => {
             query: 'id quantity product { id title price }'
           });
 
-          // calculate cart total
-          const amount = allCartItems.reduce(function (total: number, cartItem: CartItemCreateInput) {
+          // calculate cart total 
+          // CartItemCreateInput with any
+          const amount = allCartItems.reduce(function (total: number, cartItem: any) {
             return total + cartItem.quantity * cartItem.product?.price;
           }, 0);
 
@@ -457,7 +460,7 @@ export const extendGraphqlSchema = graphql.extend(base => {
         args: {
           productId: graphql.arg({ type: graphql.String })
         },
-        async resolve (source, { productId }, context: Context) {
+        async resolve (source, { productId }, context: any) {
 
           // get current user session so we can be sure to attach to correct user
           const sesh = context.session;
@@ -500,7 +503,7 @@ export const extendGraphqlSchema = graphql.extend(base => {
             banPost: graphql.field({
               type: base.object('Post'),
               args: { id: graphql.arg({ type: graphql.nonNull(graphql.ID) }) },
-              resolve (source, { id }, context: Context) {
+              resolve (source, { id }, context: any) {
                 return context.db.Post.updateOne({
                   where: { id },
                   data: { status: 'banned' },
@@ -519,7 +522,7 @@ export const extendGraphqlSchema = graphql.extend(base => {
           id: graphql.arg({ type: graphql.nonNull(graphql.ID) }),
           seconds: graphql.arg({ type: graphql.nonNull(graphql.Int), defaultValue: 600 }),
         },
-        resolve (source, { id, seconds }, context: Context) {
+        resolve (source, { id, seconds }, context: any) {
           const cutoff = new Date(Date.now() - seconds * 1000);
 
           // Note we use `context.db.Post` here as we have a return type
@@ -534,12 +537,10 @@ export const extendGraphqlSchema = graphql.extend(base => {
       stats: graphql.field({
         type: Statistics,
         args: { id: graphql.arg({ type: graphql.nonNull(graphql.ID) }) },
-        resolve (source, { id }) {
-          console.log({
-            source,
-            id,
-          });
-          return { authorId: id }
+        resolve(source, { id }) {
+          return {
+            authorId: id,
+          } as any;
         },
       }),
     },

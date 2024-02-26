@@ -1,6 +1,7 @@
 'use client'
 
 // import type { Metadata } from "next";
+import { Suspense } from 'react';
 import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 import { fira } from '../styles/fonts';
 import Header from "@/components/Header";
@@ -27,11 +28,13 @@ export default function RootLayout({
   return (
     <html lang="en-US">
         <body className={`${fira.className}`}>
-          <ProgressBar 
-            height="6px"
-            color="#fff"
-            shallowRouting
-          />
+          <Suspense>
+            <ProgressBar 
+              height="6px"
+              color="#fff"
+              shallowRouting
+            />
+          </Suspense>
           <ApolloProvider client={client}>
             <MenuStateProvider>
               <Header />
