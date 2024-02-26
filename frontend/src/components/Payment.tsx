@@ -29,7 +29,10 @@ export default function Payment({ user }: any) {
     appearance,
   };
 
-  const { cart } = user;
+  const {
+    cart,
+    stripeId = '',
+  } = user;
 
   const lineItems = cart.map((cartItem:any) => {
     return {
@@ -62,7 +65,7 @@ export default function Payment({ user }: any) {
     <div className={styles.paymentWrapper}>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
+          <CheckoutForm stripeId={stripeId} />
         </Elements>
       )}
       {!clientSecret && (

@@ -10,7 +10,11 @@ import {
   useElements
 } from "@stripe/react-stripe-js";
 
-export default function CheckoutForm() {
+export default function CheckoutForm({
+  stripeId,
+}: {
+  stripeId: string,
+}) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -57,6 +61,34 @@ export default function CheckoutForm() {
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
+
+    const addressElement = elements.getElement('address');
+
+    const address = await addressElement?.getValue();
+
+    // TODO update customer billing info
+
+    console.log({
+      elements,
+      address,
+    });
+
+    // Create PaymentIntent as soon as the page loads
+    const res = await fetch("/api/update-customer-billing-address", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        address: address,
+        stripeId: stripeId,
+      }),
+    })
+      .then((res) => res.json());
+
+    console.log({
+      res,
+    });
+
+    return;
 
     setIsLoading(true);
 
