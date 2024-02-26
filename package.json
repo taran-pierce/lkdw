@@ -1,0 +1,11 @@
+{
+  "name": "LKDW",
+  "version": "0.3.5",
+  "private": true,
+  "scripts": {
+    "dev": "cd frontend && next dev",
+    "build": "cd frontend && next build",
+    "start": "cd frontend && next start",
+    "lint": "cd frontend && next lint"
+  }
+}
