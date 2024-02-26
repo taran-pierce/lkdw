@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added nprogress to show user a loading state while navigating
 - Add ability to create new account from frontend
 
+### Updated
+- Updated payment to include stripe customer id
+
 ## [0.3.3] - 2024-02-23
 ### Added
 - Sign out to account page
