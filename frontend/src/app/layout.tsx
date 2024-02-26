@@ -1,6 +1,7 @@
 'use client'
 
 // import type { Metadata } from "next";
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 import { fira } from '../styles/fonts';
 import Header from "@/components/Header";
 import Container from "@/components/Container";
@@ -11,6 +12,7 @@ import client from '../apollo';
 import "./globals.css";
 
 // TODO should refactor where I can put this back in
+// same for nprogress
 // did it for making this 'use client' to use Apollo
 // export const metadata: Metadata = {
 //   title: "LKDW",
@@ -25,6 +27,11 @@ export default function RootLayout({
   return (
     <html lang="en-US">
         <body className={`${fira.className}`}>
+          <ProgressBar 
+            height="6px"
+            color="#fff"
+            shallowRouting
+          />
           <ApolloProvider client={client}>
             <MenuStateProvider>
               <Header />

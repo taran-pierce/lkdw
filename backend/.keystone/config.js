@@ -79,7 +79,8 @@ var lists = {
       orders: (0, import_fields.relationship)({
         ref: "Order.user",
         many: true
-      })
+      }),
+      stripeId: (0, import_fields.text)()
     }
   }),
   Post: (0, import_core.list)({
@@ -291,10 +292,7 @@ var lists = {
         ref: "User.orders"
       }),
       charge: (0, import_fields.integer)(),
-      date: (0, import_fields.timestamp)({
-        defaultValue: Date.now,
-        format: "M-D-YY"
-      })
+      date: (0, import_fields.timestamp)()
     }
   }),
   OrderItem: (0, import_core.list)({

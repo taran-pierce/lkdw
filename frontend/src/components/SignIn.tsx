@@ -5,6 +5,7 @@ import Link from 'next/link';
 import useForm from '../utils/useForm';
 import { useMutation } from '@apollo/client';
 import { useUser } from './User';
+import Container from './Container';
 
 import styles from '../styles/form.module.scss';
 
@@ -34,12 +35,22 @@ export default function SignIn() {
 
     const res = await signin();
 
-    const { authenticateUserWithPassword } = res.data;
+    const {
+      authenticateUserWithPassword,
+      authenticatedItem,
+    } = res.data;
 
     if (authenticateUserWithPassword?.__typename === 'UserAuthenticationWithPasswordFailure') {
       setHasError({
         error: true,
         message: authenticateUserWithPassword?.message || 'error!',
+      });
+    }
+
+    if (authenticateUserWithPassword?.__typename === 'UserAuthenticationWithPasswordSuccess') {
+      setHasError({
+        error: false,
+        message: '',
       });
     }
   }
@@ -106,6 +117,19 @@ export default function SignIn() {
             </Link>
           </p>
         </>
+      )}
+      {!user && (
+        <div className={styles.createAccountWrapper}>
+          <p>Or</p>
+          <p>
+            <Link
+              href="/create-account"
+              className="button"
+            >
+              Create an Account
+            </Link>
+          </p>
+        </div>
       )}
     </div>
   );

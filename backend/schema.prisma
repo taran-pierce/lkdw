@@ -20,6 +20,7 @@ model User {
   products  Product[]  @relation("Product_user")
   cart      CartItem[] @relation("CartItem_user")
   orders    Order[]    @relation("Order_user")
+  stripeId  String     @default("")
 }
 
 model Post {
@@ -96,7 +97,7 @@ model Order {
   user   User?       @relation("Order_user", fields: [userId], references: [id])
   userId String?     @map("user")
   charge Int?
-  date   DateTime?   @default(now())
+  date   DateTime?
 
   @@index([userId])
 }

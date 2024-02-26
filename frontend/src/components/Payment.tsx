@@ -1,6 +1,5 @@
 'use client'
 
-
 import {
   useEffect,
   useState,
@@ -51,6 +50,8 @@ export default function Payment({ user }: any) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         items: lineItems,
+        stripeId: user?.stripeId,
+        elements: Elements,
       }),
     })
       .then((res) => res.json())

@@ -7,6 +7,7 @@
 
 import { list, graphql } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
+import { cloudinaryImage } from '@keystone-6/cloudinary';
 
 // see https://keystonejs.com/docs/fields/overview for the full list of fields
 //   this is a few common fields for an example
@@ -87,6 +88,8 @@ export const lists: Lists = {
         ref: 'Order.user',
         many: true,
       }),
+
+      stripeId: text(),
     },
   }),
 
@@ -218,7 +221,7 @@ export const lists: Lists = {
       image: relationship({
         ref: 'Image.product',
       }),
-
+    
       // TODO use this for product description
       // the document field can be used for making rich editable content
       //   you can find out more at https://keystonejs.com/docs/guides/document-fields
@@ -325,10 +328,7 @@ export const lists: Lists = {
         ref: 'User.orders',
       }),
       charge: integer(),
-      date: timestamp({
-        defaultValue: Date.now,
-        format: 'M-D-YY',
-      }),
+      date: timestamp(),
     }
   }),
 

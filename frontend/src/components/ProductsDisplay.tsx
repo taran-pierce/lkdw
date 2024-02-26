@@ -75,8 +75,12 @@ export default function ProductsDisplay({
             {shortDescription && (
               <p>{shortDescription}</p>
             )}
-            <p>Tags: {tags.map((tag: any) => (
-                <span key={tag.name}>{tag.name}</span>
+            <p>Tags: 
+              {tags.map((tag: any) => (
+                <span
+                  key={tag.name}
+                  className={styles.tag}
+                >{tag.name}</span>
               ))}
             </p>
               <div className={`${styles.buttonWrapper} ${!user ? styles.loggedOut : ''}`}>

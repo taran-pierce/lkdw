@@ -1,0 +1,10 @@
+mutation CreateUser($data: UserCreateInput!) {
+  createUser(data: $data) {
+    name
+    email
+    stripeId
+    password {
+      isSet
+    }
+  }
+}

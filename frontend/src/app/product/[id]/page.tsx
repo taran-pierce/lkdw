@@ -11,11 +11,6 @@ export default function Page({
 }) {
   const router = useRouter();
 
-  console.log({
-    params,
-    router,
-  });
-
   if (!params.id) {
     return <p>ID not provided...</p>
   }

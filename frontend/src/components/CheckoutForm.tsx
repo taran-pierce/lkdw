@@ -5,6 +5,7 @@ import {
 
 import {
   PaymentElement,
+  AddressElement,
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
@@ -85,8 +86,13 @@ export default function CheckoutForm() {
     layout: "tabs",
   };
 
+  const addressElementOptions = {
+    mode: 'shipping',
+  };
+
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
+      <AddressElement id="address-element" options={addressElementOptions} />
       <PaymentElement id="payment-element" options={paymentElementOptions} />
       <button disabled={isLoading || !stripe || !elements} id="submit">
         <span id="button-text">

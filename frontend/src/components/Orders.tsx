@@ -8,10 +8,6 @@ import styles from './orders.module.scss';
 export default function Orders({
   orders,
 }: any) {
-  console.log({
-    orders,
-  });
-
   return (
     <div className={styles.ordersWrapper}>
       <Container>
