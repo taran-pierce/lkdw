@@ -6,6 +6,8 @@
       "esnext"
     ],
     "outDir": "dist",
+    "baseUrl": "./",
+    // "rootDir": "./",
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -36,6 +38,6 @@
     "/dist/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
   ]
 }
