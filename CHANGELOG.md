@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.5.0] - 2024-02-27
+### Removed
+- Removed TypeScript from the backend Keystone.js setup
+  - Worked fine in dev mode but failed to compile a build because Keystone was not exporting the ListConfig type
+
 ## [0.4.0] - 2024-02-27
 ### Added
 - Switched from SQLite to PostgreSQL
