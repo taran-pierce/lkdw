@@ -516,33 +516,33 @@ export const extendGraphqlSchema = graphql.extend(base => {
     query: {
       // TODO these two queries trigger but never get any information back
       // so gotta troubleshoot those
-      recentPosts: graphql.field({
-        type: graphql.list(graphql.nonNull(base.object('Post'))),
-        args: {
-          id: graphql.arg({ type: graphql.nonNull(graphql.ID) }),
-          seconds: graphql.arg({ type: graphql.nonNull(graphql.Int), defaultValue: 600 }),
-        },
-        resolve (source, { id, seconds }, context: any) {
-          const cutoff = new Date(Date.now() - seconds * 1000);
+      // recentPosts: graphql.field({
+      //   type: graphql.list(graphql.nonNull(base.object('Post'))),
+      //   args: {
+      //     id: graphql.arg({ type: graphql.nonNull(graphql.ID) }),
+      //     seconds: graphql.arg({ type: graphql.nonNull(graphql.Int), defaultValue: 600 }),
+      //   },
+      //   resolve (source, { id, seconds }, context: any) {
+      //     const cutoff = new Date(Date.now() - seconds * 1000);
 
-          // Note we use `context.db.Post` here as we have a return type
-          // of [Post], and this API provides results in the correct format.
-          // If you accidentally use `context.query.Post` here you can expect problems
-          // when accessing the fields in your GraphQL client.
-          return context.db.Post.findMany({
-            where: { author: { id: { equals: id } }, publishDate: { gt: cutoff } },
-          })
-        },
-      }),
-      stats: graphql.field({
-        type: Statistics,
-        args: { id: graphql.arg({ type: graphql.nonNull(graphql.ID) }) },
-        resolve(source, { id }) {
-          return {
-            authorId: id,
-          } as any;
-        },
-      }),
+      //     // Note we use `context.db.Post` here as we have a return type
+      //     // of [Post], and this API provides results in the correct format.
+      //     // If you accidentally use `context.query.Post` here you can expect problems
+      //     // when accessing the fields in your GraphQL client.
+      //     return context.db.Post.findMany({
+      //       where: { author: { id: { equals: id } }, publishDate: { gt: cutoff } },
+      //     })
+      //   },
+      // }),
+      // stats: graphql.field({
+      //   type: Statistics,
+      //   args: { id: graphql.arg({ type: graphql.nonNull(graphql.ID) }) },
+      //   resolve(source, { id }) {
+      //     return {
+      //       authorId: id,
+      //     } as any;
+      //   },
+      // }),
     },
   }
 })
