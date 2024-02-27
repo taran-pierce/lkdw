@@ -7,9 +7,9 @@
   },
   "scripts": {
     "dev": "cd frontend && next dev",
-    "build": "cd frontend && next build",
+    "build": "cd frontend && npx next build",
     "postinstall": "cd frontend && npm install && tsc && cd ../backend && npm i",
-    "start": "cd frontend && next start",
+    "start": "cd frontend && npx next start",
     "lint": "cd frontend && next lint"
   },
   "dependencies": {
