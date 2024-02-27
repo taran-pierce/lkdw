@@ -1,3 +1,4 @@
+"use strict";
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -16,19 +17,21 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// keystone.ts
+// keystone.js
 var keystone_exports = {};
 __export(keystone_exports, {
   default: () => keystone_default
 });
 module.exports = __toCommonJS(keystone_exports);
+var import_config = require("dotenv/config");
 var import_core2 = require("@keystone-6/core");
 
-// schema.ts
+// schema.js
 var import_core = require("@keystone-6/core");
 var import_access = require("@keystone-6/core/access");
 var import_fields = require("@keystone-6/core/fields");
 var import_fields_document = require("@keystone-6/fields-document");
+var import_graphql = require("graphql");
 var lists = {
   User: (0, import_core.list)({
     // WARNING
@@ -451,7 +454,7 @@ var extendGraphqlSchema = import_core.graphql.extend((base) => {
   };
 });
 
-// auth.ts
+// auth.js
 var import_crypto = require("crypto");
 var import_auth = require("@keystone-6/auth");
 var import_session = require("@keystone-6/core/session");
@@ -486,7 +489,7 @@ var session = (0, import_session.statelessSessions)({
   sameSite: "lax"
 });
 
-// keystone.ts
+// keystone.js
 var keystone_default = withAuth(
   (0, import_core2.config)({
     server: {
@@ -516,10 +519,9 @@ var keystone_default = withAuth(
       // provider: 'sqlite',
       // url: 'file:./keystone.db',
       provider: "postgresql",
-      url: "postgresql://pierce:ShutTheFrontDoor@localhost:5432",
+      url: `postgresql://${process.env.DB_USER}:${process.env.DB_PASS}@localhost:5432`,
       enableLogging: true,
       idField: { kind: "uuid" },
-      // shadowDatabaseUrl: 'postgres://tpierce:ShutTheFrontDoor@localhost:5432/shadowdb',
       // useMigrations: true,
       useMigrations: false
     },
