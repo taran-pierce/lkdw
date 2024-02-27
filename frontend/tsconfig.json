@@ -6,7 +6,7 @@
       "esnext"
     ],
     "outDir": "dist",
-    "baseUrl": "./",
+    "baseUrl": "./frontend",
     // "rootDir": "./",
     "allowJs": true,
     "skipLibCheck": true,
