@@ -2,12 +2,10 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "commonjs",
-    "strict": false,
+    "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
+    "allowJs": true,
     "forceConsistentCasingInFileNames": true
-  },
-  "include": [
-    "declaration.d.ts"
-  ]
+  }
 }
