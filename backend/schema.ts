@@ -30,7 +30,7 @@ import { document } from '@keystone-6/fields-document';
 import type { Lists } from '.keystone/types';
 import { GraphQLInputObjectType, GraphQLList } from 'graphql';
 
-export const lists: Lists = {
+export const lists: any = {
   User: list({
     // WARNING
     //   for this starter project, anyone can create, query, update and delete anything
@@ -352,28 +352,28 @@ export const lists: Lists = {
 };
 
 export const extendGraphqlSchema = graphql.extend(base => {
-  const Statistics = graphql.object<{ authorId: number }>()({
-    name: 'Statistics',
-    fields: {
-      draft: graphql.field({
-        type: graphql.Int,
-        resolve ({ authorId }, args, context: any) {
-          return 0;
-        },
-      }),
-      published: graphql.field({
-        type: graphql.Int,
-        resolve ({ authorId }, args, context: any) {
-          return 0;
-        },
-      }),
-      latest: graphql.field({
-        type: base.object('Post'),
-        async resolve ({ authorId }, args, context: any) {
-        },
-      }),
-    },
-  })
+  // const Statistics = graphql.object<{ authorId: number }>()({
+  //   name: 'Statistics',
+  //   fields: {
+  //     draft: graphql.field({
+  //       type: graphql.Int,
+  //       resolve ({ authorId }, args, context: any) {
+  //         return 0;
+  //       },
+  //     }),
+  //     published: graphql.field({
+  //       type: graphql.Int,
+  //       resolve ({ authorId }, args, context: any) {
+  //         return 0;
+  //       },
+  //     }),
+  //     latest: graphql.field({
+  //       type: base.object('Post'),
+  //       async resolve ({ authorId }, args, context: any) {
+  //       },
+  //     }),
+  //   },
+  // })
 
   return {
     mutation: {
