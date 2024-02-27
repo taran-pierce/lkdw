@@ -50,7 +50,7 @@ export default withAuth(
       enableLogging: true,
       idField: { kind: 'uuid' },
       // shadowDatabaseUrl: 'postgres://tpierce:ShutTheFrontDoor@localhost:5432/shadowdb',
-      useMigrations: false,
+      useMigrations: true,
     },
     lists,
     session,
