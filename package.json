@@ -1,6 +1,6 @@
 {
   "name": "LKDW",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "private": true,
   "engines": {
     "node": "20.x"
@@ -8,14 +8,8 @@
   "scripts": {
     "dev": "cd frontend && next dev",
     "build": "cd frontend && npx next build",
-    "postinstall": "cd frontend && npm install && tsc && cd ../backend && npm i",
+    "postinstall": "cd frontend && npm install && npx tsc && cd ../backend && npm i",
     "start": "cd frontend && npx next start",
     "lint": "cd frontend && next lint"
-  },
-  "dependencies": {
-    "@types/node": "^20.11.20",
-    "@types/react": "^18.2.59",
-    "@types/react-dom": "^18.2.19",
-    "typescript": "^5.3.3"
   }
 }
