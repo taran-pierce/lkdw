@@ -313,28 +313,6 @@ var lists = {
   })
 };
 var extendGraphqlSchema = import_core.graphql.extend((base) => {
-  const Statistics = import_core.graphql.object()({
-    name: "Statistics",
-    fields: {
-      draft: import_core.graphql.field({
-        type: import_core.graphql.Int,
-        resolve({ authorId }, args, context) {
-          return 0;
-        }
-      }),
-      published: import_core.graphql.field({
-        type: import_core.graphql.Int,
-        resolve({ authorId }, args, context) {
-          return 0;
-        }
-      }),
-      latest: import_core.graphql.field({
-        type: base.object("Post"),
-        async resolve({ authorId }, args, context) {
-        }
-      })
-    }
-  });
   return {
     mutation: {
       publishPost: import_core.graphql.field({
@@ -443,28 +421,32 @@ var extendGraphqlSchema = import_core.graphql.extend((base) => {
     query: {
       // TODO these two queries trigger but never get any information back
       // so gotta troubleshoot those
-      recentPosts: import_core.graphql.field({
-        type: import_core.graphql.list(import_core.graphql.nonNull(base.object("Post"))),
-        args: {
-          id: import_core.graphql.arg({ type: import_core.graphql.nonNull(import_core.graphql.ID) }),
-          seconds: import_core.graphql.arg({ type: import_core.graphql.nonNull(import_core.graphql.Int), defaultValue: 600 })
-        },
-        resolve(source, { id, seconds }, context) {
-          const cutoff = new Date(Date.now() - seconds * 1e3);
-          return context.db.Post.findMany({
-            where: { author: { id: { equals: id } }, publishDate: { gt: cutoff } }
-          });
-        }
-      }),
-      stats: import_core.graphql.field({
-        type: Statistics,
-        args: { id: import_core.graphql.arg({ type: import_core.graphql.nonNull(import_core.graphql.ID) }) },
-        resolve(source, { id }) {
-          return {
-            authorId: id
-          };
-        }
-      })
+      // recentPosts: graphql.field({
+      //   type: graphql.list(graphql.nonNull(base.object('Post'))),
+      //   args: {
+      //     id: graphql.arg({ type: graphql.nonNull(graphql.ID) }),
+      //     seconds: graphql.arg({ type: graphql.nonNull(graphql.Int), defaultValue: 600 }),
+      //   },
+      //   resolve (source, { id, seconds }, context: any) {
+      //     const cutoff = new Date(Date.now() - seconds * 1000);
+      //     // Note we use `context.db.Post` here as we have a return type
+      //     // of [Post], and this API provides results in the correct format.
+      //     // If you accidentally use `context.query.Post` here you can expect problems
+      //     // when accessing the fields in your GraphQL client.
+      //     return context.db.Post.findMany({
+      //       where: { author: { id: { equals: id } }, publishDate: { gt: cutoff } },
+      //     })
+      //   },
+      // }),
+      // stats: graphql.field({
+      //   type: Statistics,
+      //   args: { id: graphql.arg({ type: graphql.nonNull(graphql.ID) }) },
+      //   resolve(source, { id }) {
+      //     return {
+      //       authorId: id,
+      //     } as any;
+      //   },
+      // }),
     }
   };
 });
@@ -531,8 +513,14 @@ var keystone_default = withAuth(
       // we're using sqlite for the fastest startup experience
       //   for more information on what database might be appropriate for you
       //   see https://keystonejs.com/docs/guides/choosing-a-database#title
-      provider: "sqlite",
-      url: "file:./keystone.db"
+      // provider: 'sqlite',
+      // url: 'file:./keystone.db',
+      provider: "postgresql",
+      url: "postgresql://pierce:ShutTheFrontDoor@localhost:5432",
+      enableLogging: true,
+      idField: { kind: "uuid" },
+      // shadowDatabaseUrl: 'postgres://tpierce:ShutTheFrontDoor@localhost:5432/shadowdb',
+      useMigrations: false
     },
     lists,
     session,

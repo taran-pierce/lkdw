@@ -63,7 +63,13 @@ input StringFilter {
   contains: String
   startsWith: String
   endsWith: String
+  mode: QueryMode
   not: NestedStringFilter
+}
+
+enum QueryMode {
+  default
+  insensitive
 }
 
 input NestedStringFilter {
@@ -866,14 +872,6 @@ type Query {
   orderItemsCount(where: OrderItemWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
-  recentPosts(id: ID!, seconds: Int! = 600): [Post!]
-  stats(id: ID!): Statistics
-}
-
-type Statistics {
-  draft: Int
-  published: Int
-  latest: Post
 }
 
 union AuthenticatedItem = User
@@ -962,11 +960,6 @@ enum KeystoneAdminUIFieldMetaItemViewFieldMode {
 enum KeystoneAdminUIFieldMetaItemViewFieldPosition {
   form
   sidebar
-}
-
-enum QueryMode {
-  default
-  insensitive
 }
 
 type KeystoneAdminUIFieldGroupMeta {

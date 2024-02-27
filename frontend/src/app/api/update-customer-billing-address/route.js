@@ -13,16 +13,17 @@ export async function POST(req) {
 
     const customerAddress = address.value.address;
 
-    const customer = await stripe.customers.update(
-      stripeId,
-      {
-        address: customerAddress
-      }
-    );
+    if (stripeId) {
+      await stripe.customers.update(
+        stripeId,
+        {
+          address: customerAddress
+        }
+      );
+    }
 
     return NextResponse.json({
       message: 'address updated',
-      customer: customer,
     }, {
       status: 200,
     })

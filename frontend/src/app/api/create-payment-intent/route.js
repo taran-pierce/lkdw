@@ -54,8 +54,8 @@ export async function POST(req) {
     const taxCalculation = await calculateTax(items, "usd");
     const amount = await calculateOrderAmount(items, taxCalculation);
 
-    // Create a PaymentIntent with the order amount and currency
-    const paymentIntent = await stripe.paymentIntents.create({
+    // core payment options
+    const paymentIntentOptions = {
       amount: amount,
       currency: "usd",
       // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
@@ -65,8 +65,15 @@ export async function POST(req) {
       metadata: {
         tax_calculation: taxCalculation.id
       },
-      customer: stripeId,
-    });
+    };
+
+    // when we have the stripeId, attach it to the customer
+    if (stripeId) {
+      paymentIntentOptions.customer = stripeId;
+    }
+
+    // Create a PaymentIntent with the order amount and currency
+    const paymentIntent = await stripe.paymentIntents.create(paymentIntentOptions);
 
     // Invoke this method in your webhook handler when `payment_intent.succeeded` webhook is received
     const handlePaymentIntentSucceeded = async (paymentIntent) => {

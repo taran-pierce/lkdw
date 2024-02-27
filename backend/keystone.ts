@@ -10,8 +10,6 @@ import {
   graphql,
 } from '@keystone-6/core';
 
-// import addToCart from './mutations/addToCart';
-
 // to keep this file tidy, we define our schema in a different file
 import { lists, extendGraphqlSchema } from './schema';
 
@@ -45,9 +43,14 @@ export default withAuth(
       // we're using sqlite for the fastest startup experience
       //   for more information on what database might be appropriate for you
       //   see https://keystonejs.com/docs/guides/choosing-a-database#title
-      provider: 'sqlite',
-      url: 'file:./keystone.db',
-      useMigrations: true,
+      // provider: 'sqlite',
+      // url: 'file:./keystone.db',
+      provider: 'postgresql',
+      url: 'postgresql://pierce:ShutTheFrontDoor@localhost:5432',
+      enableLogging: true,
+      idField: { kind: 'uuid' },
+      // shadowDatabaseUrl: 'postgres://tpierce:ShutTheFrontDoor@localhost:5432/shadowdb',
+      useMigrations: false,
     },
     lists,
     session,
