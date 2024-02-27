@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "cd frontend && next dev",
     "build": "cd frontend && npx next build",
-    "postinstall": "cd frontend && npm install && npx tsc && cd ../backend && npm i",
+    "postinstall": "cd frontend && npm install && cd ../backend && npm i",
     "start": "cd frontend && npx next start",
     "lint": "cd frontend && next lint"
   }
