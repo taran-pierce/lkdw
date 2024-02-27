@@ -520,7 +520,8 @@ var keystone_default = withAuth(
       enableLogging: true,
       idField: { kind: "uuid" },
       // shadowDatabaseUrl: 'postgres://tpierce:ShutTheFrontDoor@localhost:5432/shadowdb',
-      useMigrations: true
+      // useMigrations: true,
+      useMigrations: false
     },
     lists,
     session,
