@@ -1,6 +1,7 @@
 'use client'
 
 // import type { Metadata } from "next";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Suspense } from 'react';
 import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 import { fira } from '../styles/fonts';
@@ -43,6 +44,7 @@ export default function RootLayout({
               </Container>
             </MenuStateProvider>
           </ApolloProvider>
+          <SpeedInsights />
         </body>
     </html>
   );

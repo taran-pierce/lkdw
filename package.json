@@ -1,13 +1,13 @@
 {
   "name": "LKDW",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "private": true,
   "engines": {
     "node": "18.x"
   },
   "scripts": {
     "dev": "cd frontend && next dev",
-    "build": "cd backend && npm i && keystone build",
+    "build": "cd backend && npm i && npx keystone build",
     "start": "cd frontend && npx next start",
     "lint": "cd frontend && next lint"
   }

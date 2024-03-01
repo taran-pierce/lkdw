@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.5.4] - 2024-03-01
+### Updated
+- Added page speed insights for Vercel
+- Working on Heroku build for backend
+
 ## [0.5.3] - 2024-03-01
 ### Updated
 - Frontend and backend both deploying to Vercel
