@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+
+
 const nextConfig = {
   webpack: (config, options) => {
     config.module.rules.push({
@@ -23,7 +25,7 @@ const nextConfig = {
     ]
   },
   pageExtensions: ['ts', 'tsx', 'js'],
-  distDir: '/dist'
+  distDir: '/dist',
 };
 
 export default nextConfig;

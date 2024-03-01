@@ -69,5 +69,8 @@ export default withAuth(
         storagePath: 'public/images'
       }
     },
+    experimental: {
+      generateNextGraphqlAPI: true,
+    },
   })
 );

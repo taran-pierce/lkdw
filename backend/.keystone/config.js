@@ -518,7 +518,8 @@ var keystone_default = withAuth(
       // provider: 'sqlite',
       // url: 'file:./keystone.db',
       provider: "postgresql",
-      url: `postgresql://${process.env.DB_USER}:${process.env.DB_PASS}@localhost:5432`,
+      // url: `postgresql://${process.env.DB_USER}:${process.env.DB_PASS}@localhost:5432`,
+      url: process.env.POSTGRES_URL,
       enableLogging: true,
       idField: { kind: "uuid" },
       // useMigrations: true,
@@ -531,12 +532,15 @@ var keystone_default = withAuth(
       my_local_images: {
         kind: "local",
         type: "image",
-        generateUrl: (path) => `http://localhost:3000/images${path}`,
+        generateUrl: (path) => `${process.env.BASE_URL}/images${path}`,
         serverRoute: {
           path: "/images"
         },
         storagePath: "public/images"
       }
+    },
+    experimental: {
+      generateNextGraphqlAPI: true
     }
   })
 );
