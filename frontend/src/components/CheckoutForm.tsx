@@ -84,7 +84,7 @@ export default function CheckoutForm({
       confirmParams: {
         // Make sure to change this to your payment completion page
         // return_url: `http://localhost:3001/order/orderComplete`,
-        return_url: `/order/orderComplete`,
+        return_url: `https://lkdw.vercel.app/order/orderComplete`,
       },
     })
 
