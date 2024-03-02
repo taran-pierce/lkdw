@@ -28,6 +28,7 @@ export default withAuth(
         origin: [
           'http://localhost:3001',
           process.env.VERCEL_URL,
+          process.env.VERCEL_URL_SHORT,
         ],
         credentials: true,
         methods: ['GET','DELETE','PATCH','POST','PUT','OPTIONS'],
