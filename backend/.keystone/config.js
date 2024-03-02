@@ -484,8 +484,10 @@ var sessionMaxAge = 60 * 60 * 24 * 30;
 var session = (0, import_session.statelessSessions)({
   maxAge: sessionMaxAge,
   secret: sessionSecret,
-  secure: false,
-  sameSite: "lax"
+  // secure: false,
+  secure: true,
+  // sameSite: 'lax',
+  sameSite: "none"
 });
 
 // keystone.js

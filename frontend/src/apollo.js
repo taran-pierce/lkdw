@@ -22,6 +22,7 @@ const link = createUploadLink({
   credentials: 'include',
   fetchOptions: {
     mode: 'cors',
+    credentials: 'include',
   },
 });
 

@@ -61,8 +61,10 @@ const sessionMaxAge = 60 * 60 * 24 * 30;
 const session = statelessSessions({
   maxAge: sessionMaxAge,
   secret: sessionSecret,
-  secure: false,
-  sameSite: 'lax',
+  // secure: false,
+  secure: true,
+  // sameSite: 'lax',
+  sameSite: 'none',
 });
 
 export { withAuth, session };
