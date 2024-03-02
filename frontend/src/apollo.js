@@ -2,8 +2,8 @@ import {
   ApolloClient,
   InMemoryCache,
   HttpLink,
-} from "@apollo/client";
-import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
+} from '@apollo/client';
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 
 
 // const envTest = process.env.NEXT_PUBLIC_GRAPHQL_URL;
@@ -23,7 +23,13 @@ const link = createUploadLink({
   fetchOptions: {
     mode: 'cors',
   },
-})
+});
+
+const { NEXT_PUBLIC_GRAPHQL_URL } = process.env;
+
+console.log({
+  NEXT_PUBLIC_GRAPHQL_URL,
+});
 
 const client = new ApolloClient({
   // uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,

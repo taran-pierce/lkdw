@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.6.1] - 2024-03-02
+### Updated
+- Working on connecting the two now that they are on two different domains
+
+## [0.6.0] - 2024-03-02
+### Updated
+- Vercel deploying frontend properly on merge to main
+- Heroku deploying backend properly on merge to main
+
 ## [0.5.5] - 2024-03-02
 ### Updated
 - Tweaking package.json for frontend on Vercel now that Heroku works
