@@ -4,10 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.7.0] - 2024-03-02
+## [0.7.1] - 2024-03-02
 ### Updated
-- Frontend and backend are properly talking to each other in production
-- Added .gitkeep for /public/images to fix image upload in keystone
+- Updating README.md
+- Adjusting env variables on Heroku for image file path
 
 ## [0.6.3] - 2024-03-02
 ### Updated
