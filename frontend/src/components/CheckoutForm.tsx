@@ -67,7 +67,7 @@ export default function CheckoutForm({
     const address = await addressElement?.getValue();
 
     // Create PaymentIntent as soon as the page loads
-    const res = await fetch("/api/update-customer-billing-address", {
+    const res = await fetch("https://lkdw.vercel.app/api/update-customer-billing-address", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -83,7 +83,8 @@ export default function CheckoutForm({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `http://localhost:3001/order/orderComplete`,
+        // return_url: `http://localhost:3001/order/orderComplete`,
+        return_url: `/order/orderComplete`,
       },
     })
 
