@@ -493,10 +493,12 @@ var keystone_default = withAuth(
   (0, import_core2.config)({
     server: {
       cors: {
-        // TODO cors issue locally with keystone on different port
-        // may have it ironed out now but keeping these here just in case
-        // origin: "*",
-        origin: "http://localhost:3001",
+        // TODO works locally but not when deployed of course
+        // origin: "http://localhost:3001",
+        origin: [
+          "http://localhost:3001",
+          process.env.VERCEL_URL
+        ],
         credentials: true,
         methods: ["GET", "DELETE", "PATCH", "POST", "PUT", "OPTIONS"],
         allowedHeaders: [
