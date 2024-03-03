@@ -19,6 +19,13 @@ import { lists, extendGraphqlSchema } from './schema';
 // when you write your list-level access control functions, as they typically rely on session data
 import { withAuth, session } from './auth';
 
+const {
+  S3_BUCKET_NAME: bucketName,
+  S3_REGION: region,
+  S3_ACCESS_KEY_ID: accessKeyId,
+  S3_SECRET_ACCESS_KEY: secretAccessKey,
+} = process.env;
+
 export default withAuth(
   config({
     server: {
@@ -48,10 +55,7 @@ export default withAuth(
       // we're using sqlite for the fastest startup experience
       //   for more information on what database might be appropriate for you
       //   see https://keystonejs.com/docs/guides/choosing-a-database#title
-      // provider: 'sqlite',
-      // url: 'file:./keystone.db',
       provider: 'postgresql',
-      // url: `postgresql://${process.env.DB_USER}:${process.env.DB_PASS}@localhost:5432`,
       url: process.env.POSTGRES_URL,
       enableLogging: true,
       idField: { kind: 'uuid' },
@@ -62,15 +66,30 @@ export default withAuth(
     session,
     extendGraphqlSchema,
     storage: {
-      my_local_images: {
-        kind: 'local',
+      // just leaving this for example, it worked fine locally and in production
+      // but every time the app was redeployed it would get wiped out since it was local
+      // my_local_images: {
+      //   kind: 'local',
+      //   type: 'image',
+      //   generateUrl: path => `${process.env.BASE_URL}/images${path}`,
+      //   serverRoute: {
+      //     path: '/images',
+      //   },
+      //   storagePath: 'public/images'
+      // },
+      my_S3_images: {
+        kind: 's3',
         type: 'image',
-        generateUrl: path => `${process.env.BASE_URL}/images${path}`,
-        serverRoute: {
-          path: '/images',
-        },
-        storagePath: 'public/images'
-      }
+        bucketName,
+        region,
+        accessKeyId,
+        secretAccessKey,
+        // proxied: {
+        //   baseUrl: '/images/proxy',
+        // },
+        signed: { expiry: 5000 },
+        forcePathStyle: true,
+      },
     },
     experimental: {
       generateNextGraphqlAPI: true,

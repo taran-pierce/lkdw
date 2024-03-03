@@ -255,7 +255,7 @@ var lists = {
   Image: (0, import_core.list)({
     access: import_access.allowAll,
     fields: {
-      image: (0, import_fields.image)({ storage: "my_local_images" }),
+      image: (0, import_fields.image)({ storage: "my_S3_images" }),
       altText: (0, import_fields.text)(),
       product: (0, import_fields.relationship)({
         ref: "Product.image"
@@ -491,6 +491,12 @@ var session = (0, import_session.statelessSessions)({
 });
 
 // keystone.js
+var {
+  S3_BUCKET_NAME: bucketName,
+  S3_REGION: region,
+  S3_ACCESS_KEY_ID: accessKeyId,
+  S3_SECRET_ACCESS_KEY: secretAccessKey
+} = process.env;
 var keystone_default = withAuth(
   (0, import_core2.config)({
     server: {
@@ -499,7 +505,8 @@ var keystone_default = withAuth(
         // origin: "http://localhost:3001",
         origin: [
           "http://localhost:3001",
-          process.env.VERCEL_URL
+          process.env.VERCEL_URL,
+          process.env.VERCEL_URL_SHORT
         ],
         credentials: true,
         methods: ["GET", "DELETE", "PATCH", "POST", "PUT", "OPTIONS"],
@@ -519,10 +526,7 @@ var keystone_default = withAuth(
       // we're using sqlite for the fastest startup experience
       //   for more information on what database might be appropriate for you
       //   see https://keystonejs.com/docs/guides/choosing-a-database#title
-      // provider: 'sqlite',
-      // url: 'file:./keystone.db',
       provider: "postgresql",
-      // url: `postgresql://${process.env.DB_USER}:${process.env.DB_PASS}@localhost:5432`,
       url: process.env.POSTGRES_URL,
       enableLogging: true,
       idField: { kind: "uuid" },
@@ -533,14 +537,29 @@ var keystone_default = withAuth(
     session,
     extendGraphqlSchema,
     storage: {
-      my_local_images: {
-        kind: "local",
+      // just leaving this for example, it worked fine locally and in production
+      // but every time the app was redeployed it would get wiped out since it was local
+      // my_local_images: {
+      //   kind: 'local',
+      //   type: 'image',
+      //   generateUrl: path => `${process.env.BASE_URL}/images${path}`,
+      //   serverRoute: {
+      //     path: '/images',
+      //   },
+      //   storagePath: 'public/images'
+      // },
+      my_S3_images: {
+        kind: "s3",
         type: "image",
-        generateUrl: (path) => `${process.env.BASE_URL}/images${path}`,
-        serverRoute: {
-          path: "/images"
-        },
-        storagePath: "public/images"
+        bucketName,
+        region,
+        accessKeyId,
+        secretAccessKey,
+        // proxied: {
+        //   baseUrl: '/images/proxy',
+        // },
+        signed: { expiry: 5e3 },
+        forcePathStyle: true
       }
     },
     experimental: {

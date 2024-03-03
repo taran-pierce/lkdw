@@ -288,7 +288,7 @@ export const lists = {
   Image: list({
     access: allowAll,
     fields: {
-      image: image({ storage: 'my_local_images' }),
+      image: image({ storage: 'my_S3_images' }),
       altText: text(),
       product: relationship({
         ref: 'Product.image',
