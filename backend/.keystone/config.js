@@ -128,7 +128,6 @@ var rules = {
 var lists = {
   User: (0, import_core.list)({
     //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
-    // access: allowAll,
     access: {
       operation: {
         create: () => true,
@@ -317,7 +316,8 @@ var lists = {
     access: {
       operation: {
         create: isSignedIn,
-        query: rules.canReadProducts,
+        // products should show up for "non logged in users"
+        query: () => true,
         update: rules.canManageProducts,
         delete: rules.canManageProducts
       }
@@ -345,12 +345,12 @@ var lists = {
       })
     }
   }),
-  // TODO
   Product: (0, import_core.list)({
     access: {
       operation: {
         create: isSignedIn,
-        query: rules.canReadProducts,
+        // products should show up for "non logged in users"
+        query: () => true,
         update: rules.canManageProducts,
         delete: rules.canManageProducts
       }
@@ -418,7 +418,8 @@ var lists = {
     access: {
       operation: {
         create: isSignedIn,
-        query: rules.canReadProducts,
+        // products should show up for "non logged in users"
+        query: () => true,
         update: rules.canManageProducts,
         delete: rules.canManageProducts
       }
@@ -612,6 +613,7 @@ var extendGraphqlSchema = import_core.graphql.extend((base) => {
     },
     query: {
       // TODO these two queries trigger but never get any information back
+      // keeping this one, might be a good example for later
       // so gotta troubleshoot those
       // recentPosts: graphql.field({
       //   type: graphql.list(graphql.nonNull(base.object('Post'))),
@@ -628,15 +630,6 @@ var extendGraphqlSchema = import_core.graphql.extend((base) => {
       //     return context.db.Post.findMany({
       //       where: { author: { id: { equals: id } }, publishDate: { gt: cutoff } },
       //     })
-      //   },
-      // }),
-      // stats: graphql.field({
-      //   type: Statistics,
-      //   args: { id: graphql.arg({ type: graphql.nonNull(graphql.ID) }) },
-      //   resolve(source, { id }) {
-      //     return {
-      //       authorId: id,
-      //     } as any;
       //   },
       // }),
     }

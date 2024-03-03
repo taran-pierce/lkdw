@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.8.1] - 2024-03-03
+### Updated
+- Changed access to view products and tags to always true
+  - Products should show up to view for everyone
+
 ## [0.8.0] - 2024-03-03
 ### Added
 - Added access control for backend

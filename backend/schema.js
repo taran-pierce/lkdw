@@ -37,7 +37,6 @@ import { permissions, rules, isSignedIn } from './access';
 export const lists = {
   User: list({
     //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
-    // access: allowAll,
     access: {
       operation: {
         create: () => true,
@@ -248,7 +247,8 @@ export const lists = {
     access: {
       operation: {
         create: isSignedIn,
-        query: rules.canReadProducts,
+        // products should show up for "non logged in users"
+        query: () => true,
         update: rules.canManageProducts,
         delete: rules.canManageProducts,
       }
@@ -278,12 +278,12 @@ export const lists = {
     },
   }),
 
-  // TODO
   Product: list({
     access: {
       operation: {
         create: isSignedIn,
-        query: rules.canReadProducts,
+        // products should show up for "non logged in users"
+        query: () => true,
         update: rules.canManageProducts,
         delete: rules.canManageProducts,
       }
@@ -362,7 +362,8 @@ export const lists = {
     access: {
       operation: {
         create: isSignedIn,
-        query: rules.canReadProducts,
+        // products should show up for "non logged in users"
+        query: () => true,
         update: rules.canManageProducts,
         delete: rules.canManageProducts,
       },
@@ -453,28 +454,6 @@ export const lists = {
 };
 
 export const extendGraphqlSchema = graphql.extend(base => {
-  // const Statistics = graphql.object<{ authorId: number }>()({
-  //   name: 'Statistics',
-  //   fields: {
-  //     draft: graphql.field({
-  //       type: graphql.Int,
-  //       resolve ({ authorId }, args, context: any) {
-  //         return 0;
-  //       },
-  //     }),
-  //     published: graphql.field({
-  //       type: graphql.Int,
-  //       resolve ({ authorId }, args, context: any) {
-  //         return 0;
-  //       },
-  //     }),
-  //     latest: graphql.field({
-  //       type: base.object('Post'),
-  //       async resolve ({ authorId }, args, context: any) {
-  //       },
-  //     }),
-  //   },
-  // })
 
   return {
     mutation: {
@@ -616,6 +595,7 @@ export const extendGraphqlSchema = graphql.extend(base => {
     },
     query: {
       // TODO these two queries trigger but never get any information back
+      // keeping this one, might be a good example for later
       // so gotta troubleshoot those
       // recentPosts: graphql.field({
       //   type: graphql.list(graphql.nonNull(base.object('Post'))),
@@ -633,15 +613,6 @@ export const extendGraphqlSchema = graphql.extend(base => {
       //     return context.db.Post.findMany({
       //       where: { author: { id: { equals: id } }, publishDate: { gt: cutoff } },
       //     })
-      //   },
-      // }),
-      // stats: graphql.field({
-      //   type: Statistics,
-      //   args: { id: graphql.arg({ type: graphql.nonNull(graphql.ID) }) },
-      //   resolve(source, { id }) {
-      //     return {
-      //       authorId: id,
-      //     } as any;
       //   },
       // }),
     },
