@@ -17,7 +17,6 @@ import REMOVE_PRODUCT_FROM_CART from '../gql/removeProductFromCart.gql';
 export default function Cart() {
   const {
     isCartOpen,
-    closeCart,
   }: any = useMenu();
 
   const [removeProduct, { data, loading, error }] = useMutation(REMOVE_PRODUCT_FROM_CART, {
@@ -44,7 +43,6 @@ export default function Cart() {
         <p className={`${rubikDoodleShadow.className} ${styles.cartHeading}`}>Shopping Cart</p>
         <button
           type="button"
-          onClick={closeCart}
           className={styles.cartClose}
         >Close</button>
       </div>
@@ -70,7 +68,6 @@ export default function Cart() {
       </div>
       <Link
         href="/checkout/"
-        onClick={closeCart}
         className={`button ${styles.checkoutButton} ${cart.length === 0 ? styles.disabled : ''}`}
       >Checkout</Link>
     </div>

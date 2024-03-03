@@ -15,6 +15,7 @@ storefront frontend and backend for selling random things online!
   - Next.js
   - Vercel Postgres
   - Heroku
+  - S3
 
 ### Setup
 - Clone the repository
@@ -27,6 +28,10 @@ storefront frontend and backend for selling random things online!
 
 ### Notes
 - Pushes to `main` will trigger CI/CD pipeline for both:
-  - Frontend - Deploys through Vercel
-  - Backend - Deploys through Heroku and connects to a Vercel Database
+  - Frontend
+    - Deploys through Vercel
+  - Backend
+    - Deploys through Heroku
+    - Connects to a Vercel Database
+    - Images stored on AWS S3
   

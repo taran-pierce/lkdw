@@ -42,6 +42,7 @@ p > .button {
 
 button,
 .button {
+  color: var(--color-black-dark);
   display: inline-block;
   background: url(/papyrus.webp) top left repeat;
   border: 2px solid var(--color-black-dark);

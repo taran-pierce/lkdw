@@ -23,6 +23,7 @@ export default function Navigation() {
 
   function handleCartClick() {
     openCart();
+    closeMenu();
   }
 
   const user = useUser();

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.7.5] - 2024-03-03
+### Updated
+- Mobile style updates and testing redeploy
+
 ## [0.7.4] - 2024-03-03
 ### Updated
 - Changed backend image storage to AWS S3 bucket
