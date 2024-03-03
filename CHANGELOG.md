@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.7.6] - 2024-03-03
+### Updated
+- Fix local stripe
+- Fix cart menu not closing when navigating to /checkout
+
 ## [0.7.5] - 2024-03-03
 ### Updated
 - Mobile style updates and testing redeploy

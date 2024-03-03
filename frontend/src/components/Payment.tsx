@@ -48,7 +48,7 @@ export default function Payment({ user }: any) {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch("https://lkdw.vercel.app/api/create-payment-intent", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL_BASE}/api/create-payment-intent`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

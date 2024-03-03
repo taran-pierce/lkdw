@@ -33,7 +33,7 @@ export default function CreateAccount() {
     e.preventDefault();
 
     // create users billing account for future payment
-    const customerData = await fetch("https://lkdw.vercel.app/api/create-customer-account", {
+    const customerData = await fetch(`${process.env.NEXT_PUBLIC_API_URL_BASE}/api/create-customer-account`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
