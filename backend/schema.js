@@ -19,6 +19,7 @@ import {
   select,
   integer,
   image,
+  checkbox,
 } from '@keystone-6/core/fields';
 
 // the document field is a more complicated field, so it has it's own package
@@ -30,13 +31,26 @@ import { document } from '@keystone-6/fields-document';
 // import type { Lists } from '.keystone/types';
 import { GraphQLInputObjectType, GraphQLList } from 'graphql';
 
+import { permissionFields } from './schemas/fields';
+import { permissions, rules, isSignedIn } from './access';
+
 export const lists = {
   User: list({
-    // WARNING
-    //   for this starter project, anyone can create, query, update and delete anything
-    //   if you want to prevent random people on the internet from accessing your data,
     //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
-    access: allowAll,
+    // access: allowAll,
+    access: {
+      operation: {
+        create: () => true,
+        query: rules.canManageUsers,
+        update: rules.canManageUsers,
+        delete: permissions.canManageUsers,
+      },
+    },
+    ui: {
+      // hides backend UI from "regular" users
+      hideCreate: (args) => !permissions.canManageUsers(args),
+      hideDelete: (args) => !permissions.canManageUsers(args),
+    },
 
     // this is the fields for our User list
     fields: {
@@ -90,15 +104,58 @@ export const lists = {
       }),
 
       stripeId: text(),
+
+      role: relationship({
+        ref: 'Role.assignedTo',
+        ui: {
+          itemView: { fieldMode: 'read' },
+          access: {
+            operation: {
+              create: permissions.canManageUsers, 
+              update: permissions.canManageUsers,
+            }
+          }
+        }
+      }),
     },
   }),
 
+  Role: list({
+    access: {
+      operation: {
+        query: permissions.canManageRoles,
+        create: permissions.canManageRoles,
+        update: permissions.canManageRoles,
+        delete: permissions.canManageRoles,
+      }
+    },
+    ui: {
+      hideCreate: (args) => !permissions.canManageRoles(args),
+      hideDelete: (args) => !permissions.canManageRoles(args),
+      isHidden: (args) => !permissions.canManageRoles(args),
+    },
+    fields: {
+      name: text({ isRequired: true }),
+      ...permissionFields,
+      assignedTo: relationship({
+        ref: 'User.role',
+        many: true,
+        ui: {
+          itemView: { fieldMode: 'read' }
+        }
+      }),
+    }
+  }),
+
   Post: list({
-    // WARNING
-    //   for this starter project, anyone can create, query, update and delete anything
-    //   if you want to prevent random people on the internet from accessing your data,
-    //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
-    access: allowAll,
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canReadProducts,
+        update: rules.canManageProducts,
+        delete: rules.canManageProducts,
+      }
+    },
 
     // this is the fields for our Post list
     fields: {
@@ -171,7 +228,14 @@ export const lists = {
 
   // TODO adding Author to set up example and get it working
   Author: list({
-    access: allowAll,
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canReadProducts,
+        update: rules.canManageProducts,
+        delete: rules.canManageProducts,
+      }
+    },
     fields: {
       name: text({ validation: { isRequired: true } }),
       email: text({ isIndexed: 'unique', validation: { isRequired: true } }),
@@ -181,12 +245,14 @@ export const lists = {
 
   // this last list is our Tag list, it only has a name field for now
   Tag: list({
-    // WARNING
-    //   for this starter project, anyone can create, query, update and delete anything
-    //   if you want to prevent random people on the internet from accessing your data,
-    //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
-    access: allowAll,
-
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canReadProducts,
+        update: rules.canManageProducts,
+        delete: rules.canManageProducts,
+      }
+    },
     // setting this to isHidden for the user interface prevents this list being visible in the Admin UI
     ui: {
       isHidden: true,
@@ -214,7 +280,14 @@ export const lists = {
 
   // TODO
   Product: list({
-    access: allowAll,
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canReadProducts,
+        update: rules.canManageProducts,
+        delete: rules.canManageProducts,
+      }
+    },
     fields: {
       title: text({ validation: { isRequired: true } }),
 
@@ -286,7 +359,14 @@ export const lists = {
   }),
 
   Image: list({
-    access: allowAll,
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canReadProducts,
+        update: rules.canManageProducts,
+        delete: rules.canManageProducts,
+      },
+    },
     fields: {
       image: image({ storage: 'my_S3_images' }),
       altText: text(),
@@ -297,7 +377,14 @@ export const lists = {
   }),
 
   CartItem: list({
-    access: allowAll,
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canOrder,
+        update: rules.canOrder,
+        delete: rules.canOrder,
+      }
+    },
     fields: {
       quantity: integer({
         defaultValue: 1,
@@ -317,7 +404,14 @@ export const lists = {
   }),
 
   Order: list({
-    access: allowAll,
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canOrder,
+        updated: () => false,
+        delete: () => false,
+      },
+    },
     fields: {
       total: integer(),
       items: relationship({
@@ -333,7 +427,14 @@ export const lists = {
   }),
 
   OrderItem: list({
-    access: allowAll,
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canManageOrderItems,
+        update: () => false,
+        delete: () => false,
+      }
+    },
     fields: {
       quantity: integer({
         defaultValue: 1,
