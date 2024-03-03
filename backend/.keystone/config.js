@@ -28,36 +28,140 @@ var import_core2 = require("@keystone-6/core");
 // schema.js
 var import_core = require("@keystone-6/core");
 var import_access = require("@keystone-6/core/access");
-var import_fields = require("@keystone-6/core/fields");
+var import_fields3 = require("@keystone-6/core/fields");
 var import_fields_document = require("@keystone-6/fields-document");
 var import_graphql = require("graphql");
+
+// schemas/fields.js
+var import_fields = require("@keystone-6/core/fields");
+var permissionFields = {
+  canManageProducts: (0, import_fields.checkbox)({
+    defaultValue: false,
+    label: "User can update and delete any product"
+  }),
+  canSeeOtherUsers: (0, import_fields.checkbox)({
+    defaultValue: false,
+    label: "User can query other users"
+  }),
+  canManageUsers: (0, import_fields.checkbox)({
+    defaultValue: false,
+    label: "User can edit other users"
+  }),
+  canManageRoles: (0, import_fields.checkbox)({
+    defaultValue: false,
+    label: "User can CRUD roles"
+  }),
+  canManageCart: (0, import_fields.checkbox)({
+    defaultValue: false,
+    label: "User can manage cart and cart items"
+  }),
+  canManageOrders: (0, import_fields.checkbox)({
+    defaultValue: false,
+    label: "User can see and manage orders"
+  })
+};
+var permissionList = Object.keys(
+  permissionFields
+);
+
+// access.js
+function isSignedIn({ session: session2 }) {
+  return !!session2;
+}
+var generatedPermissions = Object.fromEntries(
+  permissionList.map((permission) => [
+    permission,
+    function({ session: session2 }) {
+      return !!session2?.data.role?.[permission];
+    }
+  ])
+);
+var permissions = {
+  ...generatedPermissions
+};
+var rules = {
+  canManageProducts({ session: session2 }) {
+    if (!isSignedIn({ session: session2 })) {
+      return false;
+    }
+    if (permissions.canManageProducts({ session: session2 })) {
+      return true;
+    }
+    return { user: { id: session2.itemId } };
+  },
+  canOrder({ session: session2 }) {
+    if (!isSignedIn({ session: session2 })) {
+      return false;
+    }
+    if (permissions.canManageCart({ session: session2 })) {
+      return true;
+    }
+    return { user: { id: session2.itemId } };
+  },
+  canManageOrderItems({ session: session2 }) {
+    if (!isSignedIn({ session: session2 })) {
+      return false;
+    }
+    if (permissions.canManageCart({ session: session2 })) {
+      return true;
+    }
+    return { order: { user: { id: session2.itemId } } };
+  },
+  canReadProducts({ session: session2 }) {
+    if (permissions.canManageProducts({ session: session2 })) {
+      return true;
+    }
+    return { status: "AVAILABLE" };
+  },
+  canManageUsers({ session: session2, req }) {
+    if (!isSignedIn({ session: session2 })) {
+      return false;
+    }
+    if (permissions.canManageUsers({ session: session2 })) {
+      return true;
+    }
+    return { id: session2.itemId };
+  }
+};
+
+// schema.js
 var lists = {
   User: (0, import_core.list)({
-    // WARNING
-    //   for this starter project, anyone can create, query, update and delete anything
-    //   if you want to prevent random people on the internet from accessing your data,
     //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
-    access: import_access.allowAll,
+    // access: allowAll,
+    access: {
+      operation: {
+        create: () => true,
+        query: rules.canManageUsers,
+        update: rules.canManageUsers,
+        delete: permissions.canManageUsers
+      }
+    },
+    ui: {
+      // hides backend UI from "regular" users
+      hideCreate: (args) => !permissions.canManageUsers(args),
+      hideDelete: (args) => !permissions.canManageUsers(args)
+    },
     // this is the fields for our User list
     fields: {
       // by adding isRequired, we enforce that every User should have a name
       //   if no name is provided, an error will be displayed
-      name: (0, import_fields.text)({ validation: { isRequired: true } }),
-      email: (0, import_fields.text)({
+      name: (0, import_fields3.text)({ validation: { isRequired: true } }),
+      email: (0, import_fields3.text)({
         validation: { isRequired: true },
         // by adding isIndexed: 'unique', we're saying that no user can have the same
         // email as another user - this may or may not be a good idea for your project
         isIndexed: "unique"
       }),
-      password: (0, import_fields.password)({ validation: { isRequired: true } }),
+      password: (0, import_fields3.password)({ validation: { isRequired: true } }),
       // we can use this field to see what Posts this User has authored
       //   more on that in the Post list below
       // posts: relationship({ ref: 'Post.author', many: true }),
-      createdAt: (0, import_fields.timestamp)({
+      createdAt: (0, import_fields3.timestamp)({
         // this sets the timestamp to Date.now() when the user is first created
         defaultValue: { kind: "now" }
       }),
-      products: (0, import_fields.relationship)({
+      products: (0, import_fields3.relationship)({
         ref: "Product.user",
         many: true
         // this is some customisations for changing how this will look in the AdminUI
@@ -69,7 +173,7 @@ var lists = {
         //   inlineConnect: true,
         // },
       }),
-      cart: (0, import_fields.relationship)({
+      cart: (0, import_fields3.relationship)({
         ref: "CartItem.user",
         many: true,
         ui: {
@@ -77,22 +181,63 @@ var lists = {
           itemView: { fieldMode: "read" }
         }
       }),
-      orders: (0, import_fields.relationship)({
+      orders: (0, import_fields3.relationship)({
         ref: "Order.user",
         many: true
       }),
-      stripeId: (0, import_fields.text)()
+      stripeId: (0, import_fields3.text)(),
+      role: (0, import_fields3.relationship)({
+        ref: "Role.assignedTo",
+        ui: {
+          itemView: { fieldMode: "read" },
+          access: {
+            operation: {
+              create: permissions.canManageUsers,
+              update: permissions.canManageUsers
+            }
+          }
+        }
+      })
+    }
+  }),
+  Role: (0, import_core.list)({
+    access: {
+      operation: {
+        query: permissions.canManageRoles,
+        create: permissions.canManageRoles,
+        update: permissions.canManageRoles,
+        delete: permissions.canManageRoles
+      }
+    },
+    ui: {
+      hideCreate: (args) => !permissions.canManageRoles(args),
+      hideDelete: (args) => !permissions.canManageRoles(args),
+      isHidden: (args) => !permissions.canManageRoles(args)
+    },
+    fields: {
+      name: (0, import_fields3.text)({ isRequired: true }),
+      ...permissionFields,
+      assignedTo: (0, import_fields3.relationship)({
+        ref: "User.role",
+        many: true,
+        ui: {
+          itemView: { fieldMode: "read" }
+        }
+      })
     }
   }),
   Post: (0, import_core.list)({
-    // WARNING
-    //   for this starter project, anyone can create, query, update and delete anything
-    //   if you want to prevent random people on the internet from accessing your data,
-    //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
-    access: import_access.allowAll,
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canReadProducts,
+        update: rules.canManageProducts,
+        delete: rules.canManageProducts
+      }
+    },
     // this is the fields for our Post list
     fields: {
-      title: (0, import_fields.text)({ validation: { isRequired: true } }),
+      title: (0, import_fields3.text)({ validation: { isRequired: true } }),
       // the document field can be used for making rich editable content
       //   you can find out more at https://keystonejs.com/docs/guides/document-fields
       content: (0, import_fields_document.document)({
@@ -107,7 +252,7 @@ var lists = {
         links: true,
         dividers: true
       }),
-      status: (0, import_fields.select)({
+      status: (0, import_fields3.select)({
         type: "enum",
         options: [
           { label: "Draft", value: "draft" },
@@ -115,8 +260,8 @@ var lists = {
           { label: "Banned", value: "banned" }
         ]
       }),
-      publishDate: (0, import_fields.timestamp)(),
-      author: (0, import_fields.relationship)({ ref: "Author.posts", many: false }),
+      publishDate: (0, import_fields3.timestamp)(),
+      author: (0, import_fields3.relationship)({ ref: "Author.posts", many: false }),
       // with this field, you can set a User as the author for a Post
       // author: relationship({
       //   // we could have used 'User', but then the relationship would only be 1-way
@@ -134,7 +279,7 @@ var lists = {
       //   many: false,
       // }),
       // with this field, you can add some Tags to Posts
-      tags: (0, import_fields.relationship)({
+      tags: (0, import_fields3.relationship)({
         // we could have used 'Tag', but then the relationship would only be 1-way
         ref: "Tag.posts",
         // a Post can have many Tags, not just one
@@ -153,30 +298,40 @@ var lists = {
   }),
   // TODO adding Author to set up example and get it working
   Author: (0, import_core.list)({
-    access: import_access.allowAll,
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canReadProducts,
+        update: rules.canManageProducts,
+        delete: rules.canManageProducts
+      }
+    },
     fields: {
-      name: (0, import_fields.text)({ validation: { isRequired: true } }),
-      email: (0, import_fields.text)({ isIndexed: "unique", validation: { isRequired: true } }),
-      posts: (0, import_fields.relationship)({ ref: "Post.author", many: true })
+      name: (0, import_fields3.text)({ validation: { isRequired: true } }),
+      email: (0, import_fields3.text)({ isIndexed: "unique", validation: { isRequired: true } }),
+      posts: (0, import_fields3.relationship)({ ref: "Post.author", many: true })
     }
   }),
   // this last list is our Tag list, it only has a name field for now
   Tag: (0, import_core.list)({
-    // WARNING
-    //   for this starter project, anyone can create, query, update and delete anything
-    //   if you want to prevent random people on the internet from accessing your data,
-    //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
-    access: import_access.allowAll,
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canReadProducts,
+        update: rules.canManageProducts,
+        delete: rules.canManageProducts
+      }
+    },
     // setting this to isHidden for the user interface prevents this list being visible in the Admin UI
     ui: {
       isHidden: true
     },
     // this is the fields for our Tag list
     fields: {
-      name: (0, import_fields.text)(),
+      name: (0, import_fields3.text)(),
       // this can be helpful to find out all the Posts associated with a Tag
-      posts: (0, import_fields.relationship)({ ref: "Post.tags", many: true }),
-      products: (0, import_fields.relationship)({
+      posts: (0, import_fields3.relationship)({ ref: "Post.tags", many: true }),
+      products: (0, import_fields3.relationship)({
         ref: "Product.tags",
         many: true,
         ui: {
@@ -192,10 +347,17 @@ var lists = {
   }),
   // TODO
   Product: (0, import_core.list)({
-    access: import_access.allowAll,
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canReadProducts,
+        update: rules.canManageProducts,
+        delete: rules.canManageProducts
+      }
+    },
     fields: {
-      title: (0, import_fields.text)({ validation: { isRequired: true } }),
-      image: (0, import_fields.relationship)({
+      title: (0, import_fields3.text)({ validation: { isRequired: true } }),
+      image: (0, import_fields3.relationship)({
         ref: "Image.product"
       }),
       // TODO use this for product description
@@ -213,7 +375,7 @@ var lists = {
         links: true,
         dividers: true
       }),
-      shortDescription: (0, import_fields.text)(),
+      shortDescription: (0, import_fields3.text)(),
       // // with this field, you can set a User as the author for a Post
       // author: relationship({
       //   // we could have used 'User', but then the relationship would only be 1-way
@@ -231,7 +393,7 @@ var lists = {
       //   many: false,
       // }),
       // with this field, you can add some Tags to Posts
-      tags: (0, import_fields.relationship)({
+      tags: (0, import_fields3.relationship)({
         // we could have used 'Tag', but then the relationship would only be 1-way
         ref: "Tag.products",
         // a Post can have many Tags, not just one
@@ -246,32 +408,46 @@ var lists = {
           inlineCreate: { fields: ["name"] }
         }
       }),
-      price: (0, import_fields.integer)({ validation: { isRequired: true } }),
-      user: (0, import_fields.relationship)({
+      price: (0, import_fields3.integer)({ validation: { isRequired: true } }),
+      user: (0, import_fields3.relationship)({
         ref: "User.products"
       })
     }
   }),
   Image: (0, import_core.list)({
-    access: import_access.allowAll,
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canReadProducts,
+        update: rules.canManageProducts,
+        delete: rules.canManageProducts
+      }
+    },
     fields: {
-      image: (0, import_fields.image)({ storage: "my_S3_images" }),
-      altText: (0, import_fields.text)(),
-      product: (0, import_fields.relationship)({
+      image: (0, import_fields3.image)({ storage: "my_S3_images" }),
+      altText: (0, import_fields3.text)(),
+      product: (0, import_fields3.relationship)({
         ref: "Product.image"
       })
     }
   }),
   CartItem: (0, import_core.list)({
-    access: import_access.allowAll,
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canOrder,
+        update: rules.canOrder,
+        delete: rules.canOrder
+      }
+    },
     fields: {
-      quantity: (0, import_fields.integer)({
+      quantity: (0, import_fields3.integer)({
         defaultValue: 1
       }),
-      user: (0, import_fields.relationship)({
+      user: (0, import_fields3.relationship)({
         ref: "User.cart"
       }),
-      product: (0, import_fields.relationship)({
+      product: (0, import_fields3.relationship)({
         ref: "Product"
       })
     },
@@ -282,30 +458,44 @@ var lists = {
     }
   }),
   Order: (0, import_core.list)({
-    access: import_access.allowAll,
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canOrder,
+        updated: () => false,
+        delete: () => false
+      }
+    },
     fields: {
-      total: (0, import_fields.integer)(),
-      items: (0, import_fields.relationship)({
+      total: (0, import_fields3.integer)(),
+      items: (0, import_fields3.relationship)({
         ref: "OrderItem.order",
         many: true
       }),
-      user: (0, import_fields.relationship)({
+      user: (0, import_fields3.relationship)({
         ref: "User.orders"
       }),
-      charge: (0, import_fields.integer)(),
-      date: (0, import_fields.timestamp)()
+      charge: (0, import_fields3.integer)(),
+      date: (0, import_fields3.timestamp)()
     }
   }),
   OrderItem: (0, import_core.list)({
-    access: import_access.allowAll,
+    access: {
+      operation: {
+        create: isSignedIn,
+        query: rules.canManageOrderItems,
+        update: () => false,
+        delete: () => false
+      }
+    },
     fields: {
-      quantity: (0, import_fields.integer)({
+      quantity: (0, import_fields3.integer)({
         defaultValue: 1
       }),
-      product: (0, import_fields.relationship)({
+      product: (0, import_fields3.relationship)({
         ref: "Product"
       }),
-      order: (0, import_fields.relationship)({ ref: "Order.items" })
+      order: (0, import_fields3.relationship)({ ref: "Order.items" })
     },
     ui: {
       listView: {
@@ -467,7 +657,7 @@ var { withAuth } = (0, import_auth.createAuth)({
   // this is a GraphQL query fragment for fetching what data will be attached to a context.session
   //   this can be helpful for when you are writing your access control functions
   //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
-  sessionData: "name createdAt id email",
+  sessionData: `name createdAt id email role { ${permissionList.join(" ")} }`,
   secretField: "password",
   // WARNING: remove initFirstItem functionality in production
   //   see https://keystonejs.com/docs/config/auth#init-first-item for more
