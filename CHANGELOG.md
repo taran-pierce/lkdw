@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.8.3] - 2024-03-04
+### Updated
+- Working on making sure it does not double order during checkout
+
 ## [0.8.2] - 2024-03-04
 ### Updated
 - Modified access rules that were preventing new users from querying required data

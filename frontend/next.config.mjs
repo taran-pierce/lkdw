@@ -26,6 +26,7 @@ const nextConfig = {
   },
   pageExtensions: ['ts', 'tsx', 'js'],
   distDir: '/dist',
+  reactStrictMode: 'false',
 };
 
 export default nextConfig;

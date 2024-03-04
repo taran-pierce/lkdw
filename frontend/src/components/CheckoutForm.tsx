@@ -18,7 +18,6 @@ export default function CheckoutForm({
   const stripe = useStripe();
   const elements = useElements();
 
-
   const [message, setMessage] = useState(null) as any;
   const [isLoading, setIsLoading] = useState(false);
 
@@ -82,9 +81,8 @@ export default function CheckoutForm({
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        // Make sure to change this to your payment completion page
-        // return_url: `http://localhost:3001/order/orderComplete`,
-        return_url: `${process.env.NEXT_PUBLIC_API_URL_BASE}/order/orderComplete`,
+        // return_url: `${process.env.NEXT_PUBLIC_API_URL_BASE}/order/orderComplete`,
+        return_url: `${process.env.NEXT_PUBLIC_API_URL_BASE}/create-order`,
       },
     })
 
