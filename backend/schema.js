@@ -40,7 +40,7 @@ export const lists = {
     access: {
       operation: {
         create: () => true,
-        query: rules.canManageUsers,
+        query: () => true,
         update: rules.canManageUsers,
         delete: permissions.canManageUsers,
       },
@@ -117,13 +117,46 @@ export const lists = {
         }
       }),
     },
+    hooks: {
+      resolveInput: async ({
+        resolvedData,
+        operation,
+        context,
+      }) => {
+        if (operation === 'create') {
+          // when new accounts are created they need to be assigned to the "customer" role
+          // grab the role that was created for "customer"
+          const customerRole = await context.query.Role.findMany({
+            where: {
+              name: {
+                equals: "customer",
+              }
+            }
+          });
+
+          // update the "resolvedData" to connect to the role
+          resolvedData.role = {
+            connect: {
+              id: customerRole[0].id
+            }
+          };
+        }
+
+        // We always return resolvedData from the resolveInput hook
+        // https://blog.usmanity.com/connecting-a-relationship-using-a-hook-in-keystone-js-6/
+        // found an article where the person is having to return it this way: resolvedData["role"]
+        // maybe it is old though cause returning "resolvedData" the way it comes seems to work fine
+        return resolvedData;
+      },
+    },
   }),
 
   Role: list({
     access: {
       operation: {
-        query: permissions.canManageRoles,
         create: permissions.canManageRoles,
+        // any one should be able to at least query the roles
+        query: () => true,
         update: permissions.canManageRoles,
         delete: permissions.canManageRoles,
       }
@@ -139,9 +172,9 @@ export const lists = {
       assignedTo: relationship({
         ref: 'User.role',
         many: true,
-        ui: {
-          itemView: { fieldMode: 'read' }
-        }
+        // ui: {
+        //   itemView: { fieldMode: 'read' }
+        // }
       }),
     }
   }),

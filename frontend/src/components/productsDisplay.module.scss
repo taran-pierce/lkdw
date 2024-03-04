@@ -40,10 +40,14 @@
   }
 
   .buttonWrapper {
-
     fieldset {
       display: grid;
-      grid-template-columns: 1fr 2fr 1fr;
+    }
+
+    &.owner {
+      fieldset {
+        grid-template-columns: 1fr 2fr 1fr;
+      }
     }
 
     &.loggedOut {

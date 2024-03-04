@@ -51,6 +51,11 @@ button,
   outline: #888 solid 2px;
   cursor: pointer;
   font-weight: bold;
+
+  &:disabled {
+    opacity: .9;
+    cursor: not-allowed;
+  }
 }
 
 table {

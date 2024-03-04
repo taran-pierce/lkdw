@@ -37,6 +37,16 @@ query getCurrentUser {
       }
       ordersCount
       cartCount
+      products {
+        id
+        price
+        shortDescription
+        title
+        tags {
+          name
+          id
+        }
+      }
     }
   }
 }

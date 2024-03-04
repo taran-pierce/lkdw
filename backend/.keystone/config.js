@@ -40,7 +40,7 @@ var permissionFields = {
     label: "User can update and delete any product"
   }),
   canSeeOtherUsers: (0, import_fields.checkbox)({
-    defaultValue: false,
+    defaultValue: true,
     label: "User can query other users"
   }),
   canManageUsers: (0, import_fields.checkbox)({
@@ -131,7 +131,7 @@ var lists = {
     access: {
       operation: {
         create: () => true,
-        query: rules.canManageUsers,
+        query: () => true,
         update: rules.canManageUsers,
         delete: permissions.canManageUsers
       }
@@ -197,13 +197,37 @@ var lists = {
           }
         }
       })
+    },
+    hooks: {
+      resolveInput: async ({
+        resolvedData,
+        operation,
+        context
+      }) => {
+        if (operation === "create") {
+          const customerRole = await context.query.Role.findMany({
+            where: {
+              name: {
+                equals: "customer"
+              }
+            }
+          });
+          resolvedData.role = {
+            connect: {
+              id: customerRole[0].id
+            }
+          };
+        }
+        return resolvedData;
+      }
     }
   }),
   Role: (0, import_core.list)({
     access: {
       operation: {
-        query: permissions.canManageRoles,
         create: permissions.canManageRoles,
+        // any one should be able to at least query the roles
+        query: () => true,
         update: permissions.canManageRoles,
         delete: permissions.canManageRoles
       }
@@ -218,10 +242,10 @@ var lists = {
       ...permissionFields,
       assignedTo: (0, import_fields3.relationship)({
         ref: "User.role",
-        many: true,
-        ui: {
-          itemView: { fieldMode: "read" }
-        }
+        many: true
+        // ui: {
+        //   itemView: { fieldMode: 'read' }
+        // }
       })
     }
   }),

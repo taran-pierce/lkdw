@@ -21,6 +21,7 @@ export default function ProductsDisplay({
   const [addItem, { data: proudctData, loading, error }] = useMutation(ADD_PRODUCT_TO_CART, {
     refetchQueries: [{ query: GET_CURRENT_USER }],
   });
+
   const [deleteProduct, {
     data: dataForDelete,
     loading: loadingForDelete,
@@ -28,6 +29,7 @@ export default function ProductsDisplay({
   }] = useMutation(DELETE_PRODUCT, {
     refetchQueries: [{ query: GET_PRODUCTS }],
   });
+
   const user = useUser();
 
   async function addItemToCart(product: any) {
@@ -58,7 +60,12 @@ export default function ProductsDisplay({
           id,
           price,
           image,
+          user: productUser,
         } = product;
+
+        // if they "own" the product then they can edit or delete it
+        // so they get more buttons
+        const ownsProduct = user && productUser.id === user.id;
 
         return (
           <div className={styles.product} key={id}>
@@ -83,24 +90,29 @@ export default function ProductsDisplay({
                 >{tag.name}</span>
               ))}
             </p>
-              <div className={`${styles.buttonWrapper} ${!user ? styles.loggedOut : ''}`}>
+              <div className={`${styles.buttonWrapper} ${!user ? styles.loggedOut : ''} ${ownsProduct ? styles.owner : ''}`}>
                   <fieldset disabled={loading}>
                     {user && (
                       <>
-                        <Link
-                          href={`/edit/${product.id}`}
-                          className="button"
-                        >
-                          Edit
-                        </Link>
+                        {ownsProduct && (
+                          <Link
+                            href={`/edit/${product.id}`}
+                            className="button"
+                          >
+                            Edit
+                          </Link>
+                        )}
                         <button
                           type="button"
                           onClick={() => addItemToCart(product)}
-                        >Add</button>
-                        <button
-                          type="button"
-                          onClick={() => handleDeleteItem(product)}
-                        >Delete</button>
+                        >{loading ? 'loading' : 'Add'}</button>
+                        {ownsProduct && (
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteItem(product)}
+                          >Delete
+                          </button>
+                        )}
                       </>
                     )}
                     {!user && (
