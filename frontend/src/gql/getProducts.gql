@@ -23,5 +23,8 @@ query getProducts {
     }
     price
     shortDescription
+    user {
+      id
+    }
   }
 }

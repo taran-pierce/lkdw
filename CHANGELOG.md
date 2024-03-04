@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.8.2] - 2024-03-04
 ### Updated
 - Modified access rules that were preventing new users from querying required data
+- Customers can only edit/delete their own products
 
 ## [0.8.1] - 2024-03-03
 ### Updated
