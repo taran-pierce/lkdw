@@ -6,7 +6,7 @@ export const permissionFields = {
     label: 'User can update and delete any product',
   }),
   canSeeOtherUsers: checkbox({
-    defaultValue: false,
+    defaultValue: true,
     label: 'User can query other users',
   }),
   canManageUsers: checkbox({
