@@ -1,15 +1,16 @@
 'use client'
 
 // import type { Metadata } from "next";
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Suspense } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { ApolloProvider } from "@apollo/client";
 import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 import { fira } from '../styles/fonts';
 import Header from "../components/Header";
 import Container from "../components/Container";
-import { MenuStateProvider } from "../utils/useMenu";
-import { ApolloProvider } from "@apollo/client";
 import client from '../apollo';
+import Analytics from '../components/Analytics';
+import { MenuStateProvider } from "../utils/useMenu";
 
 import "./globals.css";
 
@@ -29,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en-US">
         <body className={`${fira.className}`}>
+          <Analytics />
           <Suspense>
             <ProgressBar 
               height="6px"
