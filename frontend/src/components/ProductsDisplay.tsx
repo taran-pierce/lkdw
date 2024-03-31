@@ -1,17 +1,17 @@
-'use client'
+"use client"
 
-import Link from 'next/link';
+import Link from "next/link";
 
-import formatMoney from '../utils/formatMoney';
-import { useMutation } from '@apollo/client';
-import { useUser } from './User';
+import formatMoney from "../utils/formatMoney";
+import { useMutation } from "@apollo/client";
+import { useUser } from "./User";
 
-import styles from './productsDisplay.module.scss';
+import styles from "./productsDisplay.module.scss";
 
-import GET_CURRENT_USER from '../gql/getCurrentUser.gql';
-import GET_PRODUCTS from '../gql/getProducts.gql';
-import ADD_PRODUCT_TO_CART from '../gql/addProductToCart.gql';
-import DELETE_PRODUCT from '../gql/deleteProduct.gql';
+import GET_CURRENT_USER from "../gql/getCurrentUser.gql";
+import GET_PRODUCTS from "../gql/getProducts.gql";
+import ADD_PRODUCT_TO_CART from "../gql/addProductToCart.gql";
+import DELETE_PRODUCT from "../gql/deleteProduct.gql";
 
 export default function ProductsDisplay({
   data,

@@ -1,15 +1,15 @@
-'use client'
+"use client"
 
 // import type { Metadata } from "next";
-import { Suspense } from 'react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Suspense } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ApolloProvider } from "@apollo/client";
-import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
-import { fira } from '../styles/fonts';
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import { fira } from "../styles/fonts";
 import Header from "../components/Header";
 import Container from "../components/Container";
-import client from '../apollo';
-import Analytics from '../components/Analytics';
+import client from "../apollo";
+import Analytics from "../components/Analytics";
 import { MenuStateProvider } from "../utils/useMenu";
 
 import "./globals.css";

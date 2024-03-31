@@ -1,9 +1,9 @@
-import Link from 'next/link';
+import Link from "next/link";
 
-import formatMoney from '../utils/formatMoney';
+import formatMoney from "../utils/formatMoney";
 import Container from "./Container";
 
-import styles from './orders.module.scss';
+import styles from "./orders.module.scss";
 
 export default function Orders({
   orders,

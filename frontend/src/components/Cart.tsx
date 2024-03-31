@@ -1,18 +1,18 @@
-'use client'
+"use client"
 
-import Link from 'next/link';
-import { useMutation } from '@apollo/client';
-import { useMenu } from '../utils/useMenu';
-import { rubikDoodleShadow } from '../styles/fonts';
-import formatMoney from '../utils/formatMoney';
-import { calculateCartTotals } from '../utils/calculateCartTotal';
+import Link from "next/link";
+import { useMutation } from "@apollo/client";
+import { useMenu } from "../utils/useMenu";
+import { rubikDoodleShadow } from "../styles/fonts";
+import formatMoney from "../utils/formatMoney";
+import { calculateCartTotals } from "../utils/calculateCartTotal";
 
-import { useUser } from './User';
+import { useUser } from "./User";
 
-import styles from './cart.module.scss';
+import styles from "./cart.module.scss";
 
-import GET_CURRENT_USER from '../gql/getCurrentUser.gql';
-import REMOVE_PRODUCT_FROM_CART from '../gql/removeProductFromCart.gql';
+import GET_CURRENT_USER from "../gql/getCurrentUser.gql";
+import REMOVE_PRODUCT_FROM_CART from "../gql/removeProductFromCart.gql";
 
 export default function Cart() {
   const {

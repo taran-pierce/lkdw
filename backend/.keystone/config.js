@@ -148,7 +148,7 @@ var lists = {
       name: (0, import_fields3.text)({ validation: { isRequired: true } }),
       email: (0, import_fields3.text)({
         validation: { isRequired: true },
-        // by adding isIndexed: 'unique', we're saying that no user can have the same
+        // by adding isIndexed: "unique", we're saying that no user can have the same
         // email as another user - this may or may not be a good idea for your project
         isIndexed: "unique"
       }),
@@ -724,13 +724,13 @@ var keystone_default = withAuth(
           "Access-Control-Allow-Credentials",
           "Content-Type"
           // TODO trying to get file upload from frontend working properly
-          // 'x-apollo-operation-name',
-          // 'apollo-require-preflight',
+          // "x-apollo-operation-name",
+          // "apollo-require-preflight",
         ]
       }
     },
     db: {
-      // we're using sqlite for the fastest startup experience
+      // we"re using sqlite for the fastest startup experience
       //   for more information on what database might be appropriate for you
       //   see https://keystonejs.com/docs/guides/choosing-a-database#title
       provider: "postgresql",

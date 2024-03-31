@@ -1,5 +1,5 @@
-import { permissionList } from './schemas/fields';
-// import { ListAccessArgs } from './types';
+import { permissionList } from "./schemas/fields";
+// import { ListAccessArgs } from "./types";
 
 export function isSignedIn({ session }) {
   return !!session;
@@ -64,7 +64,7 @@ export const rules = {
     }
 
     // otherwise only show products that are available
-    return { status: 'AVAILABLE' };
+    return { status: "AVAILABLE" };
   },
   canManageUsers({ session, req }) {
     if (!isSignedIn({ session })) {
