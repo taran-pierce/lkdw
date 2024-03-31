@@ -1,14 +1,14 @@
-'use client'
+"use client"
 
-import Link from 'next/link';
-import { useQuery } from '@apollo/client';
-import { useMenu } from '../utils/useMenu';
-import getCartCount from '../utils/getCartCount';
-import { useUser } from './User';
+import Link from "next/link";
+import { useQuery } from "@apollo/client";
+import { useMenu } from "../utils/useMenu";
+import getCartCount from "../utils/getCartCount";
+import { useUser } from "./User";
 
-import styles from './navigation.module.scss';
+import styles from "./navigation.module.scss";
 
-import GET_CURRENT_USER from '../gql/getCurrentUser.gql';
+import GET_CURRENT_USER from "../gql/getCurrentUser.gql";
 
 export default function Navigation() {
   const {
@@ -40,7 +40,7 @@ export default function Navigation() {
   return (
     <nav className={styles.navigation}>
       <button
-        className={`${styles.menuToggle} ${isMenuOpen ? styles.open : ''}`}
+        className={`${styles.menuToggle} ${isMenuOpen ? styles.open : ""}`}
         type="submit"
         onClick={handleClick}
       >Menu

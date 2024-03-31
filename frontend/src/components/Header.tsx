@@ -1,13 +1,13 @@
-'use client'
+"use client"
 
-import Link from 'next/link';
+import Link from "next/link";
 
-import Navigation from './Navigation'
-import Cart from './Cart';
-import { useMenu } from '../utils/useMenu';
-import { rubikDoodleShadow } from '../styles/fonts';
+import Navigation from "./Navigation"
+import Cart from "./Cart";
+import { useMenu } from "../utils/useMenu";
+import { rubikDoodleShadow } from "../styles/fonts";
 
-import styles from './header.module.scss';
+import styles from "./header.module.scss";
 
 export default function Header() {
   const {

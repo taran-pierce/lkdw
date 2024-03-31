@@ -1,5 +1,5 @@
 import { rubikDoodleShadow } from "../styles/fonts";
-import styles from './sectionHeader.module.scss';
+import styles from "./sectionHeader.module.scss";
 
 export default function SectionHeader({
   text,

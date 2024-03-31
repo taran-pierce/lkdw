@@ -1,10 +1,10 @@
-'use client'
+"use client"
 
 import {
   useState,
   useContext,
   createContext,
-} from 'react';
+} from "react";
 
 const LocalStateContext = createContext({});
 const LocalStateProvider = LocalStateContext.Provider;

@@ -1,23 +1,23 @@
-'use client'
+"use client"
 
-import { useState } from 'react';
-import useForm from '../utils/useForm';
-import { useMutation } from '@apollo/client';
+import { useState } from "react";
+import useForm from "../utils/useForm";
+import { useMutation } from "@apollo/client";
 
-import styles from '../styles/form.module.scss';
+import styles from "../styles/form.module.scss";
 
-import CREATE_PRODUCT from '../gql/createProduct.gql';
-import GET_PRODUCTS from '../gql/getProducts.gql';
+import CREATE_PRODUCT from "../gql/createProduct.gql";
+import GET_PRODUCTS from "../gql/getProducts.gql";
 
 export default function CreateProduct() {
   const [status, setStatus] = useState(false);
 
   // set up form data
   const { inputs, handleChange, resetForm }: any = useForm({
-    title: '',
-    shortDescription: '',
+    title: "",
+    shortDescription: "",
     price: 0,
-    // image: '',
+    // image: "",
   });
 
 

@@ -1,4 +1,7 @@
-import { useState, useEffect } from 'react';
+import {
+  useState,
+  useEffect,
+} from "react";
 
 // custom hook for forms
 export default function useForm(initial = {}) {
@@ -17,14 +20,14 @@ export default function useForm(initial = {}) {
 
     // form inputs always save data as strings
     // turn it back to a number if its a number
-    if (type === 'number') {
+    if (type === "number") {
       value = parseInt(value);
     }
 
     // file uploads are an array
     // so you need to set the value to be an array
-    if (type === 'file') {
-      console.log('maybe I need to fiddle with this');
+    if (type === "file") {
+      console.log("maybe I need to fiddle with this");
       [value] = e.target.files;
     }
 
@@ -47,7 +50,7 @@ export default function useForm(initial = {}) {
     // Object.fromEntries to turn the array back into an object
     const blankState = Object.fromEntries(
       Object.entries(inputs).map(([key, value]) => {
-        const newValue = '';
+        const newValue = "";
 
         return [key, newValue];
       })

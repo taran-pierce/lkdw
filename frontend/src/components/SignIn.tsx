@@ -1,16 +1,16 @@
-'use client'
+"use client"
 
-import { useState } from 'react';
-import Link from 'next/link';
-import useForm from '../utils/useForm';
-import { useMutation } from '@apollo/client';
-import { useUser } from './User';
-import Container from './Container';
+import { useState } from "react";
+import Link from "next/link";
+import useForm from "../utils/useForm";
+import { useMutation } from "@apollo/client";
+import { useUser } from "./User";
+import Container from "./Container";
 
-import styles from '../styles/form.module.scss';
+import styles from "../styles/form.module.scss";
 
-import GET_CURRENT_USER from '../gql/getCurrentUser.gql';
-import SIGNIN_USER from '../gql/signinUser.gql';
+import GET_CURRENT_USER from "../gql/getCurrentUser.gql";
+import SIGNIN_USER from "../gql/signinUser.gql";
 
 export default function SignIn() {
   const [hasError, setHasError] = useState(undefined) as any;

@@ -1,7 +1,7 @@
-import styles from './cartList.module.scss';
+import styles from "./cartList.module.scss";
 
-import { calculateCartTotals } from '../utils/calculateCartTotal';
-import formatMoney from '../utils/formatMoney';
+import { calculateCartTotals } from "../utils/calculateCartTotal";
+import formatMoney from "../utils/formatMoney";
 
 export default function CartList({
   cart,

@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import {
   useRouter,
-} from 'next/navigation';
+} from "next/navigation";
 
-import { useMutation } from '@apollo/client';
+import { useMutation } from "@apollo/client";
 
-import CHECKOUT from '../gql/checkout.gql';
+import CHECKOUT from "../gql/checkout.gql";
 // TODO might need to refetch this
-import GET_CURRENT_USER from '../gql/getCurrentUser.gql';
+import GET_CURRENT_USER from "../gql/getCurrentUser.gql";
 
 export default function CreateOrder({
   user,

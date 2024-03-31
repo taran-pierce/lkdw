@@ -1,10 +1,10 @@
-import { useRouter } from 'next/navigation';
-import { useMutation } from '@apollo/client';
+import { useRouter } from "next/navigation";
+import { useMutation } from "@apollo/client";
 
-import styles from './signOut.module.scss';
+import styles from "./signOut.module.scss";
 
-import GET_CURRENT_USER  from '../gql/getCurrentUser.gql';
-import SIGN_OUT from '../gql/signout.gql';
+import GET_CURRENT_USER  from "../gql/getCurrentUser.gql";
+import SIGN_OUT from "../gql/signout.gql";
 
 export default function SignOut() {
   const [signout, { data, loading, error }] = useMutation(SIGN_OUT, {
@@ -18,7 +18,7 @@ export default function SignOut() {
     await signout();
     
     // send back to home page
-    router.push('/');
+    router.push("/");
   }
 
   return (

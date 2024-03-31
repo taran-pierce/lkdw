@@ -1,7 +1,7 @@
-import formatMoney from '../utils/formatMoney';
-import formatDate from '../utils/formatDate';
+import formatMoney from "../utils/formatMoney";
+import formatDate from "../utils/formatDate";
 
-import styles from './order.module.scss';
+import styles from "./order.module.scss";
 
 export default function Order({
   data,
